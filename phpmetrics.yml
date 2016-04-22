@@ -1,0 +1,37 @@
+# file app/phpmetrics.yml
+myconfig:
+    # paths to explore
+    path:
+        extensions: php|inc
+        exclude: .vagrant|bin|nbproject|runtime|vendor
+
+    # report and violations files
+    logging:
+        report:
+            xml:     ./build/reports/phpmetrics/phpmetrics.xml
+            html:    ./build/reports/phpmetrics/phpmetrics.html
+            csv:     ./build/reports/phpmetrics/phpmetrics.csv
+            json:    ./build/reports/phpmetrics/phpmetrics.json
+        violations:
+            xml:     ./build/reports/phpmetrics/violations.xml
+        chart:
+            bubbles: ./build/reports/phpmetrics/bubbles.svg
+
+    # condition of failure
+    failure: average.maintainabilityIndex < 50 or sum.loc > 10000
+
+    # rules used for color
+    rules:
+      cyclomaticComplexity: [ 10, 6, 2 ]
+      maintainabilityIndex: [ 0, 69, 85 ]
+      logicalLoc : [800, 400, 200]
+      volume: [1300, 1000, 300]
+      bugs: [0.35, 0.25, 0.15]
+      commentWeight: [36, 38, 41]
+      vocabulary: [51, 34, 27]
+      difficulty: [18, 15, 5.8]
+      instability: [1, .95, .45]
+      afferentCoupling: [20, 15, 9]
+      efferentCoupling: [15, 11, 7]
+      myerDistance: [10, 5, 2]
+      lcom: [3, 2, 1.5]
