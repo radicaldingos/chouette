@@ -1,0 +1,19 @@
+<VirtualHost *:80>
+	ServerName build.chouette.dev
+	DocumentRoot /var/www/chouette/build
+    
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/chouette/build/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/build-error.log
+	LogLevel warn
+	CustomLog ${APACHE_LOG_DIR}/build-access.log combined
+</VirtualHost>

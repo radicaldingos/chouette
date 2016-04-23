@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+	ServerName chouette.dev
+
+	DocumentRoot /var/www/chouette
+	
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/chouette/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+	
+	php_admin_value display_errors On
+	php_admin_value expose_php On
+	php_admin_value memory_limit 1024M
+	#php_flag apc.cache_by_default On
+    php_admin_value upload_max_filesize 128M
+    php_admin_value post_max_size 128M
+
+	ErrorLog ${APACHE_LOG_DIR}/chouette-error.log
+	LogLevel warn
+	CustomLog ${APACHE_LOG_DIR}/chouette-access.log combined
+</VirtualHost>

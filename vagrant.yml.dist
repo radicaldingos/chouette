@@ -1,0 +1,16 @@
+## Vagrant configuration
+---
+configs:
+    use: 'home'
+    home:
+        box_name: 'puphpet/debian75-x64'
+        #box_url: ''
+        vm_name: 'chouette'
+        vm_memory: 1536
+        vm_cpus: 1
+        vm_ip: '192.168.56.10'
+        vm_project_path: '/var/www/chouette'
+        vm_hostname: 'chouette.dev'
+        vm_db_name: 'chouette'
+        vm_db_user: 'chouette'
+        build_server_name: 'build.chouette.dev'
