@@ -42,7 +42,7 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Users'), 'url' => ['/user']],
             '<li>'
             . Html::beginForm(['/site/selectProject'], 'post')
-            . Html::dropDownList('project', null, ['OMSAR', 'SIAS'], ['onchange' => 'form.submit();'])
+            . Html::dropDownList('project', null, [], ['onchange' => 'form.submit();'])
             . Html::endForm()
             . '</li>',
             Yii::$app->user->isGuest ? (
