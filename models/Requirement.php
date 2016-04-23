@@ -8,9 +8,12 @@ use Yii;
  * This is the model class for table "requirement".
  *
  * @property integer $id
+ * @property string $code
  * @property integer $type
  * @property integer $created
  * @property integer $section_id
+ * @property integer $status
+ * @property integer $priority
  *
  * @property Section $section
  * @property RequirementVersion[] $versions
@@ -36,8 +39,9 @@ class Requirement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created', 'section_id'], 'required'],
-            [['created', 'section_id'], 'integer'],
+            [['code', 'type', 'created', 'section_id'], 'required'],
+            [['type', 'created', 'section_id', 'status', 'priority'], 'integer'],
+            [['code'], 'string', 'max' => 10],
             [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
         ];
     }
@@ -49,8 +53,12 @@ class Requirement extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'code' => Yii::t('app', 'Code'),
+            'type' => Yii::t('app', 'Type'),
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section ID'),
+            'status' => Yii::t('app', 'Status'),
+            'priority' => Yii::t('app', 'Priority'),
         ];
     }
 

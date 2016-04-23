@@ -32,20 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             [
                 'attribute' => 'type',
-                'value' => RequirementType::getValue($model->lastVersion->type),
+                'value' => RequirementType::getValue($model->type),
             ],
             [
                 'label' => Yii::t('app', 'Section'),
                 'value' => "{$model->section->document->project->name} » {$model->section->document->name} » {$model->section->name}",
             ],
-            'lastVersion.code',
+            'code',
             [
                 'label' => Yii::t('app', 'Version'),
                 'value' => "{$model->lastVersion->version}.{$model->lastVersion->revision}",
             ],
             [
                 'attribute' => 'lastVersion.status',
-                'value' => RequirementStatus::getValue($model->lastVersion->status),
+                'value' => RequirementStatus::getValue($model->status),
             ],
             'lastVersion.title',
             'lastVersion.description',
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'lastVersion.updated',
                 'format' => ['date', 'php:d/m/Y'],
             ],
-            'lastVersion.priority',
+            'priority',
         ],
     ]) ?>
 

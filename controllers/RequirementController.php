@@ -93,6 +93,10 @@ class RequirementController extends Controller
         ) {
             $requirement = new Requirement;
             $requirement->section_id = $model->section_id;
+            $requirement->type = $model->type;
+            $requirement->code = $model->code;
+            $requirement->priority = $model->priority;
+            $requirement->status = RequirementStatus::NEW_REQUIREMENT;
             $requirement->created = time();
 
             if (! $requirement->save()) {
@@ -101,15 +105,11 @@ class RequirementController extends Controller
             
             $version = new RequirementVersion;
             $version->requirement_id = $requirement->id;
-            $version->type = $model->type;
-            $version->code = $model->code;
             $version->title = $model->title;
             $version->description = $model->description;
             $version->version = 1;
             $version->revision = 0;
-            $version->priority = $model->priority;
             $version->updated = time();
-            $version->status = RequirementStatus::NEW_REQUIREMENT;
             
             if (! $version->save()) {
                 throw new Exception('Error');
@@ -141,29 +141,53 @@ class RequirementController extends Controller
         $requirement = $this->findModel($id);
 
         if ($requirementData = Yii::$app->request->post('RequirementForm')) {
-            $version = new RequirementVersion;
-            $version->requirement_id = $id;
-            $version->type = $requirementData['type'];
-            $version->code = $requirementData['code'];
-            $version->title = $requirementData['title'];
-            $version->description = $requirementData['description'];
-            $version->version = $requirement->lastVersion->version;
-            $version->revision = $requirement->lastVersion->revision + 1;
-            $version->priority = $requirementData['priority'];
-            $version->updated = time();
-            $version->status = RequirementStatus::NEW_REQUIREMENT;
+            $requirement->section_id = $requirementData['section_id'];
+            $requirement->type = $requirementData['type'];
+            $requirement->code = $requirementData['code'];
+            $requirement->priority = $model->priority;
+            $requirement->status = RequirementStatus::NEW_REQUIREMENT;
+            $requirement->priority = $requirementData['priority'];
+            $requirement->status = RequirementStatus::NEW_REQUIREMENT;
             
-            if (! $version->save()) {
+            if (! $requirement->save()) {
                 throw new Exception('Error');
             }
             
+            $submit = Yii::$app->request->post('submit');
+            if ($submit == 'version'
+                || $submit == 'revision'
+            ) {
+                // If user decide to version or revision the change, we create a
+                // new version of the requirement
+                $version = new RequirementVersion;
+            } else {
+                // We update the current version
+                $version = $requirement->lastVersion;
+            }
+            
+            $version->requirement_id = $id;
+            $version->title = $requirementData['title'];
+            $version->description = $requirementData['description'];
+            if ($submit == 'version') {
+                $version->version = $requirement->lastVersion->version + 1;
+                $version->revision = 0;
+            } elseif ($submit == 'revision') {
+                $version->version = $requirement->lastVersion->version;
+                $version->revision = $requirement->lastVersion->revision + 1;
+            }
+            $version->updated = time();
+
+            if (! $version->save()) {
+                throw new Exception('Error');
+            }
+                
             return $this->redirect(['view', 'id' => $id]);
         }
         
-        $model->code = $requirement->lastVersion->code;
+        $model->code = $requirement->code;
         $model->title = $requirement->lastVersion->title;
         $model->description = $requirement->lastVersion->description;
-        $model->priority = $requirement->lastVersion->priority;
+        $model->priority = $requirement->priority;
         
         $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');
 
