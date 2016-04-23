@@ -62,23 +62,23 @@ class m160327_090130_initial extends Migration
         
         $this->createTable('requirement', [
             'id' => 'pk',
+            'code' => "character varying(10) NOT NULL",
+            'type' => 'integer NOT NULL',
             'created' => 'integer NOT NULL',
             'section_id' => 'integer NOT NULL',
+            'status' => "integer DEFAULT 1 NOT NULL",
+            'priority' => "integer DEFAULT 1 NOT NULL",
         ]);
         $this->createIndex('idx_requirement_section_id', 'requirement', 'section_id', false);
         
         $this->createTable('requirement_version', [
             'id' => 'pk',
-            'type' => 'integer NOT NULL',
-            'code' => "character varying(10) NOT NULL",
             'requirement_id' => 'integer NOT NULL',
             'version' => "integer DEFAULT 1 NOT NULL",
             'revision' => "integer DEFAULT 0 NOT NULL",
             'title' => "text NOT NULL",
             'description' => "text DEFAULT NULL",
-            'priority' => "integer DEFAULT 1 NOT NULL",
             'updated' => "integer NOT NULL",
-            'status' => "integer DEFAULT 1 NOT NULL",
         ]);
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);
         
@@ -125,6 +125,14 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_requirement_comment_requirement_requirement_id', 'requirement_comment', 'requirement_id', 'requirement', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_comment_user_user_id', 'requirement_comment', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment', 'requirement_id', 'requirement', 'id', 'CASCADE', 'CASCADE');
+        
+        // Default data
+        $this->insert('user', [
+            'username' => 'admin',
+            'password' => 'admin',
+            'auth_key' => 'admin',
+            'access_token' => 'admin',
+        ]);
     }
 
     public function safeDown()
