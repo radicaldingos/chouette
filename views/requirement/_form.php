@@ -28,8 +28,10 @@ use app\models\RequirementType;
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'name' => 'submit', 'value' => 'update']) ?>
-        <?= Html::submitButton(Yii::t('app', 'New Revision'), ['class' => 'btn btn-success', 'name' => 'submit', 'value' => 'revision']) ?>
-        <?= Html::submitButton(Yii::t('app', 'New Version'), ['class' => 'btn btn-success', 'name' => 'submit', 'value' => 'version']) ?>
+        <?php if (! $model->isNewRecord): ?>
+            <?= Html::submitButton(Yii::t('app', 'New Revision'), ['class' => 'btn btn-success', 'name' => 'submit', 'value' => 'revision']) ?>
+            <?= Html::submitButton(Yii::t('app', 'New Version'), ['class' => 'btn btn-success', 'name' => 'submit', 'value' => 'version']) ?>
+        <?php endif; ?>
     </div>
 
     <?php ActiveForm::end(); ?>

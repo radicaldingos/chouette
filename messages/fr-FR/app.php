@@ -55,6 +55,8 @@ return [
     'Home' => 'Accueil',
     'Login' => 'Connexion',
     'Logout' => 'Déconnexion',
+    'New Version' => 'Nouvelle version',
+    'New Revision' => 'Nouvelle révision',
     
     'Welcome!' => 'Bienvenue !',
     'Chouette is a simple but powerful web requirements manager.' => "Chouette est un gestionnaire d'exigences web simple mais efficace.",
