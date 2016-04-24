@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\RequirementType;
+use app\models\RequirementStatus;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\RequirementSearch */
@@ -23,10 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'attribute' => 'lastVersion.type',
+                'attribute' => 'type',
+                'value' => function($data){ return RequirementType::getValue($data->type); },
             ],
             'lastVersion.title',
-            'lastVersion.status',
+            [
+                'attribute' => 'status',
+                'value' => function($data){ return RequirementStatus::getValue($data->status); },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
