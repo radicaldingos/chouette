@@ -2,8 +2,9 @@
 myconfig:
     # paths to explore
     path:
+        directory: .
         extensions: php|inc
-        exclude: .vagrant|bin|nbproject|runtime|vendor
+        exclude: .vagrant|bin|nbproject|migrations|runtime|vendor|web
 
     # report and violations files
     logging:
