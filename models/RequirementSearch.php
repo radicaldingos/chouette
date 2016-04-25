@@ -65,4 +65,21 @@ class RequirementSearch extends Requirement
 
         return $dataProvider;
     }
+    
+    public function searchByCriteria($q)
+    {
+        $query = Requirement::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        
+        $query->leftJoin('requirement_version', 'requirement.id = requirement_version.requirement_id')
+            ->andWhere(['LIKE', 'LOWER(requirement_version.statement)', strtolower($q)])
+            ->orderBy('updated DESC, id DESC');
+
+        return $dataProvider;
+    }
 }

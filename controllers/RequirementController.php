@@ -220,7 +220,13 @@ class RequirementController extends Controller
      */
     public function actionSearch($q)
     {
-        return $this->redirect(['index']);
+        $searchModel = new RequirementSearch();
+        $dataProvider = $searchModel->searchByCriteria($q);
+
+        return $this->render('search', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
