@@ -24,8 +24,7 @@ return [
     'Status' => 'Statut',
     'Type' => 'Type',
     'Code' => 'Code interne',
-    'Title' => 'Libellé',
-    'Description' => 'Description',
+    'Statement' => 'Exigence',
     'Priority' => 'Priorité',
     'Name' => 'Nom',
     'Complete Name' => 'Nom complet',
@@ -70,4 +69,6 @@ return [
     "That's all good!" => "C'est bon !",
     "You can manage all your requirements!" => "Vous pouvez gérer toutes vos exigences !",
     "Add some requirements" => "Ajouter des exigences",
+    'About' => 'À propos de Chouette',
+    'Search' => 'Recherche',
 ];
