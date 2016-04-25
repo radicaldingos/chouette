@@ -105,8 +105,7 @@ class RequirementController extends Controller
             
             $version = new RequirementVersion;
             $version->requirement_id = $requirement->id;
-            $version->title = $model->title;
-            $version->description = $model->description;
+            $version->statement = $model->statement;
             $version->version = 1;
             $version->revision = 0;
             $version->updated = time();
@@ -166,8 +165,7 @@ class RequirementController extends Controller
             }
             
             $version->requirement_id = $id;
-            $version->title = $requirementData['title'];
-            $version->description = $requirementData['description'];
+            $version->statement = $requirementData['statement'];
             if ($submit == 'version') {
                 $version->version = $requirement->lastVersion->version + 1;
                 $version->revision = 0;
@@ -185,8 +183,7 @@ class RequirementController extends Controller
         }
         
         $model->code = $requirement->code;
-        $model->title = $requirement->lastVersion->title;
-        $model->description = $requirement->lastVersion->description;
+        $model->statement = $requirement->lastVersion->statement;
         $model->priority = $requirement->priority;
         
         $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');
@@ -211,6 +208,18 @@ class RequirementController extends Controller
     {
         $this->findModel($id)->delete();
 
+        return $this->redirect(['index']);
+    }
+    
+    /**
+     * Search for requirements matching with search criteria
+     * 
+     * @param string $q
+     * 
+     * @return mixed
+     */
+    public function actionSearch($q)
+    {
         return $this->redirect(['index']);
     }
 

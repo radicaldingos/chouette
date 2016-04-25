@@ -20,9 +20,7 @@ use app\models\RequirementType;
     
     <?= $form->field($model, 'code')->input('text') ?>
     
-    <?= $form->field($model, 'title')->input('text') ?>
-    
-    <?= $form->field($model, 'description')->textarea() ?>
+    <?= $form->field($model, 'statement')->textarea() ?>
     
     <?= $form->field($model, 'priority')->input('text') ?>
 

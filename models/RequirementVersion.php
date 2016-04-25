@@ -11,8 +11,7 @@ use Yii;
  * @property integer $requirement_id
  * @property integer $version
  * @property integer $revision
- * @property string $title
- * @property string $description
+ * @property string $statement
  * @property integer $updated
  *
  * @property Requirement $requirement
@@ -33,9 +32,9 @@ class RequirementVersion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['requirement_id', 'title', 'updated'], 'required'],
+            [['requirement_id', 'statement', 'updated'], 'required'],
             [['requirement_id', 'version', 'revision', 'updated'], 'integer'],
-            [['title', 'description'], 'string'],
+            [['statement'], 'string'],
             [['requirement_id'], 'exist', 'skipOnError' => true, 'targetClass' => Requirement::className(), 'targetAttribute' => ['requirement_id' => 'id']],
         ];
     }
@@ -50,8 +49,7 @@ class RequirementVersion extends \yii\db\ActiveRecord
             'requirement_id' => Yii::t('app', 'Requirement ID'),
             'version' => Yii::t('app', 'Version'),
             'revision' => Yii::t('app', 'Revision'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
+            'statement' => Yii::t('app', 'Statement'),
             'updated' => Yii::t('app', 'Updated'),
         ];
     }

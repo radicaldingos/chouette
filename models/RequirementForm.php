@@ -10,8 +10,7 @@ class RequirementForm extends Model
     public $type;
     public $section_id;
     public $code;
-    public $title;
-    public $description;
+    public $statement;
     public $priority = 1;
     public $isNewRecord;
 
@@ -21,7 +20,7 @@ class RequirementForm extends Model
     public function rules()
     {
         return [
-            [['type', 'section_id', 'code', 'title', 'priority'], 'required'],
+            [['type', 'section_id', 'code', 'statement', 'priority'], 'required'],
         ];
     }
 
@@ -35,8 +34,7 @@ class RequirementForm extends Model
             'section_id' => Yii::t('app', 'Section ID'),
             'code' => Yii::t('app', 'Code'),
             'version' => Yii::t('app', 'Version'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
+            'statement' => Yii::t('app', 'Statement'),
             'priority' => Yii::t('app', 'Priority'),
         ];
     }

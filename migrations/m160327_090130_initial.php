@@ -76,8 +76,7 @@ class m160327_090130_initial extends Migration
             'requirement_id' => 'integer NOT NULL',
             'version' => "integer DEFAULT 1 NOT NULL",
             'revision' => "integer DEFAULT 0 NOT NULL",
-            'title' => "text NOT NULL",
-            'description' => "text DEFAULT NULL",
+            'statement' => "text DEFAULT NULL",
             'updated' => "integer NOT NULL",
         ]);
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);

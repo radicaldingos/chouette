@@ -47,8 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'lastVersion.status',
                 'value' => RequirementStatus::getValue($model->status),
             ],
-            'lastVersion.title',
-            'lastVersion.description',
+            'lastVersion.statement',
             [
                 'attribute' => 'created',
                 'format' => ['date', 'php:d/m/Y'],
