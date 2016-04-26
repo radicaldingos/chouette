@@ -8,6 +8,9 @@ use app\models\RequirementSearch;
 use app\models\RequirementVersion;
 use app\models\RequirementForm;
 use app\models\RequirementStatus;
+use app\models\RequirementComment;
+use app\models\RequirementCommentSearch;
+use app\models\RequirementCommentForm;
 use app\models\Section;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -40,6 +43,7 @@ class RequirementController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'postComment' => ['POST'],
                 ],
             ],
         ];
@@ -70,8 +74,14 @@ class RequirementController extends Controller
      */
     public function actionView($id)
     {
+        $searchModel = new RequirementCommentSearch();
+        $commentFormModel = new RequirementCommentForm();
+        $commentsDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'commentFormModel' => $commentFormModel,
+            'commentsDataProvider' => $commentsDataProvider,
         ]);
     }
 
@@ -227,6 +237,20 @@ class RequirementController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    
+    public function actionPost($id)
+    {
+        $model = new RequirementCommentForm();
+        
+        if ($model->load(Yii::$app->request->post())
+            && $model->validate()
+        ) {
+            $requirement = $this->findModel($id);
+            $requirement->addComment($model);
+        }
+        
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**

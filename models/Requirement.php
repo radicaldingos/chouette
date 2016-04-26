@@ -18,13 +18,15 @@ use Yii;
  * @property Section $section
  * @property RequirementVersion[] $versions
  * @property RequirementVersion $lastVersion
- * @property RequirementAttachment[] $requirementAttachments
- * @property RequirementComment[] $requirementComments
- * @property RequirementEvent[] $requirementEvents
- * @property RequirementVersion[] $requirementVersions
+ * @property RequirementAttachment[] $attachments
+ * @property RequirementComment[] $comments
+ * @property RequirementEvent[] $events
+ * @property RequirementVersion[] $versions
  */
 class Requirement extends \yii\db\ActiveRecord
 {
+    //public $lastVersionStatement;
+    
     /**
      * @inheritdoc
      */
@@ -59,6 +61,7 @@ class Requirement extends \yii\db\ActiveRecord
             'section_id' => Yii::t('app', 'Section ID'),
             'status' => Yii::t('app', 'Status'),
             'priority' => Yii::t('app', 'Priority'),
+            //'lastVersionStatement' => Yii::t('app', 'Statement'),
         ];
     }
 
@@ -81,7 +84,7 @@ class Requirement extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirementAttachments()
+    public function getAttachments()
     {
         return $this->hasMany(RequirementAttachment::className(), ['requirement_id' => 'id']);
     }
@@ -89,7 +92,7 @@ class Requirement extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirementComments()
+    public function getComments()
     {
         return $this->hasMany(RequirementComment::className(), ['requirement_id' => 'id']);
     }
@@ -97,7 +100,7 @@ class Requirement extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirementEvents()
+    public function getEvents()
     {
         return $this->hasMany(RequirementEvent::className(), ['requirement_id' => 'id']);
     }
@@ -111,5 +114,21 @@ class Requirement extends \yii\db\ActiveRecord
     {
         return $this->hasOne(RequirementVersion::className(), ['requirement_id' => 'id'])
             ->orderBy('version DESC, revision DESC');
+    }
+    
+    /**
+     * 
+     * @param \app\models\RequirementCommentForm $comment
+     */
+    public function addComment(RequirementCommentForm $data)
+    {
+        $comment = new RequirementComment;
+        $comment->comment = $data->comment;
+        $comment->requirement_id = $this->id;
+        $comment->user_id = Yii::$app->user->id;
+        $comment->date_creation = time();
+        if (! $comment->save()) {
+            die(print_r($comment->getErrors()));
+        }
     }
 }

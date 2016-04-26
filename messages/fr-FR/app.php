@@ -71,4 +71,7 @@ return [
     "Add some requirements" => "Ajouter des exigences",
     'About' => 'À propos de Chouette',
     'Search' => 'Recherche',
+    'Comments' => 'Commentaires',
+    'Add' => 'Ajouter',
+    'Your comments' => 'Votre commentaire',
 ];

@@ -20,7 +20,7 @@ use app\models\RequirementType;
     
     <?= $form->field($model, 'code')->input('text') ?>
     
-    <?= $form->field($model, 'statement')->textarea() ?>
+    <?= $form->field($model, 'statement')->textarea(['style' => 'resize: vertical']) ?>
     
     <?= $form->field($model, 'priority')->input('text') ?>
 
