@@ -76,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'dataProvider' => $commentsDataProvider,
                         'itemOptions' => ['class' => 'item'],
                         'itemView' => '_comment',
+                        'layout' => '{items}'
                     ]) ?>
                 </ul>
                 <?php $form = ActiveForm::begin(['class' => 'form-inline', 'action' => '/requirement/post?id=' . $model->id]); ?>

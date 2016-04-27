@@ -1,6 +1,8 @@
 html,
 body {
     height: 100%;
+    background: #F4ECEB;
+    color: #332B2B;
 }
 
 .wrap {
@@ -160,6 +162,7 @@ a.desc:after {
 .actionBox {
     border-top:1px dotted #bbb;
     padding:10px;
+    background: #f7f7f7;
 }
 /* End of Comment Box */
 
@@ -173,4 +176,12 @@ a.desc:after {
     vertical-align: middle;
     font-size: 18pt;
     margin-right: 15px;
+}
+
+thead > tr {
+    background-color: white;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n) {
+    background-color: white;
 }

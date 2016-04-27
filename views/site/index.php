@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 
 $this->title = 'Chouette';
@@ -7,6 +9,8 @@ $this->title = 'Chouette';
 <div class="site-index">
 
     <div class="jumbotron">
+        <div style="float: left;"><?= Html::img('/img/chouette_400.png') ?></div>
+        
         <h1><?= Yii::t('app', 'Welcome!') ?></h1>
 
         <p class="lead"><?= Yii::t('app', 'Chouette is a simple but powerful web requirements manager.') ?></p>
@@ -14,7 +18,7 @@ $this->title = 'Chouette';
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com"><?= Yii::t('app', 'Get started with Chouette') ?></a></p>
     </div>
 
-    <div class="body-content">
+    <div class="body-content" style="clear: both;">
 
         <div class="row">
             <div class="col-lg-4">
