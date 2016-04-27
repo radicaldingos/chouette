@@ -11,6 +11,7 @@ class RequirementForm extends Model
     public $section_id;
     public $code;
     public $statement;
+    public $status;
     public $priority = 1;
     public $isNewRecord;
 
@@ -36,6 +37,7 @@ class RequirementForm extends Model
             'version' => Yii::t('app', 'Version'),
             'statement' => Yii::t('app', 'Statement'),
             'priority' => Yii::t('app', 'Priority'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 

@@ -154,15 +154,14 @@ class RequirementController extends Controller
             $requirement->type = $requirementData['type'];
             $requirement->code = $requirementData['code'];
             $requirement->priority = $model->priority;
-            $requirement->status = RequirementStatus::NEW_REQUIREMENT;
+            $requirement->status = $requirementData['status'];
             $requirement->priority = $requirementData['priority'];
-            $requirement->status = RequirementStatus::NEW_REQUIREMENT;
             
             if (! $requirement->save()) {
                 throw new Exception('Error');
             }
             
-            $submit = Yii::$app->request->post('submit');
+            $submit = Yii::$app->request->post('sub');
             if ($submit == 'version'
                 || $submit == 'revision'
             ) {
