@@ -76,7 +76,7 @@ class RequirementController extends Controller
     {
         $searchModel = new RequirementCommentSearch();
         $commentFormModel = new RequirementCommentForm();
-        $commentsDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $commentsDataProvider = $searchModel->searchByRequirementId(Yii::$app->request->queryParams['id']);
         
         return $this->render('view', [
             'model' => $this->findModel($id),

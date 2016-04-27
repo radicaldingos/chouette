@@ -69,4 +69,31 @@ class RequirementCommentSearch extends RequirementComment
 
         return $dataProvider;
     }
+    
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param int $id
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchByRequirementId($id)
+    {
+        $query = RequirementComment::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'requirement_id' => $id,
+        ]);
+
+        $query->andFilterWhere(['like', 'comment', $this->comment]);
+
+        return $dataProvider;
+    }
 }

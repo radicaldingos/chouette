@@ -13,6 +13,6 @@ use yii\helpers\Html;
         <!-- <img src="" /> -->
     </div>
     <div class="commentText">
-        <p class=""><?= Html::encode($model->comment) ?></p> <span class="date sub-text">on <?= date('d/m/Y à H:i', $model->date_creation) ?></span>
+        <p class=""><?= Html::encode($model->comment) ?></p> <span class="date sub-text"><?= Yii::t('app', 'on') . ' ' . date('d/m/Y ' . Yii::t('app', 'at') . ' H:i', $model->date_creation) ?></span>
     </div>
 </li>

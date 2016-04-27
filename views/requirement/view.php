@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </ul>
                 <?php $form = ActiveForm::begin(['class' => 'form-inline', 'action' => '/requirement/post?id=' . $model->id]); ?>
                     <div class="form-group">
-                        <?= $form->field($commentFormModel, 'comment')->input('text', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Your comments')]) ?>
+                        <?= $form->field($commentFormModel, 'comment')->input('text', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Your comments')])->label(false) ?>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-default"><?= Yii::t('app', 'Add') ?></button>

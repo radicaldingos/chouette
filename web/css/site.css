@@ -115,10 +115,6 @@ a.desc:after {
     width:400px;
 }
 
-.actionBox .form-group * {
-    width:100%;
-}
-
 .taskDescription {
     margin-top:10px 0;
 }

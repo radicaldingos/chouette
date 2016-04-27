@@ -74,4 +74,6 @@ return [
     'Comments' => 'Commentaires',
     'Add' => 'Ajouter',
     'Your comments' => 'Votre commentaire',
+    'on' => 'le',
+    'at' => 'à',
 ];
