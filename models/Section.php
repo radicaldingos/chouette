@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "section".
@@ -65,5 +66,20 @@ class Section extends \yii\db\ActiveRecord
     public function getDocument()
     {
         return $this->hasOne(Document::className(), ['id' => 'document_id']);
+    }
+    
+    /**
+     * Get the section full name with document name and project name
+     * 
+     * @return array
+     */
+    public static function getSectionsWithFullPath()
+    {
+        $sections = Section::find()->with('document', 'document.project')->all();
+        $tab = array();
+        foreach ($sections as $section) {
+            $tab[$section->id] = "{$section->document->project->name} » {$section->document->name} » {$section->name}";
+        }
+        return $tab;
     }
 }

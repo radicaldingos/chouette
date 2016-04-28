@@ -58,7 +58,7 @@ class Requirement extends \yii\db\ActiveRecord
             'code' => Yii::t('app', 'Code'),
             'type' => Yii::t('app', 'Type'),
             'created' => Yii::t('app', 'Created'),
-            'section_id' => Yii::t('app', 'Section ID'),
+            'section_id' => Yii::t('app', 'Section'),
             'status' => Yii::t('app', 'Status'),
             'priority' => Yii::t('app', 'Priority'),
             //'lastVersionStatement' => Yii::t('app', 'Statement'),

@@ -127,7 +127,7 @@ class RequirementController extends Controller
             return $this->redirect(['view', 'id' => $requirement->id]);
         }
         
-        $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');
+        $sectionItems = Section::getSectionsWithFullPath();
 
         return $this->render('create', [
             'model' => $model,

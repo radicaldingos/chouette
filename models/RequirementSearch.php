@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Requirement;
@@ -61,6 +60,14 @@ class RequirementSearch extends Requirement
             'id' => $this->id,
             'created' => $this->created,
             'section_id' => $this->section_id,
+        ]);
+        
+        $query->innerJoin('section', 'requirement.section_id = section.id');
+        $query->innerJoin('document', 'section.document_id = document.id');
+        $query->orderBy([
+            'document.id' => SORT_ASC,
+            'section.id' => SORT_ASC,
+            'status' => SORT_ASC,
         ]);
 
         return $dataProvider;

@@ -32,7 +32,7 @@ class RequirementForm extends Model
     {
         return [
             'type' => Yii::t('app', 'Type'),
-            'section_id' => Yii::t('app', 'Section ID'),
+            'section_id' => Yii::t('app', 'Section'),
             'code' => Yii::t('app', 'Code'),
             'version' => Yii::t('app', 'Version'),
             'statement' => Yii::t('app', 'Statement'),
