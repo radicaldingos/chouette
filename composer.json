@@ -15,10 +15,11 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
+        "creocoder/yii2-nested-sets": ">=0.9.0",
+        "kartik-v/yii2-tree-manager": ">=v1.0.5",
         "yiisoft/yii2": ">=2.0.5",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "phpmetrics/phpmetrics": "^1.9"
+        "yiisoft/yii2-swiftmailer": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -29,6 +30,7 @@
         "pdepend/pdepend": "~2.1",
         "phploc/phploc": "~2.1",
         "phpmd/phpmd": "~2.2",
+        "phpmetrics/phpmetrics": "^1.9",
         "psecio/iniscan": "~3.6",
         "psecio/parse": "~0.6",
         "psecio/versionscan": "~1.4",
