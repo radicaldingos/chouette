@@ -23,7 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     
     <?= TreeView::widget([
-        'query' => Item::find()->addOrderBy('tree, lft'), 
+        'query' => Item::find()->addOrderBy('tree, lft'),
+        'displayValue' => $id,
         'headingOptions' => ['label' => Yii::t('app', 'Requirements')],
         'fontAwesome' => false,
         'isAdmin' => false,
@@ -33,10 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'enableCache' => true,
         ],
         'showIDAttribute' => false,
+        'showFormButtons' => true,
         'nodeView' => '@app/views/requirement/_view',
         'rootOptions' => [
             'label' => 'Current project',
         ],
+        'wrapperTemplate' => '{header}{tree}',
         'mainTemplate' => '
 <div class="row">
     <div class="col-sm-6">

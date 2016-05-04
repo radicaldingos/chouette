@@ -65,7 +65,7 @@ return [
     'Root' => '',
     'Save' => '',
     'Saved the node details successfully.' => '',
-    'Search...' => '',
+    'Search...' => 'Rechercher...',
     'Select a node by clicking on one of the tree items.' => '',
     'Select...' => '',
     'Selected' => '',
