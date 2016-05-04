@@ -3,12 +3,12 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Item;
 use app\models\Requirement;
 use app\models\RequirementSearch;
 use app\models\RequirementVersion;
 use app\models\RequirementForm;
 use app\models\RequirementStatus;
-use app\models\RequirementComment;
 use app\models\RequirementCommentSearch;
 use app\models\RequirementCommentForm;
 use app\models\Section;
@@ -17,6 +17,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use app\models\ItemSearch;
 
 /**
  * RequirementController implements the CRUD actions for Requirement model.
@@ -48,15 +49,15 @@ class RequirementController extends Controller
             ],
         ];
     }
-
+    
     /**
-     * Lists all Requirement models.
+     * Lists all items (documents, sections and requirements) in a tree view.
      * 
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RequirementSearch();
+        $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -66,22 +67,18 @@ class RequirementController extends Controller
     }
 
     /**
-     * Displays a single Requirement model.
-     * 
-     * @param integer $id
+     * Lists all Requirement models.
      * 
      * @return mixed
      */
-    public function actionView($id)
+    public function actionList()
     {
-        $searchModel = new RequirementCommentSearch();
-        $commentFormModel = new RequirementCommentForm();
-        $commentsDataProvider = $searchModel->searchByRequirementId(Yii::$app->request->queryParams['id']);
-        
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'commentFormModel' => $commentFormModel,
-            'commentsDataProvider' => $commentsDataProvider,
+        $searchModel = new RequirementSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -95,21 +92,25 @@ class RequirementController extends Controller
      */
     public function actionCreate()
     {
+        $requirement = new Requirement;
         $model = new RequirementForm;
         $model->isNewRecord = true;
         
         if ($model->load(Yii::$app->request->post())
             && $model->validate()
         ) {
-            $requirement = new Requirement;
-            $requirement->section_id = $model->section_id;
-            $requirement->type = $model->type;
+            $section = Section::findOne($model->section_id);
+
+            $requirement->category = $model->category;
             $requirement->code = $model->code;
+            $requirement->name = $model->code;
             $requirement->priority = $model->priority;
             $requirement->status = RequirementStatus::NEW_REQUIREMENT;
+            $requirement->project_id = $section->project_id;
             $requirement->created = time();
 
-            if (! $requirement->save()) {
+            if (! $requirement->appendTo($section)) {
+                die(print_r($requirement->getErrors()));
                 throw new Exception('Error');
             }
             
@@ -124,7 +125,9 @@ class RequirementController extends Controller
                 throw new Exception('Error');
             }
             
-            return $this->redirect(['view', 'id' => $requirement->id]);
+            return $this->redirect(['index', 'id' => $requirement->id]);
+        } else {
+            $model->code = $requirement::generateCodeFromPattern();
         }
         
         $sectionItems = Section::getSectionsWithFullPath();
@@ -148,14 +151,16 @@ class RequirementController extends Controller
     {
         $model = new RequirementForm;
         $requirement = $this->findModel($id);
-
+        
         if ($requirementData = Yii::$app->request->post('RequirementForm')) {
-            $requirement->section_id = $requirementData['section_id'];
-            $requirement->type = $requirementData['type'];
+            $section = Section::findOne($requirementData['section_id']);
+            
+            $requirement->category = $requirementData['category'];
             $requirement->code = $requirementData['code'];
-            $requirement->priority = $model->priority;
-            $requirement->status = $requirementData['status'];
+            $requirement->name = $requirementData['code'];
             $requirement->priority = $requirementData['priority'];
+            $requirement->status = $requirementData['status'];
+            
             
             if (! $requirement->save()) {
                 throw new Exception('Error');
@@ -188,7 +193,7 @@ class RequirementController extends Controller
                 throw new Exception('Error');
             }
                 
-            return $this->redirect(['view', 'id' => $id]);
+            return $this->redirect(['index']);
         }
         
         $model->code = $requirement->code;
@@ -264,7 +269,7 @@ class RequirementController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Requirement::findOne($id)) !== null) {
+        if (($model = Item::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

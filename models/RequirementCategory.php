@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 
-class RequirementType
+class RequirementCategory
 {
     public static function getValues()
     {

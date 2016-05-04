@@ -25,8 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
+                'label' => 'Section',
+                //'value' => function($data){ return "{$data->section->document->name} » {$data->section->name}"; },
+            ],
+            [
                 'attribute' => 'type',
-                'value' => function($data){ return RequirementCategory::getValue($data->type); },
+                //'value' => function($data){ return RequirementCategory::getValue($data->type); },
             ],
             'lastVersion.statement',
             [

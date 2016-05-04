@@ -1,10 +1,12 @@
 <?php
 
+/** @todo A supprimer ! */ 
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use yii\widgets\ActiveForm;
-use app\models\RequirementType;
+use app\models\RequirementCategory;
 use app\models\RequirementStatus;
 
 /* @var $this yii\web\View */
@@ -34,13 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 [
-                    'attribute' => 'type',
-                    'value' => RequirementType::getValue($model->type),
+                    'attribute' => 'category',
+                    'value' => RequirementCategory::getValue($model->category),
                 ],
-                [
+                /*[
                     'label' => Yii::t('app', 'Section'),
-                    'value' => "{$model->section->document->project->name} » {$model->section->document->name} » {$model->section->name}",
-                ],
+                    'value' => "{$model->section->project->name} » {$model->section->name}",
+                ],*/
                 'code',
                 [
                     'label' => Yii::t('app', 'Version'),

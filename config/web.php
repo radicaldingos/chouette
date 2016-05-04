@@ -32,6 +32,10 @@ $config = [
                         'app/error' => 'error.php',
                     ],
                 ],
+                'kvtree' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                ],
             ],
         ],
         'mailer' => [
@@ -66,6 +70,25 @@ $config = [
                 ],
             ],
         ],*/
+    ],
+    'modules' => [
+        'treemanager' =>  [
+            'class' => '\kartik\tree\Module',
+            'treeStructure' => [
+                'treeAttribute' => 'tree',
+                'leftAttribute' => 'lft',
+                'rightAttribute' => 'rgt',
+                'depthAttribute' => 'depth',
+            ],
+            /*'i18n' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@kvtree/messages',
+                'forceTranslation' => true,
+            ],*/
+            /*'treeViewSettings'=> [
+                'nodeView' => '@app/views/item/_view',
+            ],*/
+        ],
     ],
     'params' => $params,
 ];

@@ -3,19 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Document;
-use app\models\Section;
-use app\models\Project;
-use app\models\ProjectSearch;
+use app\models\Item;
+use app\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * ProjectController implements the CRUD actions for Project model.
+ * ItemController implements the CRUD actions for Item model.
  */
-class ProjectController extends Controller
+class ItemController extends Controller
 {
     /**
      * @inheritdoc
@@ -23,16 +20,6 @@ class ProjectController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        //'actions' => [],
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -43,12 +30,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * Lists all Project models.
+     * Lists all Item models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProjectSearch();
+        $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,9 +43,24 @@ class ProjectController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
+    /**
+     * Lists all Item models.
+     * @return mixed
+     */
+    public function actionTree()
+    {
+        $searchModel = new ItemSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('tree', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
-     * Displays a single Project model.
+     * Displays a single Item model.
      * @param integer $id
      * @return mixed
      */
@@ -70,30 +72,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Creates a new Project model.
+     * Creates a new Item model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Project();
+        $model = new Item();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // Temporary create a default document and a default section
-            $document = new Document();
-            $document->code = Yii::t('app', 'REQ');
-            $document->name = Yii::t('app', 'Requirements Document');
-            $document->project_id = $model->id;
-            $document->created = time();
-            $document->makeRoot();
-            
-            $section = new Section();
-            $section->code = Yii::t('app', 'GEN');
-            $section->name = Yii::t('app', 'General Requirements');
-            $section->project_id = $model->id;
-            $section->created = time();
-            $section->prependTo($document);
-            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -103,7 +90,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Updates an existing Project model.
+     * Updates an existing Item model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -122,7 +109,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Deletes an existing Project model.
+     * Deletes an existing Item model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -135,15 +122,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds the Project model based on its primary key value.
+     * Finds the Item model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Project the loaded model
+     * @return Item the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Project::findOne($id)) !== null) {
+        if (($model = Item::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -2,14 +2,15 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Requirement;
+use app\models\Item;
 
 /**
- * RequirementSearch represents the model behind the search form about `app\models\Requirement`.
+ * ItemSearch represents the model behind the search form about `app\models\Item`.
  */
-class RequirementSearch extends Requirement
+class ItemSearch extends Item
 {
     /**
      * @inheritdoc
@@ -17,7 +18,8 @@ class RequirementSearch extends Requirement
     public function rules()
     {
         return [
-            [['id', 'created'], 'integer'],
+            [['id', 'created', 'status', 'priority', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
+            [['code', 'name', 'type'], 'safe'],
         ];
     }
 
@@ -39,7 +41,7 @@ class RequirementSearch extends Requirement
      */
     public function search($params)
     {
-        $query = Requirement::find();
+        $query = Item::find();
 
         // add conditions that should always apply here
 
@@ -59,28 +61,17 @@ class RequirementSearch extends Requirement
         $query->andFilterWhere([
             'id' => $this->id,
             'created' => $this->created,
-        ]);
-        
-        $query->orderBy([
-            'status' => SORT_ASC,
+            'status' => $this->status,
+            'priority' => $this->priority,
+            'project_id' => $this->project_id,
+            'lft' => $this->lft,
+            'rgt' => $this->rgt,
+            'depth' => $this->depth,
         ]);
 
-        return $dataProvider;
-    }
-    
-    public function searchByCriteria($q)
-    {
-        $query = Requirement::find();
-
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        
-        $query->leftJoin('requirement_version', 'requirement.id = requirement_version.requirement_id')
-            ->andWhere(['LIKE', 'LOWER(requirement_version.statement)', strtolower($q)])
-            ->orderBy('updated DESC, id DESC');
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'type', $this->type]);
 
         return $dataProvider;
     }

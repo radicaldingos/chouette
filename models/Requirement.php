@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use app\models\Item;
+use app\models\RequirementCategory;
 
 /**
  * This is the model class for table "requirement".
@@ -23,16 +25,25 @@ use Yii;
  * @property RequirementEvent[] $events
  * @property RequirementVersion[] $versions
  */
-class Requirement extends \yii\db\ActiveRecord
+class Requirement extends Item
 {
-    //public $lastVersionStatement;
-    
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    const TYPE = 'Requirement';
+
+    public function init()
     {
-        return 'requirement';
+        $this->type = self::TYPE;
+        parent::init();
+    }
+
+    public static function find()
+    {
+        return new ItemQuery(get_called_class(), ['type' => self::TYPE]);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->type = self::TYPE;
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -41,10 +52,12 @@ class Requirement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'type', 'created', 'section_id'], 'required'],
-            [['type', 'created', 'section_id', 'status', 'priority'], 'integer'],
-            [['code'], 'string', 'max' => 10],
-            [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'id']],
+            [['name', 'category', 'created', 'status', 'priority', 'project_id', 'type'], 'required'],
+            [['category', 'created', 'status', 'priority', 'project_id'], 'integer'],
+            [['code'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
+            [['type'], 'string', 'max' => 40],
+            [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
 
@@ -56,7 +69,8 @@ class Requirement extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'code' => Yii::t('app', 'Code'),
-            'type' => Yii::t('app', 'Type'),
+            'name' => Yii::t('app', 'Name'),
+            'category' => Yii::t('app', 'Category'),
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section'),
             'status' => Yii::t('app', 'Status'),
@@ -68,9 +82,9 @@ class Requirement extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSection()
+    public function getProject()
     {
-        return $this->hasOne(Section::className(), ['id' => 'section_id']);
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
 
     /**
@@ -116,6 +130,37 @@ class Requirement extends \yii\db\ActiveRecord
             ->orderBy('version DESC, revision DESC');
     }
     
+    public function getDetailAttributes()
+    {
+        return [
+            [
+                'attribute' => 'category',
+                'value' => RequirementCategory::getValue($this->category),
+            ],
+            'status',
+            [
+                'label' => Yii::t('app', 'Version'),
+                'value' => "{$this->lastVersion->version}.{$this->lastVersion->revision}",
+            ],
+            /*[
+                'label' => Yii::t('app', 'Status'),
+                'attribute' => 'lastVersion.status',
+                'value' => RequirementStatus::getValue($model->status),
+            ],*/
+            'name',
+            'lastVersion.statement',
+            /*[
+                'attribute' => 'lastVersion.updated',
+                'format' => ['date', 'php:d/m/Y'],
+            ],*/
+            'priority',
+            [
+                'attribute' => 'created',
+                'format' => ['date', 'php:d/m/Y'],
+            ],
+        ];
+    }
+    
     /**
      * 
      * @param \app\models\RequirementCommentForm $comment
@@ -130,5 +175,37 @@ class Requirement extends \yii\db\ActiveRecord
         if (! $comment->save()) {
             die(print_r($comment->getErrors()));
         }
+    }
+    
+    /**
+     * Generate a unique code for a new requirement
+     * 
+     * @return string Generated code
+     */
+    public static function generateCodeFromPattern()
+    {
+        return 'TEMP';
+        
+        $pattern = '{project.name}_{document.code}_{section.code}_{serial}';
+        
+        $session = Yii::$app->session;
+        $session->set('selected_project', Project::findOne('1'));
+        $session->set('selected_document', Document::findOne('1'));
+        $session->set('selected_section', Section::findOne('1'));
+        
+        $vars = [
+            'project.name' => $session->get('selected_project')->name,
+            'document.code' => $session['selected_document']->code,
+            'section.code' => $session['selected_section']->code,
+            'serial' => '01',
+        ];
+        
+        $code = $pattern;
+        
+        foreach ($vars as $key => $var) {
+            $code = str_replace('{' . $key . '}', $var, $code);
+        }
+        
+        return $code;
     }
 }

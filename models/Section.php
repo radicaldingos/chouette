@@ -10,20 +10,29 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $name
- * @property integer $document_id
- * @property integer $position
  *
  * @property Requirement[] $requirements
  * @property Document $document
  */
-class Section extends \yii\db\ActiveRecord
+class Section extends Item
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    const TYPE = 'Section';
+
+    public function init()
     {
-        return 'section';
+        $this->type = self::TYPE;
+        parent::init();
+    }
+
+    public static function find()
+    {
+        return new ItemQuery(get_called_class(), ['type' => self::TYPE]);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->type = self::TYPE;
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -32,10 +41,11 @@ class Section extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'document_id'], 'required'],
-            [['document_id', 'position'], 'integer'],
-            [['name'], 'string', 'max' => 40],
-            [['document_id'], 'exist', 'skipOnError' => true, 'targetClass' => Document::className(), 'targetAttribute' => ['document_id' => 'id']],
+            [['code', 'name', 'project_id'], 'required'],
+            [['project_id'], 'integer'],
+            [['code'], 'string', 'max' => 10],
+            [['name'], 'string', 'max' => 255],
+            [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
 
@@ -46,18 +56,18 @@ class Section extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'code' => Yii::t('app', 'Code'),
             'name' => Yii::t('app', 'Name'),
-            'document_id' => Yii::t('app', 'Document ID'),
-            'position' => Yii::t('app', 'Position'),
+            'created' => Yii::t('app', 'Created'),
         ];
     }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirements()
+    public function getProject()
     {
-        return $this->hasMany(Requirement::className(), ['section_id' => 'id']);
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
 
     /**
@@ -65,7 +75,27 @@ class Section extends \yii\db\ActiveRecord
      */
     public function getDocument()
     {
-        return $this->hasOne(Document::className(), ['id' => 'document_id']);
+        //return $this->hasOne(Document::className(), ['id' => 'document_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequirements()
+    {
+        //return $this->hasMany(Requirement::className(), ['section_id' => 'id']);
+    }
+    
+    public function getDetailAttributes()
+    {
+        return [
+            'code',
+            'name',
+            [
+                'attribute' => 'created',
+                'format' => ['date', 'php:d/m/Y'],
+            ],
+        ];
     }
     
     /**
@@ -75,10 +105,10 @@ class Section extends \yii\db\ActiveRecord
      */
     public static function getSectionsWithFullPath()
     {
-        $sections = Section::find()->with('document', 'document.project')->all();
+        $sections = Section::find()->with('project')->all();
         $tab = array();
         foreach ($sections as $section) {
-            $tab[$section->id] = "{$section->document->project->name} » {$section->document->name} » {$section->name}";
+            $tab[$section->id] = "{$section->project->name} » {$section->name}";
         }
         return $tab;
     }

@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m160327_090130_initial extends Migration
 {
@@ -26,67 +27,72 @@ class m160327_090130_initial extends Migration
             'long_name' => "character varying(200) DEFAULT NULL",
         ]);
         
-        $this->createTable('document', [
-            'id' => 'pk',
-            'name' => "character varying(40) NOT NULL",
-            'project_id' => 'integer NOT NULL',
-            'position' => 'integer DEFAULT 0 NOT NULL',
-        ]);        
-        $this->createIndex('idx_document_project_id', 'document', 'project_id', false);
-        
-        $this->createTable('section', [
-            'id' => 'pk',
-            'name' => "character varying(40) NOT NULL",
-            'document_id' => 'integer NOT NULL',
-            'position' => 'integer DEFAULT 0 NOT NULL',
-        ]);
-        $this->createIndex('idx_section_document_id', 'section', 'document_id', false);
-        
         $this->createTable('user_profile', [
-            'user_id' => 'integer NOT NULL',
-            'profile_id' => 'integer NOT NULL',
+            'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'profile_id' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         $this->createIndex('idx_user_profile_user_id', 'user_profile', 'user_id', false);
         $this->createIndex('idx_user_profile_profile_id', 'user_profile', 'profile_id', false);
         $this->addPrimaryKey('pk_user_profile', 'user_profile', 'user_id, profile_id');
         
         $this->createTable('user_project', [
-            'user_id' => 'integer NOT NULL',
-            'project_id' => 'integer NOT NULL',
-            'profile_id' => 'integer NOT NULL',
+            'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'profile_id' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         $this->createIndex('idx_user_project_user_id', 'user_project', 'user_id', false);
         $this->createIndex('idx_user_project_project_id', 'user_project', 'project_id', false);
         $this->createIndex('idx_user_project_profile_id', 'user_project', 'profile_id', false);
         $this->addPrimaryKey('pk_user_project', 'user_project', 'user_id, project_id, profile_id');
         
-        $this->createTable('requirement', [
+        $this->createTable('item', [
             'id' => 'pk',
-            'code' => "character varying(10) NOT NULL",
-            'type' => 'integer NOT NULL',
-            'created' => 'integer NOT NULL',
-            'section_id' => 'integer NOT NULL',
-            'status' => "integer DEFAULT 1 NOT NULL",
-            'priority' => "integer DEFAULT 1 NOT NULL",
+            'code' => "character varying(40) DEFAULT NULL",
+            'name' => "character varying(40) NOT NULL",
+            'category' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'created' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'status' => Schema::TYPE_INTEGER . " DEFAULT NULL",
+            'priority' => Schema::TYPE_INTEGER . " DEFAULT NULL",
+            'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'tree' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'lft' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'rgt' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'depth' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'name' => Schema::TYPE_STRING . ' NOT NULL',
+            'icon' => Schema::TYPE_STRING . ' DEFAULT NULL',
+            'active' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'selected' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
+            'disabled' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
+            'readonly' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
+            'visible' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'collapsed' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
+            'movable_u' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'movable_d' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'movable_l' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'movable_r' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'removable' => Schema::TYPE_BOOLEAN . ' DEFAULT TRUE NOT NULL',
+            'removable_all' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
+            'icon_type' => Schema::TYPE_SMALLINT . ' DEFAULT 1 NOT NULL',
+            'type' => "character varying(40) NOT NULL",
         ]);
-        $this->createIndex('idx_requirement_section_id', 'requirement', 'section_id', false);
+        $this->createIndex('idx_item_project_id', 'item', 'project_id', false);
         
         $this->createTable('requirement_version', [
             'id' => 'pk',
-            'requirement_id' => 'integer NOT NULL',
-            'version' => "integer DEFAULT 1 NOT NULL",
-            'revision' => "integer DEFAULT 0 NOT NULL",
+            'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'version' => Schema::TYPE_INTEGER . " DEFAULT 1 NOT NULL",
+            'revision' => Schema::TYPE_INTEGER . " DEFAULT 0 NOT NULL",
             'statement' => "text DEFAULT NULL",
-            'updated' => "integer NOT NULL",
+            'updated' => Schema::TYPE_INTEGER . " NOT NULL",
         ]);
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);
         
         $this->createTable('requirement_event', [
             'id' => 'pk',
             'event' => "character varying(20) NOT NULL",
-            'requirement_id' => 'integer NOT NULL',
-            'user_id' => 'integer NOT NULL',
-            'date' => 'integer NOT NULL',
+            'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'date' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         $this->createIndex('idx_requirement_event_requirement_id', 'requirement_event', 'requirement_id', false);
         $this->createIndex('idx_requirement_event_user_id', 'requirement_event', 'user_id', false);
@@ -94,9 +100,9 @@ class m160327_090130_initial extends Migration
         $this->createTable('requirement_comment', [
             'id' => 'pk',
             'comment' => 'text DEFAULT NULL',
-            'requirement_id' => 'integer NOT NULL',
-            'user_id' => 'integer NOT NULL',
-            'date_creation' => 'integer NOT NULL',
+            'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'date_creation' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         $this->createIndex('idx_requirement_comment_requirement_id', 'requirement_comment', 'requirement_id', false);
         $this->createIndex('idx_requirement_comment_user_id', 'requirement_comment', 'user_id', false);
@@ -105,7 +111,7 @@ class m160327_090130_initial extends Migration
             'id' => 'pk',
             'name' => "character varying(40) NOT NULL",
             'path' => 'text DEFAULT NULL',
-            'requirement_id' => 'integer NOT NULL',
+            'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         $this->createIndex('idx_requirement_attachment_requirement_id', 'requirement_attachment', 'requirement_id', false);
         
@@ -115,15 +121,13 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_user_project_user_user_id', 'user_project', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_user_project_project_project_id', 'user_project', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_user_project_profile_profile_id', 'user_project', 'profile_id', 'profile', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_document_project_project_id', 'document', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_section_document_document_id', 'section', 'document_id', 'document', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_section_section_id', 'requirement', 'section_id', 'section', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version', 'requirement_id', 'requirement', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event', 'requirement_id', 'requirement', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_item_project_project_id', 'item', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_event_user_user_id', 'requirement_event', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_comment_requirement_requirement_id', 'requirement_comment', 'requirement_id', 'requirement', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_comment_requirement_requirement_id', 'requirement_comment', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_comment_user_user_id', 'requirement_comment', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment', 'requirement_id', 'requirement', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         
         // Default data
         $this->insert('user', [
@@ -141,9 +145,7 @@ class m160327_090130_initial extends Migration
         $this->dropForeignKey('fk_user_project_user_user_id', 'user_project');
         $this->dropForeignKey('fk_user_project_project_project_id', 'user_project');
         $this->dropForeignKey('fk_user_project_profile_profile_id', 'user_project');
-        $this->dropForeignKey('fk_document_project_project_id', 'document');
-        $this->dropForeignKey('fk_section_document_document_id', 'section');
-        $this->dropForeignKey('fk_requirement_section_section_id', 'requirement');
+        $this->dropForeignKey('fk_item_project_project_id', 'item');
         $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event');
         $this->dropForeignKey('fk_requirement_event_user_user_id', 'requirement_event');
@@ -155,9 +157,7 @@ class m160327_090130_initial extends Migration
         $this->dropTable('requirement_comment');
         $this->dropTable('requirement_event');
         $this->dropTable('requirement_version');
-        $this->dropTable('requirement');
-        $this->dropTable('section');
-        $this->dropTable('document');
+        $this->dropTable('item');
         $this->dropTable('user_project');
         $this->dropTable('user_profile');
         $this->dropTable('project');

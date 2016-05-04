@@ -7,7 +7,7 @@ use yii\base\Model;
 
 class RequirementForm extends Model
 {
-    public $type;
+    public $category;
     public $section_id;
     public $code;
     public $statement;
@@ -21,7 +21,7 @@ class RequirementForm extends Model
     public function rules()
     {
         return [
-            [['type', 'section_id', 'code', 'statement', 'priority'], 'required'],
+            [['category', 'section_id', 'code', 'statement', 'priority'], 'required'],
         ];
     }
 
@@ -31,7 +31,7 @@ class RequirementForm extends Model
     public function attributeLabels()
     {
         return [
-            'type' => Yii::t('app', 'Type'),
+            'category' => Yii::t('app', 'Category'),
             'section_id' => Yii::t('app', 'Section'),
             'code' => Yii::t('app', 'Code'),
             'version' => Yii::t('app', 'Version'),

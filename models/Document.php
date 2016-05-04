@@ -10,19 +10,29 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property integer $project_id
- * @property integer $position
  *
  * @property Project $project
  * @property Section[] $sections
  */
-class Document extends \yii\db\ActiveRecord
+class Document extends Item
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    const TYPE = 'Document';
+
+    public function init()
     {
-        return 'document';
+        $this->type = self::TYPE;
+        parent::init();
+    }
+
+    public static function find()
+    {
+        return new ItemQuery(get_called_class(), ['type' => self::TYPE]);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->type = self::TYPE;
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -31,13 +41,14 @@ class Document extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'project_id'], 'required'],
-            [['project_id', 'position'], 'integer'],
-            [['name'], 'string', 'max' => 40],
+            [['code', 'name', 'project_id'], 'required'],
+            [['project_id'], 'integer'],
+            [['code'], 'string', 'max' => 10],
+            [['name'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -45,9 +56,9 @@ class Document extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'code' => Yii::t('app', 'Code'),
             'name' => Yii::t('app', 'Name'),
-            'project_id' => Yii::t('app', 'Project ID'),
-            'position' => Yii::t('app', 'Position'),
+            'created' => Yii::t('app', 'Created'),
         ];
     }
 
@@ -64,6 +75,18 @@ class Document extends \yii\db\ActiveRecord
      */
     public function getSections()
     {
-        return $this->hasMany(Section::className(), ['document_id' => 'id']);
+        //return $this->hasMany(Section::className(), ['document_id' => 'id']);
+    }
+    
+    public function getDetailAttributes()
+    {
+        return [
+            'code',
+            'name',
+            [
+                'attribute' => 'created',
+                'format' => ['date', 'php:d/m/Y'],
+            ],
+        ];
     }
 }

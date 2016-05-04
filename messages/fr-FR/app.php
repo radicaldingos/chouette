@@ -2,6 +2,7 @@
 
 return [
     'Create' => 'Créer',
+    'Edit' => 'Éditer',
     'Update' => 'Mettre à jour',
     'Delete' => 'Supprimer',
     
@@ -34,6 +35,7 @@ return [
     'Section' => 'Section',
     'Version' => 'Version',
     'Revision' => 'Révision',
+    'Category' => 'Catégorie',
     
     'New' => 'Nouvelle',
     'Accepted' => 'Acceptée',
@@ -76,4 +78,6 @@ return [
     'Your comments' => 'Votre commentaire',
     'on' => 'le',
     'at' => 'à',
+    'REQ' => 'EXI',
+    'GEN' => 'GEN',
 ];

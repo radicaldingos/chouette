@@ -185,3 +185,7 @@ thead > tr {
 .table-striped > tbody > tr:nth-of-type(2n) {
     background-color: white;
 }
+
+.kv-detail-container {
+    background: ghostwhite;
+}

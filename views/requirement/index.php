@@ -1,44 +1,51 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use app\models\RequirementType;
-use app\models\RequirementStatus;
+use kartik\tree\TreeView;
+use app\models\Item;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\RequirementSearch */
+/* @var $searchModel app\models\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Requirements');
+$this->title = Yii::t('app', 'Items');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="requirement-index">
+<div class="item-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+        <?= Html::a(Yii::t('app', 'Create Document'), ['document/create'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a(Yii::t('app', 'Create Section'), ['section/create'], ['class' => 'btn btn-info']) ?>
         <?= Html::a(Yii::t('app', 'Create Requirement'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            [
-                'label' => 'Section',
-                'value' => function($data){ return "{$data->section->document->name} » {$data->section->name}"; },
-            ],
-            [
-                'attribute' => 'type',
-                'value' => function($data){ return RequirementType::getValue($data->type); },
-            ],
-            'lastVersion.statement',
-            [
-                'attribute' => 'status',
-                'value' => function($data){ return RequirementStatus::getValue($data->status); },
-            ],
-
-            ['class' => 'yii\grid\ActionColumn'],
+    
+    <?= TreeView::widget([
+        'query' => Item::find()->addOrderBy('tree, lft'), 
+        'headingOptions' => ['label' => Yii::t('app', 'Requirements')],
+        'fontAwesome' => false,
+        'isAdmin' => false,
+        'displayValue' => 1,
+        'softDelete' => true,
+        'cacheSettings' => [        
+            'enableCache' => true,
         ],
+        'showIDAttribute' => false,
+        'nodeView' => '@app/views/requirement/_view',
+        'rootOptions' => [
+            'label' => 'BNE',
+        ],
+        'mainTemplate' => '
+<div class="row">
+    <div class="col-sm-6">
+        {wrapper}
+    </div>
+    <div class="col-sm-6">
+        {detail}
+    </div>
+</div>',
+        
     ]); ?>
 </div>
