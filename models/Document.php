@@ -81,8 +81,8 @@ class Document extends Item
     public function getDetailAttributes()
     {
         return [
-            'code',
             'name',
+            'code',
             [
                 'attribute' => 'created',
                 'format' => ['date', 'php:d/m/Y'],

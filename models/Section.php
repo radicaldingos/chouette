@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "section".
@@ -89,8 +88,8 @@ class Section extends Item
     public function getDetailAttributes()
     {
         return [
-            'code',
             'name',
+            'code',
             [
                 'attribute' => 'created',
                 'format' => ['date', 'php:d/m/Y'],

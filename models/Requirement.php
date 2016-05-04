@@ -130,6 +130,11 @@ class Requirement extends Item
             ->orderBy('version DESC, revision DESC');
     }
     
+    /**
+     * Retrieve the attributes for DetailView
+     * 
+     * @return array
+     */
     public function getDetailAttributes()
     {
         return [
@@ -137,25 +142,23 @@ class Requirement extends Item
                 'attribute' => 'category',
                 'value' => RequirementCategory::getValue($this->category),
             ],
-            'status',
+            [
+                'label' => Yii::t('app', 'Status'),
+                'attribute' => 'lastVersion.status',
+                'value' => RequirementStatus::getValue($this->status),
+            ],
             [
                 'label' => Yii::t('app', 'Version'),
                 'value' => "{$this->lastVersion->version}.{$this->lastVersion->revision}",
             ],
-            /*[
-                'label' => Yii::t('app', 'Status'),
-                'attribute' => 'lastVersion.status',
-                'value' => RequirementStatus::getValue($model->status),
-            ],*/
-            'name',
             'lastVersion.statement',
-            /*[
-                'attribute' => 'lastVersion.updated',
-                'format' => ['date', 'php:d/m/Y'],
-            ],*/
             'priority',
             [
                 'attribute' => 'created',
+                'format' => ['date', 'php:d/m/Y'],
+            ],
+            [
+                'attribute' => 'lastVersion.updated',
                 'format' => ['date', 'php:d/m/Y'],
             ],
         ];

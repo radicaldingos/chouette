@@ -8,7 +8,7 @@ use app\models\Item;
 /* @var $searchModel app\models\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Items');
+$this->title = Yii::t('app', 'Requirements');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-index">
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'showIDAttribute' => false,
         'nodeView' => '@app/views/requirement/_view',
         'rootOptions' => [
-            'label' => 'BNE',
+            'label' => 'Current project',
         ],
         'mainTemplate' => '
 <div class="row">

@@ -24,7 +24,7 @@ return [
     'Updated' => 'Modifié le',
     'Status' => 'Statut',
     'Type' => 'Type',
-    'Code' => 'Code interne',
+    'Code' => 'Code',
     'Statement' => 'Exigence',
     'Priority' => 'Priorité',
     'Name' => 'Nom',
@@ -51,6 +51,8 @@ return [
     
     'Project ID' => 'Projet',
     'Create Project' => 'Nouveau projet',
+    'Create Document' => 'Nouveau document',
+    'Create Section' => 'Nouvelle section',
     'Create Requirement' => 'Nouvelle exigence',
     'Create User' => 'Nouvel utilisateur',
     'Home' => 'Accueil',
