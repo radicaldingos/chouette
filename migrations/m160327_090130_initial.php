@@ -14,6 +14,7 @@ class m160327_090130_initial extends Migration
             'password' => "character varying(40) NOT NULL",
             'auth_key' => "character varying(40) NOT NULL",
             'access_token' => "character varying(40) NOT NULL",
+            'project_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
         ]);
         
         $this->createTable('profile', [

@@ -59,11 +59,13 @@ class RequirementController extends Controller
     {
         $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $project = Yii::$app->session->get('user.last_project');
 
         return $this->render('index', [
             'id' => $id,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'project' => $project,
         ]);
     }
 

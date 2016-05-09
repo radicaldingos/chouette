@@ -33,7 +33,7 @@ class Project extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 30],
-            [['name'], 'string', 'max' => 200],
+            [['long_name'], 'string', 'max' => 200],
         ];
     }
 

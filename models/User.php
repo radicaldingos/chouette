@@ -13,12 +13,14 @@ use yii\web\IdentityInterface;
  * @property string $password
  * @property string $auth_key
  * @property string $access_token
+ * @property int $project_id
  *
  * @property RequirementComment[] $requirementComments
  * @property RequirementEvent[] $requirementEvents
  * @property UserProfile[] $userProfiles
  * @property Profile[] $profiles
  * @property UserProject[] $userProjects
+ * @property Project $lastProject
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -34,7 +36,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'password', 'auth_key', 'access_token'], 'required'],
+            [['project_id'], 'integer'],
             [['username', 'password', 'auth_key', 'access_token'], 'string', 'max' => 40],
+            [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
     
@@ -143,5 +147,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return $this->getPassword() === $password;
+    }
+    
+    public function getLastProject()
+    {
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
 }

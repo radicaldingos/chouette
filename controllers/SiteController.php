@@ -29,6 +29,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'selectProject' => ['post'],
                 ],
             ],
         ];
@@ -60,6 +61,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // Setting last project in session
+            $identity = Yii::$app->user->getIdentity();
+            $lastProject = $identity->lastProject;
+            Yii::$app->session->set('user.last_project', $lastProject);
+
             return $this->goBack();
         }
         return $this->render('login', [
@@ -67,6 +73,11 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * Logout from app
+     * 
+     * @return Response
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -90,5 +101,20 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    
+    public function actionSelectProject()
+    {
+        $project = Yii::$app->request->post('project_id');
+        
+        // Load selected project as user current project
+        $identity = Yii::$app->user->getIdentity();
+        $identity->project_id = $project;
+        $identity->save();        
+        
+        $lastProject = $identity->lastProject;
+        Yii::$app->session->set('user.last_project', $lastProject);
+        
+        return $this->redirect('/requirement');
     }
 }

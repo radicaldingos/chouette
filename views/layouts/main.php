@@ -8,6 +8,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\Project;
+use yii\helpers\ArrayHelper;
 
 AppAsset::register($this);
 ?>
@@ -33,6 +35,9 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $currentProject = Yii::$app->session->get('user.last_project') ? Yii::$app->session->get('user.last_project') : null;
+    $projectsData = ArrayHelper::map(Project::find()->all(), 'id', 'name');
+            
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
@@ -41,8 +46,8 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Projects'), 'url' => ['/project']],
             ['label' => Yii::t('app', 'Users'), 'url' => ['/user']],
             '<li>'
-            . Html::beginForm(['/site/selectProject'], 'post')
-            . Html::dropDownList('project', null, [], ['onchange' => 'form.submit();'])
+            . Html::beginForm(['/site/select-project'], 'post')
+            . Html::dropDownList('project_id', $currentProject, [$projectsData], ['onchange' => 'form.submit();'])
             . Html::endForm()
             . '</li>',
             Yii::$app->user->isGuest ? (
