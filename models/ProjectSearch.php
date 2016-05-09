@@ -19,7 +19,7 @@ class ProjectSearch extends Project
     {
         return [
             [['id'], 'integer'],
-            [['name'], 'safe'],
+            [['name', 'long_name'], 'safe'],
         ];
     }
 
