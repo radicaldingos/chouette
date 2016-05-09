@@ -45,16 +45,16 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Requirements'), 'url' => ['/requirement']],
             ['label' => Yii::t('app', 'Projects'), 'url' => ['/project']],
             ['label' => Yii::t('app', 'Users'), 'url' => ['/user']],
-            '<li>'
-            . Html::beginForm(['/site/select-project'], 'post')
-            . Html::dropDownList('project_id', $currentProject, [$projectsData], ['onchange' => 'form.submit();'])
-            . Html::endForm()
-            . '</li>',
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
+                . Html::beginForm(['/site/select-project'], 'post', ['class' => 'navbar-form'])
+                . Html::dropDownList('project_id', $currentProject, [$projectsData], ['class' => 'form-control', 'onchange' => 'form.submit();'])
+                . Html::endForm()
+                . '</li>'
+                . '<li>'
+                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
                 . Html::submitButton(
                     Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link']
