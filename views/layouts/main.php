@@ -49,11 +49,6 @@ AppAsset::register($this);
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/site/select-project'], 'post', ['class' => 'navbar-form'])
-                . Html::dropDownList('project_id', $currentProject, [$projectsData], ['class' => 'form-control', 'onchange' => 'form.submit();'])
-                . Html::endForm()
-                . '</li>'
-                . '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
                 . Html::submitButton(
                     Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
@@ -80,9 +75,20 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <div>
+            <?php if (! Yii::$app->user->isGuest) : ?>
+            <div style="float: right;">
+                <?=  Html::beginForm(['/site/select-project'], 'post', ['class' => 'breadcrumbs-form'])
+                    . Html::dropDownList('project_id', $currentProject, $projectsData, ['class' => 'form-control', 'onchange' => 'form.submit();'])
+                    . Html::endForm()
+                ?>
+            </div>
+            <?php endif; ?>
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+        </div>
+        
         <?= $content ?>
     </div>
 </div>
