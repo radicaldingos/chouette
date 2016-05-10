@@ -28,9 +28,10 @@ use yii\widgets\ListView;
 
 extract($params);
 
+$nodeIdentifier = strtolower($node->type);
+
 $inputOpts = [];                                      // readonly/disabled input options for node
 $flagOptions = ['class' => 'kv-parent-flag'];         // node options for parent/child
-
 
 // parse parent key
 if (empty($parentKey)) {
@@ -81,8 +82,8 @@ $showAlert = function ($type, $body = '', $hide = true) {
 
 <div class="kv-detail-heading">
     <div class="pull-right">
-        <?= Html::a('<i class="glyphicon glyphicon-edit"></i>', ['/requirement/update', 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ['/requirement/delete', 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Delete')]) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-edit"></i>', ["/$nodeIdentifier/update", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ["/$nodeIdentifier/delete", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Delete')]) ?>
     </div>
     <div class="kv-detail-crumbs"><?= $name ?></div>
     <div class="clearfix"></div>

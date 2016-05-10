@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Document;
+use app\models\Section;
 
 /**
- * DocumentSearch represents the model behind the search form about `app\models\Document`.
+ * SectionSearch represents the model behind the search form about `app\models\Section`.
  */
-class DocumentSearch extends Document
+class SectionSearch extends Section
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class DocumentSearch extends Document
     public function rules()
     {
         return [
-            [['id', 'created', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
+            [['id', 'category', 'created', 'status', 'priority', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
             [['code', 'name', 'icon', 'type'], 'safe'],
             [['active', 'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'boolean'],
         ];
@@ -42,7 +42,7 @@ class DocumentSearch extends Document
      */
     public function search($params)
     {
-        $query = Document::find();
+        $query = Section::find();
 
         // add conditions that should always apply here
 
@@ -61,6 +61,7 @@ class DocumentSearch extends Document
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'category' => $this->category,
             'created' => $this->created,
             'status' => $this->status,
             'priority' => $this->priority,

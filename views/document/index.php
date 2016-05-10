@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'name',
             'created',
-            'parent_id',
             // 'status',
             // 'priority',
             // 'project_id',
