@@ -81,7 +81,8 @@ $showAlert = function ($type, $body = '', $hide = true) {
 
 <div class="kv-detail-heading">
     <div class="pull-right">
-        <?= Html::a(Yii::t('app', 'Edit'), ['/requirement/update', 'id' => $node->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-edit"></i>', ['/requirement/update', 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ['/requirement/delete', 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Delete')]) ?>
     </div>
     <div class="kv-detail-crumbs"><?= $name ?></div>
     <div class="clearfix"></div>
