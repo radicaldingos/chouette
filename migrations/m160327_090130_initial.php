@@ -137,6 +137,13 @@ class m160327_090130_initial extends Migration
             'auth_key' => 'admin',
             'access_token' => 'admin',
         ]);
+        
+        $this->insert('user', [
+            'username' => 'user',
+            'password' => 'user',
+            'auth_key' => 'user',
+            'access_token' => 'user',
+        ]);
     }
 
     public function safeDown()

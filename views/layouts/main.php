@@ -42,9 +42,9 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
-            ['label' => Yii::t('app', 'Requirements'), 'url' => ['/requirement']],
-            ['label' => Yii::t('app', 'Projects'), 'url' => ['/project']],
-            ['label' => Yii::t('app', 'Users'), 'url' => ['/user']],
+            ['label' => Yii::t('app', 'Requirements'), 'url' => ['/requirement'], 'visible' => Yii::$app->user->can('manageRequirements')],
+            ['label' => Yii::t('app', 'Projects'), 'url' => ['/project'], 'visible' => Yii::$app->user->can('manageProjects')],
+            ['label' => Yii::t('app', 'Users'), 'url' => ['/user'], 'visible' => Yii::$app->user->can('manageUsers')],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

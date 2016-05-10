@@ -8,6 +8,9 @@ $config = [
     'bootstrap' => ['log'],
     'language' => 'fr-FR',
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'request' => [
             'cookieValidationKey' => 'qk7-rJlymOFSlKawYsvwI51tkFR1qPCC',
         ],
