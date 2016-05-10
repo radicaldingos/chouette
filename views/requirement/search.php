@@ -25,8 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'attribute' => 'type',
-                'value' => function($data){ return RequirementCategory::getValue($data->type); },
+                'attribute' => 'category',
+                'value' => function($data){ return RequirementCategory::getValue($data->category); },
             ],
             'lastVersion.statement',
             [
