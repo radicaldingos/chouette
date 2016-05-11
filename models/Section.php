@@ -102,9 +102,12 @@ class Section extends Item
      * 
      * @return array
      */
-    public static function getSectionsWithFullPath()
+    public static function getSectionsWithFullPath($projectId)
     {
-        $sections = Section::find()->with('project')->all();
+        $sections = Section::find()
+            ->where(['project_id' => $projectId])
+            ->with('project')
+            ->all();
         $tab = array();
         foreach ($sections as $section) {
             $tab[$section->id] = "{$section->project->name} » {$section->name}";

@@ -43,7 +43,7 @@ class RequirementController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    //'delete' => ['POST'],
                     'postComment' => ['POST'],
                 ],
             ],
@@ -133,7 +133,7 @@ class RequirementController extends Controller
             $model->code = $requirement::generateCodeFromPattern();
         }
         
-        $sectionItems = Section::getSectionsWithFullPath();
+        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
 
         return $this->render('create', [
             'model' => $model,
