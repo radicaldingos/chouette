@@ -189,3 +189,7 @@ thead > tr {
 .kv-detail-container {
     background: ghostwhite;
 }
+
+.node-icon {
+    color: steelblue;
+}

@@ -16,6 +16,8 @@ use Yii;
 class Section extends Item
 {
     const TYPE = 'Section';
+    
+    public $document_id;
 
     public function init()
     {
@@ -41,7 +43,7 @@ class Section extends Item
     {
         return [
             [['code', 'name', 'project_id'], 'required'],
-            [['project_id'], 'integer'],
+            [['project_id', 'document_id'], 'integer'],
             [['code'], 'string', 'max' => 10],
             [['name'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
@@ -58,6 +60,7 @@ class Section extends Item
             'code' => Yii::t('app', 'Code'),
             'name' => Yii::t('app', 'Name'),
             'created' => Yii::t('app', 'Created'),
+            'document_id' => Yii::t('app', 'Document'),
         ];
     }
     

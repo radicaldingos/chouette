@@ -36,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'showIDAttribute' => false,
         'showFormButtons' => true,
         'nodeView' => '@app/views/requirement/_view',
+        'childNodeIconOptions' => ['class' => 'node-icon'],
+        'parentNodeIconOptions' => ['class' => 'node-icon'],
         'rootOptions' => [
             'label' => $project->name,
         ],

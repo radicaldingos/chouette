@@ -65,7 +65,12 @@ class DocumentController extends Controller
     {
         $model = new Document();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->project_id = Yii::$app->session->get('user.last_project')->id;
+            $model->created = time();
+            $model->icon = 'book';
+            $model->makeRoot();
+            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

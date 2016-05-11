@@ -89,4 +89,22 @@ class Document extends Item
             ],
         ];
     }
+    
+    /**
+     * Get the documents full names with project name
+     * 
+     * @return array
+     */
+    public static function getDocumentsWithFullPath($projectId)
+    {
+        $documents = Document::find()
+            ->where(['project_id' => $projectId])
+            ->with('project')
+            ->all();
+        $tab = array();
+        foreach ($documents as $document) {
+            $tab[$document->id] = "{$document->project->name} » {$document->name}";
+        }
+        return $tab;
+    }
 }
