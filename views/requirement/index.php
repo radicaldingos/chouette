@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     
     <?= TreeView::widget([
-        'query' => Item::find()->where("project_id = {$project->id}")->addOrderBy('tree, lft'),
+        'query' => $query,
         'displayValue' => $id,
         'headingOptions' => ['label' => Yii::t('app', 'Requirements')],
         'fontAwesome' => false,
