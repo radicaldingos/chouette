@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -24,6 +25,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'user';
@@ -37,8 +41,21 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['username', 'password', 'auth_key', 'access_token'], 'required'],
             [['project_id'], 'integer'],
-            [['username', 'password', 'auth_key', 'access_token'], 'string', 'max' => 40],
+            [['username', 'auth_key', 'access_token'], 'string', 'max' => 40],
+            [['password'], 'string', 'max' => 64],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
+        ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'password' => Yii::t('app', 'Password'),
         ];
     }
     
@@ -132,6 +149,19 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->password;
     }
+    
+    public function hashPassword()
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($this->getPassword());
+    }
+    
+    /**
+     * Generate auth key for cookie authentication
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
 
     /**
      * @inheritdoc
@@ -146,7 +176,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->getPassword() === $password;
+        return Yii::$app->security->validatePassword($password, $this->getPassword());
     }
     
     public function getLastProject()

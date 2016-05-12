@@ -11,7 +11,7 @@ class m160327_090130_initial extends Migration
         $this->createTable('user', [
             'id' => 'pk',
             'username' => "character varying(40) NOT NULL",
-            'password' => "character varying(40) NOT NULL",
+            'password' => "character varying(64) NOT NULL",
             'auth_key' => "character varying(40) NOT NULL",
             'access_token' => "character varying(40) NOT NULL",
             'project_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
@@ -133,14 +133,14 @@ class m160327_090130_initial extends Migration
         // Default data
         $this->insert('user', [
             'username' => 'admin',
-            'password' => 'admin',
+            'password' => '$2y$13$wx2PUMw9Rx5XprLE.uJ5ye0svd.znTvfGUc40zy0bMexDivWka5F6',
             'auth_key' => 'admin',
             'access_token' => 'admin',
         ]);
         
         $this->insert('user', [
             'username' => 'user',
-            'password' => 'user',
+            'password' => '$2y$13$OIpWTY95kcnt03vXnozzCuNeFvL6J2vPe78wby4578CStVX8Gdt/S',
             'auth_key' => 'user',
             'access_token' => 'user',
         ]);
