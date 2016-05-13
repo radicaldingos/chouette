@@ -19,7 +19,7 @@ class ItemSearch extends Item
     {
         return [
             [['id', 'created', 'status', 'priority', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
-            [['code', 'name', 'type'], 'safe'],
+            [['reference', 'name', 'type'], 'safe'],
         ];
     }
 
@@ -69,7 +69,7 @@ class ItemSearch extends Item
             'depth' => $this->depth,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
+        $query->andFilterWhere(['like', 'reference', $this->reference])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'type', $this->type]);
 

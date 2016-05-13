@@ -19,7 +19,7 @@ class SectionSearch extends Section
     {
         return [
             [['id', 'category', 'created', 'status', 'priority', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
-            [['code', 'name', 'icon', 'type'], 'safe'],
+            [['reference', 'name', 'icon', 'type'], 'safe'],
             [['active', 'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'boolean'],
         ];
     }
@@ -85,7 +85,7 @@ class SectionSearch extends Section
             'icon_type' => $this->icon_type,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
+        $query->andFilterWhere(['like', 'reference', $this->reference])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'icon', $this->icon])
             ->andFilterWhere(['like', 'type', $this->type]);

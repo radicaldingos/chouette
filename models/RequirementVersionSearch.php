@@ -19,7 +19,7 @@ class RequirementVersionSearch extends RequirementVersion
     {
         return [
             [['id', 'requirement_id', 'updated', 'status'], 'integer'],
-            [['code', 'version', 'statement'], 'safe'],
+            [['reference', 'version', 'wording'], 'safe'],
         ];
     }
 
@@ -65,9 +65,9 @@ class RequirementVersionSearch extends RequirementVersion
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
+        $query->andFilterWhere(['like', 'reference', $this->reference])
             ->andFilterWhere(['like', 'version', $this->version])
-            ->andFilterWhere(['like', 'statement', $this->statement]);
+            ->andFilterWhere(['like', 'wording', $this->wording]);
 
         return $dataProvider;
     }

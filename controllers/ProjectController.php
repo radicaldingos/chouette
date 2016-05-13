@@ -81,14 +81,14 @@ class ProjectController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             // Temporary create a default document and a default section
             $document = new Document();
-            $document->code = Yii::t('app', 'REQ');
+            $document->reference = Yii::t('app', 'REQ');
             $document->name = Yii::t('app', 'Requirements Document');
             $document->project_id = $model->id;
             $document->created = time();
             $document->makeRoot();
             
             $section = new Section();
-            $section->code = Yii::t('app', 'GEN');
+            $section->reference = Yii::t('app', 'GEN');
             $section->name = Yii::t('app', 'General Requirements');
             $section->project_id = $model->id;
             $section->created = time();

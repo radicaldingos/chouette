@@ -7,9 +7,6 @@ use Yii;
 /**
  * This is the model class for table "section".
  *
- * @property integer $id
- * @property string $name
- *
  * @property Requirement[] $requirements
  * @property Document $document
  */
@@ -42,9 +39,9 @@ class Section extends Item
     public function rules()
     {
         return [
-            [['code', 'name', 'project_id'], 'required'],
+            [['reference', 'name', 'project_id'], 'required'],
             [['project_id', 'document_id'], 'integer'],
-            [['code'], 'string', 'max' => 10],
+            [['reference'], 'string', 'max' => 10],
             [['name'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
@@ -57,7 +54,7 @@ class Section extends Item
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'code' => Yii::t('app', 'Code'),
+            'reference' => Yii::t('app', 'Reference'),
             'name' => Yii::t('app', 'Name'),
             'created' => Yii::t('app', 'Created'),
             'document_id' => Yii::t('app', 'Document'),
@@ -92,7 +89,7 @@ class Section extends Item
     {
         return [
             'name',
-            'code',
+            'reference',
             [
                 'attribute' => 'created',
                 'format' => ['date', 'php:d/m/Y'],

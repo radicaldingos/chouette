@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'category',
                 'value' => function($data){ return RequirementCategory::getValue($data->category); },
             ],
-            'lastVersion.statement',
+            'lastVersion.wording',
             [
                 'attribute' => 'status',
                 'value' => function($data){ return RequirementStatus::getValue($data->status); },

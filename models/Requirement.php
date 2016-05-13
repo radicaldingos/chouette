@@ -9,14 +9,6 @@ use app\models\RequirementCategory;
 /**
  * This is the model class for table "requirement".
  *
- * @property integer $id
- * @property string $code
- * @property integer $type
- * @property integer $created
- * @property integer $section_id
- * @property integer $status
- * @property integer $priority
- *
  * @property Section $section
  * @property RequirementVersion[] $versions
  * @property RequirementVersion $lastVersion
@@ -54,7 +46,7 @@ class Requirement extends Item
         return [
             [['name', 'category', 'created', 'status', 'priority', 'project_id', 'type'], 'required'],
             [['category', 'created', 'status', 'priority', 'project_id'], 'integer'],
-            [['code'], 'string', 'max' => 255],
+            [['reference'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
@@ -68,14 +60,14 @@ class Requirement extends Item
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'code' => Yii::t('app', 'Code'),
+            'reference' => Yii::t('app', 'Reference'),
             'name' => Yii::t('app', 'Name'),
             'category' => Yii::t('app', 'Category'),
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section'),
             'status' => Yii::t('app', 'Status'),
             'priority' => Yii::t('app', 'Priority'),
-            //'lastVersionStatement' => Yii::t('app', 'Statement'),
+            //'lastVersionWording' => Yii::t('app', 'Wording'),
         ];
     }
 
@@ -151,7 +143,9 @@ class Requirement extends Item
                 'label' => Yii::t('app', 'Version'),
                 'value' => "{$this->lastVersion->version}.{$this->lastVersion->revision}",
             ],
-            'lastVersion.statement',
+            'lastVersion.title',
+            'lastVersion.wording',
+            'lastVersion.justification',
             'priority',
             [
                 'attribute' => 'created',
@@ -181,15 +175,15 @@ class Requirement extends Item
     }
     
     /**
-     * Generate a unique code for a new requirement
+     * Generate a unique reference for a new requirement
      * 
-     * @return string Generated code
+     * @return string Generated reference
      */
-    public static function generateCodeFromPattern()
+    public static function generateReferenceFromPattern()
     {
         return 'TEMP';
         
-        $pattern = '{project.name}_{document.code}_{section.code}_{serial}';
+        $pattern = '{project.name}_{document.reference}_{section.reference}_{serial}';
         
         $session = Yii::$app->session;
         $session->set('selected_project', Project::findOne('1'));
@@ -198,17 +192,17 @@ class Requirement extends Item
         
         $vars = [
             'project.name' => $session->get('selected_project')->name,
-            'document.code' => $session['selected_document']->code,
-            'section.code' => $session['selected_section']->code,
+            'document.reference' => $session['selected_document']->reference,
+            'section.reference' => $session['selected_section']->reference,
             'serial' => '01',
         ];
         
-        $code = $pattern;
+        $reference = $pattern;
         
         foreach ($vars as $key => $var) {
-            $code = str_replace('{' . $key . '}', $var, $code);
+            $reference = str_replace('{' . $key . '}', $var, $reference);
         }
         
-        return $code;
+        return $reference;
     }
 }

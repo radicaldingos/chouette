@@ -108,8 +108,8 @@ class RequirementController extends Controller
             $section = Section::findOne($model->section_id);
 
             $requirement->category = $model->category;
-            $requirement->code = $model->code;
-            $requirement->name = $model->code;
+            $requirement->reference = $model->reference;
+            $requirement->name = $model->reference;
             $requirement->priority = $model->priority;
             $requirement->status = RequirementStatus::NEW_REQUIREMENT;
             $requirement->project_id = $section->project_id;
@@ -122,7 +122,9 @@ class RequirementController extends Controller
             
             $version = new RequirementVersion;
             $version->requirement_id = $requirement->id;
-            $version->statement = $model->statement;
+            $version->title = $requirement->title;
+            $version->wording = $model->wording;
+            $version->justification = $requirement->justification;
             $version->version = 1;
             $version->revision = 0;
             $version->updated = time();
@@ -133,7 +135,7 @@ class RequirementController extends Controller
             
             return $this->redirect(['index', 'id' => $requirement->id]);
         } else {
-            $model->code = $requirement::generateCodeFromPattern();
+            $model->reference = $requirement::generateReferenceFromPattern();
         }
         
         $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
@@ -162,8 +164,8 @@ class RequirementController extends Controller
             $section = Section::findOne($requirementData['section_id']);
             
             $requirement->category = $requirementData['category'];
-            $requirement->code = $requirementData['code'];
-            $requirement->name = $requirementData['code'];
+            $requirement->reference = $requirementData['reference'];
+            $requirement->name = $requirementData['reference'];
             $requirement->priority = $requirementData['priority'];
             $requirement->status = $requirementData['status'];
             
@@ -185,7 +187,9 @@ class RequirementController extends Controller
             }
             
             $version->requirement_id = $id;
-            $version->statement = $requirementData['statement'];
+            $version->title = $requirementData['title'];
+            $version->wording = $requirementData['wording'];
+            $version->justification = $requirementData['justification'];
             if ($submit == 'version') {
                 $version->version = $requirement->lastVersion->version + 1;
                 $version->revision = 0;
@@ -202,8 +206,10 @@ class RequirementController extends Controller
             return $this->redirect(['index']);
         }
         
-        $model->code = $requirement->code;
-        $model->statement = $requirement->lastVersion->statement;
+        $model->reference = $requirement->reference;
+        $model->title = $requirement->lastVersion->title;
+        $model->wording = $requirement->lastVersion->wording;
+        $model->justification = $requirement->lastVersion->justification;
         $model->priority = $requirement->priority;
         
         $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');

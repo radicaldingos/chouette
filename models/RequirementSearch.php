@@ -79,7 +79,7 @@ class RequirementSearch extends Requirement
         ]);
         
         $query->leftJoin('requirement_version', 'item.id = requirement_version.requirement_id')
-            ->andWhere(['LIKE', 'LOWER(requirement_version.statement)', strtolower($q)])
+            ->andWhere(['LIKE', 'LOWER(requirement_version.wording)', strtolower($q)])
             ->orderBy('updated DESC, id DESC');
 
         return $dataProvider;

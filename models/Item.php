@@ -9,11 +9,12 @@ use creocoder\nestedsets\NestedSetsBehavior;
  * This is the model class for table "item".
  *
  * @property integer $id
- * @property string $code
+ * @property string $reference
  * @property string $name
+ * @property integer $author
  * @property integer $created
- * @property integer $parent_id
  * @property integer $status
+ * @property integer $criticality
  * @property integer $priority
  * @property integer $project_id
  * @property integer $lft
@@ -45,9 +46,9 @@ class Item extends \kartik\tree\models\Tree
     public function rules()
     {
         return [
-            [['code', 'name', 'created', 'project_id', 'lft', 'rgt', 'depth', 'type'], 'required'],
+            [['reference', 'name', 'created', 'project_id', 'lft', 'rgt', 'depth', 'type'], 'required'],
             [['created', 'status', 'priority', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
-            [['code'], 'string', 'max' => 10],
+            [['reference'], 'string', 'max' => 10],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
@@ -61,7 +62,7 @@ class Item extends \kartik\tree\models\Tree
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'code' => Yii::t('app', 'Code'),
+            'reference' => Yii::t('app', 'Reference'),
             'name' => Yii::t('app', 'Name'),
             'created' => Yii::t('app', 'Created'),
             'parent_id' => Yii::t('app', 'Parent ID'),
@@ -168,7 +169,7 @@ class Item extends \kartik\tree\models\Tree
     public function getDetailAttributes()
     {
         return [
-            'code',
+            'reference',
             'name',
             'status',
             [

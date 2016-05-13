@@ -48,11 +48,13 @@ class m160327_090130_initial extends Migration
         
         $this->createTable('item', [
             'id' => 'pk',
-            'code' => "character varying(40) DEFAULT NULL",
+            'reference' => "character varying(40) DEFAULT NULL",
             'name' => "character varying(40) NOT NULL",
+            'author' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'category' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created' => Schema::TYPE_INTEGER . ' NOT NULL',
             'status' => Schema::TYPE_INTEGER . " DEFAULT NULL",
+            'criticality' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'priority' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'tree' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
@@ -81,9 +83,11 @@ class m160327_090130_initial extends Migration
         $this->createTable('requirement_version', [
             'id' => 'pk',
             'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'title' => "character varying(255) DEFAULT NULL",
             'version' => Schema::TYPE_INTEGER . " DEFAULT 1 NOT NULL",
             'revision' => Schema::TYPE_INTEGER . " DEFAULT 0 NOT NULL",
-            'statement' => "text DEFAULT NULL",
+            'wording' => "text DEFAULT NULL",
+            'justification' => "text DEFAULT NULL",
             'updated' => Schema::TYPE_INTEGER . " NOT NULL",
         ]);
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);

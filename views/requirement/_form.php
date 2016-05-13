@@ -26,9 +26,13 @@ $this->registerJs("$('#requirementform-section_id').on('change', function(){aler
         <?= $form->field($model, 'status')->dropDownList(RequirementStatus::getValues()) ?>
     <?php endif; ?>
     
-    <?= $form->field($model, 'code')->input('text') ?>
+    <?= $form->field($model, 'reference')->input('text') ?>
     
-    <?= $form->field($model, 'statement')->textarea(['style' => 'resize: vertical']) ?>
+    <?= $form->field($model, 'title')->input('text') ?>
+    
+    <?= $form->field($model, 'wording')->textarea(['style' => 'resize: vertical']) ?>
+    
+    <?= $form->field($model, 'justification')->textarea(['style' => 'resize: vertical']) ?>
     
     <?= $form->field($model, 'priority')->input('text') ?>
 
