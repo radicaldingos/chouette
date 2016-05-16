@@ -11,7 +11,7 @@ use Yii;
  * @property string $name
  * @property string $long_name
  *
- * @property Document[] $documents
+ * @property Section[] $sections
  * @property UserProject[] $userProjects
  * @property User[] $users
  */
@@ -52,9 +52,9 @@ class Project extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDocuments()
+    public function getSections()
     {
-        return $this->hasMany(Document::className(), ['project_id' => 'id']);
+        return $this->hasMany(Section::className(), ['project_id' => 'id']);
     }
 
     /**

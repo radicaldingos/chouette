@@ -8,13 +8,12 @@ use Yii;
  * This is the model class for table "section".
  *
  * @property Requirement[] $requirements
- * @property Document $document
  */
 class Section extends Item
 {
     const TYPE = 'Section';
     
-    public $document_id;
+    public $parentSectionId;
 
     public function init()
     {
@@ -40,7 +39,7 @@ class Section extends Item
     {
         return [
             [['reference', 'name', 'project_id'], 'required'],
-            [['project_id', 'document_id'], 'integer'],
+            [['project_id', 'parentSectionId'], 'integer'],
             [['reference'], 'string', 'max' => 10],
             [['name'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
@@ -57,7 +56,7 @@ class Section extends Item
             'reference' => Yii::t('app', 'Reference'),
             'name' => Yii::t('app', 'Name'),
             'created' => Yii::t('app', 'Created'),
-            'document_id' => Yii::t('app', 'Document'),
+            'parentSectionId' => Yii::t('app', 'Parent Section'),
         ];
     }
     
@@ -67,14 +66,6 @@ class Section extends Item
     public function getProject()
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDocument()
-    {
-        //return $this->hasOne(Document::className(), ['id' => 'document_id']);
     }
     
     /**
@@ -98,7 +89,7 @@ class Section extends Item
     }
     
     /**
-     * Get the section full name with document name and project name
+     * Get the section full name with sections name and project name
      * 
      * @return array
      */

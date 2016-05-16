@@ -103,8 +103,6 @@ class Item extends \kartik\tree\models\Tree
                 return new Requirement();
             case Section::TYPE:
                 return new Section();
-            case Document::TYPE:
-                return new Document();
             default:
                return new self;
         }

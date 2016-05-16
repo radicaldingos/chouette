@@ -17,7 +17,6 @@ return [
     'Testability' => 'Testabilité',
     'Constraint' => 'Contrainte',
     'Other' => 'Autre',
-    'Requirements Document' => "Dossier d'exigences",
     'General Requirements' => 'Exigences générales',
     
     'Created' => 'Créé le',
@@ -33,7 +32,6 @@ return [
     'Complete Name' => 'Nom complet',
     'Username' => 'Login',
     'Password' => 'Mot de passe',
-    'Document' => 'Document',
     'Section' => 'Section',
     'Version' => 'Version',
     'Revision' => 'Révision',
@@ -53,7 +51,6 @@ return [
     
     'Project ID' => 'Projet',
     'Create Project' => 'Nouveau projet',
-    'Create Document' => 'Nouveau document',
     'Create Section' => 'Nouvelle section',
     'Create Requirement' => 'Nouvelle exigence',
     'Create User' => 'Nouvel utilisateur',

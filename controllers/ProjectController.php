@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Document;
 use app\models\Section;
 use app\models\Project;
 use app\models\ProjectSearch;
@@ -79,20 +78,12 @@ class ProjectController extends Controller
         $model = new Project();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // Temporary create a default document and a default section
-            $document = new Document();
-            $document->reference = Yii::t('app', 'REQ');
-            $document->name = Yii::t('app', 'Requirements Document');
-            $document->project_id = $model->id;
-            $document->created = time();
-            $document->makeRoot();
-            
             $section = new Section();
-            $section->reference = Yii::t('app', 'GEN');
+            $section->reference = Yii::t('app', 'RQ');
             $section->name = Yii::t('app', 'General Requirements');
             $section->project_id = $model->id;
             $section->created = time();
-            $section->prependTo($document);
+            $section->makeRoot();
             
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

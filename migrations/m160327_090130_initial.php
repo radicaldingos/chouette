@@ -17,6 +17,11 @@ class m160327_090130_initial extends Migration
             'project_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
         ]);
         
+        $this->createTable('priority', [
+            'id' => 'pk',
+            'name' => "character varying(20) NOT NULL",
+        ]);
+        
         $this->createTable('profile', [
             'id' => 'pk',
             'name' => "character varying(40) NOT NULL",
@@ -26,6 +31,11 @@ class m160327_090130_initial extends Migration
             'id' => 'pk',
             'name' => "character varying(30) NOT NULL",
             'long_name' => "character varying(200) DEFAULT NULL",
+        ]);
+        
+        $this->createTable('status', [
+            'id' => 'pk',
+            'name' => "character varying(30) NOT NULL",
         ]);
         
         $this->createTable('user_profile', [
@@ -50,11 +60,9 @@ class m160327_090130_initial extends Migration
             'id' => 'pk',
             'reference' => "character varying(40) DEFAULT NULL",
             'name' => "character varying(40) NOT NULL",
-            'author' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'category' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created' => Schema::TYPE_INTEGER . ' NOT NULL',
             'status' => Schema::TYPE_INTEGER . " DEFAULT NULL",
-            'criticality' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'priority' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'tree' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
@@ -86,7 +94,7 @@ class m160327_090130_initial extends Migration
             'title' => "character varying(255) DEFAULT NULL",
             'version' => Schema::TYPE_INTEGER . " DEFAULT 1 NOT NULL",
             'revision' => Schema::TYPE_INTEGER . " DEFAULT 0 NOT NULL",
-            'wording' => "text DEFAULT NULL",
+            'wording' => "text NOT NULL",
             'justification' => "text DEFAULT NULL",
             'updated' => Schema::TYPE_INTEGER . " NOT NULL",
         ]);

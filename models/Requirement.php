@@ -183,16 +183,14 @@ class Requirement extends Item
     {
         return 'TEMP';
         
-        $pattern = '{project.name}_{document.reference}_{section.reference}_{serial}';
+        $pattern = '{project.name}_{section.reference}_{serial}';
         
         $session = Yii::$app->session;
         $session->set('selected_project', Project::findOne('1'));
-        $session->set('selected_document', Document::findOne('1'));
         $session->set('selected_section', Section::findOne('1'));
         
         $vars = [
             'project.name' => $session->get('selected_project')->name,
-            'document.reference' => $session['selected_document']->reference,
             'section.reference' => $session['selected_section']->reference,
             'serial' => '01',
         ];

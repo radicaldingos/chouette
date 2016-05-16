@@ -9,7 +9,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\Document;
 
 /**
  * SectionController implements the CRUD actions for Section model.
@@ -78,20 +77,20 @@ class SectionController extends Controller
         $model = new Section();
 
         if ($model->load(Yii::$app->request->post())) {
-            $document = Document::findOne($model->document_id);
+            $parentSection = Section::findOne($model->parentSectionId);
             $model->project_id = Yii::$app->session->get('user.last_project')->id;
             $model->created = time();
             $model->icon = 'folder-open';
-            $model->appendTo($document);
+            $model->appendTo($parentSection);
             
             return $this->redirect(['view', 'id' => $model->id]);
         }
         
-        $documentItems = Document::getDocumentsWithFullPath(Yii::$app->session->get('user.last_project')->id);
+        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
         
         return $this->render('create', [
             'model' => $model,
-            'documentItems' => $documentItems,
+            'sectionItems' => $sectionItems,
         ]);
     }
 
