@@ -8,17 +8,16 @@ use app\models\Requirement;
 use app\models\RequirementSearch;
 use app\models\RequirementVersion;
 use app\models\RequirementForm;
-use app\models\RequirementStatus;
-use app\models\RequirementCommentSearch;
 use app\models\RequirementCommentForm;
 use app\models\Section;
 use app\models\Priority;
+use app\models\Category;
+use app\models\Status;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use app\components\ArrayTranslatorHelper;
 use app\models\ItemSearch;
 
 /**
@@ -104,16 +103,14 @@ class RequirementController extends Controller
         $model = new RequirementForm;
         $model->isNewRecord = true;
         
-        if ($model->load(Yii::$app->request->post())
-            && $model->validate()
-        ) {
+        if ($model->load(Yii::$app->request->post())) {
             $section = Section::findOne($model->section_id);
 
-            $requirement->category = $model->category;
+            $requirement->category_id = $model->category_id;
             $requirement->reference = $model->reference;
             $requirement->name = $model->reference;
             $requirement->priority_id = $model->priority_id;
-            $requirement->status = RequirementStatus::NEW_REQUIREMENT;
+            $requirement->status_id = Status::NEW_REQUIREMENT;
             $requirement->project_id = $section->project_id;
             $requirement->created = time();
 
@@ -136,17 +133,22 @@ class RequirementController extends Controller
             }
             
             return $this->redirect(['index', 'id' => $requirement->id]);
-        } else {
-            $model->reference = $requirement::generateReferenceFromPattern();
         }
         
+        if (! $model->reference) {
+            $model->reference = $requirement::generateReferenceFromPattern();
+        }
         $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
         $priorityItems = Priority::getOrderedMappedList();
+        $categoryItems = Category::getOrderedMappedList();
+        $statusItems = Status::getOrderedMappedList();
 
         return $this->render('create', [
             'model' => $model,
             'sectionItems' => $sectionItems,
             'priorityItems' => $priorityItems,
+            'categoryItems' => $categoryItems,
+            'statusItems' => $statusItems,
         ]);
     }
 
@@ -167,11 +169,11 @@ class RequirementController extends Controller
         if ($requirementData = Yii::$app->request->post('RequirementForm')) {
             $section = Section::findOne($requirementData['section_id']);
             
-            $requirement->category = $requirementData['category'];
+            $requirement->category_id = $requirementData['category_id'];
             $requirement->reference = $requirementData['reference'];
             $requirement->name = $requirementData['reference'];
             $requirement->priority_id = $requirementData['priority_id'];
-            $requirement->status = $requirementData['status'];
+            $requirement->status_id = $requirementData['status_id'];
             
             if (! $requirement->appendTo($section)) {
                 die(print_r($requirement->getErrors()));
@@ -218,12 +220,16 @@ class RequirementController extends Controller
         
         $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');
         $priorityItems = Priority::getOrderedMappedList();
+        $categoryItems = Category::getOrderedMappedList();
+        $statusItems = Status::getOrderedMappedList();
 
         return $this->render('update', [
             'model' => $model,
             'id' => $id,
             'sectionItems' => $sectionItems,
             'priorityItems' => $priorityItems,
+            'categoryItems' => $categoryItems,
+            'statusItems' => $statusItems,
         ]);
     }
 

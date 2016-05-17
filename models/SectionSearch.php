@@ -18,7 +18,7 @@ class SectionSearch extends Section
     public function rules()
     {
         return [
-            [['id', 'category', 'created', 'status', 'priority_id', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
+            [['id', 'category_id', 'created', 'status', 'priority_id', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
             [['reference', 'name', 'icon', 'type'], 'safe'],
             [['active', 'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'boolean'],
         ];
@@ -61,7 +61,7 @@ class SectionSearch extends Section
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'category' => $this->category,
+            'category_id' => $this->category_id,
             'created' => $this->created,
             'status' => $this->status,
             'priority_id' => $this->priority_id,

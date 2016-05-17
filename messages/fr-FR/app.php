@@ -86,4 +86,6 @@ return [
     'High' => 'Haute',
     'Medium' => 'Moyenne',
     'Low' => 'Basse',
+    
+    'Select a project...' => 'Sélectionnez un projet...',
 ];

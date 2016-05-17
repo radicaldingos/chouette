@@ -7,6 +7,8 @@ use yii\helpers\Html;
 /* @var $id int */
 /* @var $sectionItems array */
 /* @var $priorityItems array */
+/* @var $categoryItems array */
+/* @var $statusItems array */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Requirement',
@@ -23,6 +25,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         'model' => $model,
         'sectionItems' => $sectionItems,
         'priorityItems' => $priorityItems,
+        'categoryItems' => $categoryItems,
+        'statusItems' => $statusItems,
     ]) ?>
 
 </div>

@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'category') ?>
+    <?= $form->field($model, 'category_id') ?>
 
     <?= $form->field($model, 'created') ?>
 

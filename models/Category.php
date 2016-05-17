@@ -6,27 +6,20 @@ use Yii;
 use app\components\ArrayTranslatorHelper;
 
 /**
- * This is the model class for table "status".
+ * This is the model class for table "category".
  *
  * @property integer $id
- * @property string $code
  * @property string $name
- * @property string $color
+ * @property integer $order
  */
-class Status extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
-    const NEW_REQUIREMENT = 1;
-    const ACCEPTED = 2;
-    const VALIDATED = 3;
-    const REFUSED = 4;
-    const IMPLEMENTED = 5;
-    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'status';
+        return 'category';
     }
 
     /**
@@ -35,10 +28,9 @@ class Status extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'name', 'color'], 'required'],
-            [['code'], 'string', 'max' => 3],
-            [['name'], 'string', 'max' => 30],
-            [['color'], 'string', 'max' => 6],
+            [['name', 'order'], 'required'],
+            [['order'], 'integer'],
+            [['name'], 'string', 'max' => 20],
         ];
     }
 
@@ -49,9 +41,8 @@ class Status extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'code' => Yii::t('app', 'Code'),
             'name' => Yii::t('app', 'Name'),
-            'color' => Yii::t('app', 'Color'),
+            'order' => Yii::t('app', 'Order'),
         ];
     }
     

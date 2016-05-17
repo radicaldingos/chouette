@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\RequirementCategory;
-use app\models\RequirementStatus;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\RequirementSearch */
@@ -29,13 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'value' => function($data){ return "{$data->section->document->name} » {$data->section->name}"; },
             ],
             [
-                'attribute' => 'type',
-                //'value' => function($data){ return RequirementCategory::getValue($data->type); },
+                'attribute' => 'category.name',
             ],
             'lastVersion.wording',
             [
-                'attribute' => 'status',
-                'value' => function($data){ return RequirementStatus::getValue($data->status); },
+                'attribute' => 'status.name',
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

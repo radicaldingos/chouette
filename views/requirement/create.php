@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\models\RequirementForm */
 /* @var $sectionItems array */
 /* @var $priorityItems array */
+/* @var $categoryItems array */
+/* @var $statusItems array */
 
 $this->title = Yii::t('app', 'Create Requirement');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Requirements'), 'url' => ['index']];
@@ -19,6 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'sectionItems' => $sectionItems,
         'priorityItems' => $priorityItems,
+        'categoryItems' => $categoryItems,
+        'statusItems' => $statusItems,
     ]) ?>
 
 </div>

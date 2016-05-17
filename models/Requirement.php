@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use app\models\Item;
-use app\models\RequirementCategory;
 
 /**
  * This is the model class for table "requirement".
@@ -45,8 +44,8 @@ class Requirement extends Item
     public function rules()
     {
         return [
-            [['name', 'category', 'created', 'status', 'priority_id', 'project_id', 'type'], 'required'],
-            [['category', 'created', 'status', 'priority_id', 'project_id'], 'integer'],
+            [['name', 'category_id', 'created', 'status_id', 'priority_id', 'project_id', 'type'], 'required'],
+            [['category_id', 'created', 'status_id', 'priority_id', 'project_id'], 'integer'],
             [['reference'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
@@ -63,10 +62,10 @@ class Requirement extends Item
             'id' => Yii::t('app', 'ID'),
             'reference' => Yii::t('app', 'Reference'),
             'name' => Yii::t('app', 'Name'),
-            'category' => Yii::t('app', 'Category'),
+            'category_id' => Yii::t('app', 'Category'),
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section'),
-            'status' => Yii::t('app', 'Status'),
+            'status_id' => Yii::t('app', 'Status'),
             'priority_id' => Yii::t('app', 'Priority'),
             //'lastVersionWording' => Yii::t('app', 'Wording'),
         ];
@@ -78,6 +77,22 @@ class Requirement extends Item
     public function getProject()
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
     
     /**
@@ -140,13 +155,12 @@ class Requirement extends Item
     {
         return [
             [
-                'attribute' => 'category',
-                'value' => RequirementCategory::getValue($this->category),
+                'label' => Yii::t('app', 'Category'),
+                'value' => Yii::t('app', $this->category->name),
             ],
             [
                 'label' => Yii::t('app', 'Status'),
-                'attribute' => 'lastVersion.status',
-                'value' => RequirementStatus::getValue($this->status),
+                'value' => Yii::t('app', $this->status->name),
             ],
             [
                 'label' => Yii::t('app', 'Version'),

@@ -7,13 +7,13 @@ use yii\base\Model;
 
 class RequirementForm extends Model
 {
-    public $category;
+    public $category_id;
     public $section_id;
     public $reference;
     public $title;
     public $wording;
     public $justification;
-    public $status;
+    public $status_id;
     public $priority_id = 1;
     public $isNewRecord;
 
@@ -23,8 +23,8 @@ class RequirementForm extends Model
     public function rules()
     {
         return [
-            [['category', 'section_id', 'reference', 'wording', 'priority_id'], 'required'],
-            [['priority_id'], 'integer'],
+            [['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id'], 'required'],
+            [['category_id', 'section_id', 'priority_id', 'status_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['wording', 'justification'], 'string'],
         ];
@@ -36,7 +36,7 @@ class RequirementForm extends Model
     public function attributeLabels()
     {
         return [
-            'category' => Yii::t('app', 'Category'),
+            'category_id' => Yii::t('app', 'Category'),
             'section_id' => Yii::t('app', 'Section'),
             'reference' => Yii::t('app', 'Reference'),
             'title' => Yii::t('app', 'Title'),
@@ -44,7 +44,7 @@ class RequirementForm extends Model
             'wording' => Yii::t('app', 'Wording'),
             'justification' => Yii::t('app', 'Justification'),
             'priority_id' => Yii::t('app', 'Priority'),
-            'status' => Yii::t('app', 'Status'),
+            'status_id' => Yii::t('app', 'Status'),
         ];
     }
 

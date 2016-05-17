@@ -8,13 +8,10 @@ class m160327_090130_initial extends Migration
     public function safeUp()
     {
         // Tables
-        $this->createTable('user', [
+        $this->createTable('category', [
             'id' => 'pk',
-            'username' => "character varying(40) NOT NULL",
-            'password' => "character varying(64) NOT NULL",
-            'auth_key' => "character varying(40) NOT NULL",
-            'access_token' => "character varying(40) NOT NULL",
-            'project_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'name' => "character varying(20) NOT NULL",
+            'order' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         
         $this->createTable('priority', [
@@ -43,6 +40,16 @@ class m160327_090130_initial extends Migration
             'order' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         
+        $this->createTable('user', [
+            'id' => 'pk',
+            'username' => "character varying(40) NOT NULL",
+            'password' => "character varying(64) NOT NULL",
+            'auth_key' => "character varying(40) NOT NULL",
+            'access_token' => "character varying(40) NOT NULL",
+            'project_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+        ]);
+        $this->createIndex('idx_user_project_id', 'user', 'project_id', false);
+        
         $this->createTable('user_profile', [
             'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'profile_id' => Schema::TYPE_INTEGER . ' NOT NULL',
@@ -65,9 +72,9 @@ class m160327_090130_initial extends Migration
             'id' => 'pk',
             'reference' => "character varying(40) DEFAULT NULL",
             'name' => "character varying(40) NOT NULL",
-            'category' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'status' => Schema::TYPE_INTEGER . " DEFAULT NULL",
+            'status_id' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'priority_id' => Schema::TYPE_INTEGER . " DEFAULT 3 NOT NULL",
             'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'tree' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
@@ -148,6 +155,46 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         
         // Default data
+        $this->insert('category', [
+            'name' => 'Functional',
+            'order' => 1,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Security',
+            'order' => 2,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Availability',
+            'order' => 3,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Performance',
+            'order' => 4,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Ergonomics',
+            'order' => 5,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Testability',
+            'order' => 6,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Constraint',
+            'order' => 7,
+        ]);
+        
+        $this->insert('category', [
+            'name' => 'Other',
+            'order' => 99,
+        ]);
+        
         $this->insert('user', [
             'username' => 'admin',
             'password' => '$2y$13$wx2PUMw9Rx5XprLE.uJ5ye0svd.znTvfGUc40zy0bMexDivWka5F6',
@@ -261,5 +308,6 @@ class m160327_090130_initial extends Migration
         $this->dropTable('profile');
         $this->dropTable('priority');
         $this->dropTable('user');
+        $this->dropTable('category');
     }
 }

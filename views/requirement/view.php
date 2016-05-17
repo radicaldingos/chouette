@@ -6,8 +6,6 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use yii\widgets\ActiveForm;
-use app\models\RequirementCategory;
-use app\models\RequirementStatus;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Requirement */
@@ -36,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 [
-                    'attribute' => 'category',
-                    'value' => RequirementCategory::getValue($model->category),
+                    'attribute' => 'category.name',
                 ],
                 /*[
                     'label' => Yii::t('app', 'Section'),
@@ -49,9 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => "{$model->lastVersion->version}.{$model->lastVersion->revision}",
                 ],
                 [
-                    'label' => Yii::t('app', 'Status'),
-                    'attribute' => 'lastVersion.status',
-                    'value' => RequirementStatus::getValue($model->status),
+                    'attribute' => 'status.name',
                 ],
                 'lastVersion.wording',
                 [
@@ -62,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'lastVersion.updated',
                     'format' => ['date', 'php:d/m/Y'],
                 ],
-                'priority',
+                'priority.name',
             ],
         ]) ?>
     </div>

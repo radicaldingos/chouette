@@ -79,7 +79,7 @@ AppAsset::register($this);
             <?php if (! Yii::$app->user->isGuest) : ?>
             <div style="float: right;">
                 <?=  Html::beginForm(['/site/select-project'], 'post', ['class' => 'breadcrumbs-form'])
-                    . Html::dropDownList('project_id', $currentProject, $projectsData, ['class' => 'form-control', 'onchange' => 'form.submit();'])
+                    . Html::dropDownList('project_id', $currentProject, $projectsData, ['class' => 'form-control', 'onchange' => 'form.submit();', 'prompt' => Yii::t('app', 'Select a project...')])
                     . Html::endForm()
                 ?>
             </div>

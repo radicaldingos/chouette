@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\RequirementCategory;
-use app\models\RequirementStatus;
 use yii\web\View;
 
 /* @var $this yii\web\View */
@@ -11,6 +9,8 @@ use yii\web\View;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $sectionItems array */
 /* @var $priorityItems array */
+/* @var $categoryItems array */
+/* @var $statusItems array */
 
 $this->registerJs("$('#requirementform-section_id').on('change', function(){alert('coucou');})", View::POS_END, 'my-options');
 ?>
@@ -19,12 +19,12 @@ $this->registerJs("$('#requirementform-section_id').on('change', function(){aler
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'category')->dropDownList(RequirementCategory::getValues()) ?>
+    <?= $form->field($model, 'category_id')->dropDownList($categoryItems) ?>
 
     <?= $form->field($model, 'section_id')->dropDownList($sectionItems) ?>
     
     <?php if (! $model->isNewRecord): ?>
-        <?= $form->field($model, 'status')->dropDownList(RequirementStatus::getValues()) ?>
+        <?= $form->field($model, 'status_id')->dropDownList($statusItems) ?>
     <?php endif; ?>
     
     <?= $form->field($model, 'reference')->input('text') ?>
