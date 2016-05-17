@@ -42,6 +42,7 @@ class SectionController extends Controller
 
     /**
      * Lists all Section models.
+     * 
      * @return mixed
      */
     public function actionIndex()
@@ -83,7 +84,7 @@ class SectionController extends Controller
             $model->icon = 'folder-open';
             $model->appendTo($parentSection);
             
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/requirement']);
         }
         
         $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
@@ -104,13 +105,22 @@ class SectionController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $parentSection = Section::findOne($model->parentSectionId);
+            $model->project_id = Yii::$app->session->get('user.last_project')->id;
+            $model->created = time();
+            $model->icon = 'folder-open';
+            $model->appendTo($parentSection);
+            
+            return $this->redirect(['/requirement']);
         }
+        
+        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
+        
+        return $this->render('update', [
+            'model' => $model,
+            'sectionItems' => $sectionItems,
+        ]);
     }
 
     /**

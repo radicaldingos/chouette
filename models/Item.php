@@ -15,7 +15,7 @@ use creocoder\nestedsets\NestedSetsBehavior;
  * @property integer $created
  * @property integer $status
  * @property integer $criticality
- * @property integer $priority
+ * @property integer $priority_id
  * @property integer $project_id
  * @property integer $lft
  * @property integer $rgt
@@ -47,7 +47,7 @@ class Item extends \kartik\tree\models\Tree
     {
         return [
             [['reference', 'name', 'created', 'project_id', 'lft', 'rgt', 'depth', 'type'], 'required'],
-            [['created', 'status', 'priority', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
+            [['created', 'status', 'priority_id', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
             [['reference'], 'string', 'max' => 10],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
@@ -67,7 +67,7 @@ class Item extends \kartik\tree\models\Tree
             'created' => Yii::t('app', 'Created'),
             'parent_id' => Yii::t('app', 'Parent ID'),
             'status' => Yii::t('app', 'Status'),
-            'priority' => Yii::t('app', 'Priority'),
+            'priority_id' => Yii::t('app', 'Priority'),
             'project_id' => Yii::t('app', 'Project ID'),
             'lft' => Yii::t('app', 'Lft'),
             'rgt' => Yii::t('app', 'Rgt'),
@@ -178,7 +178,7 @@ class Item extends \kartik\tree\models\Tree
                 'attribute' => 'lastVersion.updated',
                 'format' => ['date', 'php:d/m/Y'],
             ],*/
-            'priority',
+            'priority_id',
         ];
     }
 

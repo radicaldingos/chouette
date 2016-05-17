@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\RequirementForm */
 /* @var $id int */
 /* @var $sectionItems array */
+/* @var $priorityItems array */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Requirement',
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     <?= $this->render('_form', [
         'model' => $model,
         'sectionItems' => $sectionItems,
+        'priorityItems' => $priorityItems,
     ]) ?>
 
 </div>

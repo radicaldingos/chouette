@@ -12,11 +12,13 @@ use app\models\RequirementStatus;
 use app\models\RequirementCommentSearch;
 use app\models\RequirementCommentForm;
 use app\models\Section;
+use app\models\Priority;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use app\components\ArrayTranslatorHelper;
 use app\models\ItemSearch;
 
 /**
@@ -110,7 +112,7 @@ class RequirementController extends Controller
             $requirement->category = $model->category;
             $requirement->reference = $model->reference;
             $requirement->name = $model->reference;
-            $requirement->priority = $model->priority;
+            $requirement->priority_id = $model->priority_id;
             $requirement->status = RequirementStatus::NEW_REQUIREMENT;
             $requirement->project_id = $section->project_id;
             $requirement->created = time();
@@ -122,9 +124,9 @@ class RequirementController extends Controller
             
             $version = new RequirementVersion;
             $version->requirement_id = $requirement->id;
-            $version->title = $requirement->title;
+            $version->title = $model->title;
             $version->wording = $model->wording;
-            $version->justification = $requirement->justification;
+            $version->justification = $model->justification;
             $version->version = 1;
             $version->revision = 0;
             $version->updated = time();
@@ -139,10 +141,12 @@ class RequirementController extends Controller
         }
         
         $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
+        $priorityItems = Priority::getOrderedMappedList();
 
         return $this->render('create', [
             'model' => $model,
             'sectionItems' => $sectionItems,
+            'priorityItems' => $priorityItems,
         ]);
     }
 
@@ -166,11 +170,11 @@ class RequirementController extends Controller
             $requirement->category = $requirementData['category'];
             $requirement->reference = $requirementData['reference'];
             $requirement->name = $requirementData['reference'];
-            $requirement->priority = $requirementData['priority'];
+            $requirement->priority_id = $requirementData['priority_id'];
             $requirement->status = $requirementData['status'];
             
-            
-            if (! $requirement->save()) {
+            if (! $requirement->appendTo($section)) {
+                die(print_r($requirement->getErrors()));
                 throw new Exception('Error');
             }
             
@@ -210,14 +214,16 @@ class RequirementController extends Controller
         $model->title = $requirement->lastVersion->title;
         $model->wording = $requirement->lastVersion->wording;
         $model->justification = $requirement->lastVersion->justification;
-        $model->priority = $requirement->priority;
+        $model->priority_id = $requirement->priority_id;
         
         $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');
+        $priorityItems = Priority::getOrderedMappedList();
 
         return $this->render('update', [
             'model' => $model,
             'id' => $id,
             'sectionItems' => $sectionItems,
+            'priorityItems' => $priorityItems,
         ]);
     }
 

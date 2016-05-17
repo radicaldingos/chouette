@@ -18,7 +18,7 @@ class ItemSearch extends Item
     public function rules()
     {
         return [
-            [['id', 'created', 'status', 'priority', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
+            [['id', 'created', 'status', 'priority_id', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
             [['reference', 'name', 'type'], 'safe'],
         ];
     }
@@ -62,7 +62,7 @@ class ItemSearch extends Item
             'id' => $this->id,
             'created' => $this->created,
             'status' => $this->status,
-            'priority' => $this->priority,
+            'priority_id' => $this->priority_id,
             'project_id' => $this->project_id,
             'lft' => $this->lft,
             'rgt' => $this->rgt,

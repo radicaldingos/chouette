@@ -81,4 +81,9 @@ return [
     'at' => 'à',
     'REQ' => 'EXI',
     'GEN' => 'GEN',
+    
+    'Critical' => 'Critique',
+    'High' => 'Haute',
+    'Medium' => 'Moyenne',
+    'Low' => 'Basse',
 ];

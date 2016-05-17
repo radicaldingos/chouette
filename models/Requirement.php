@@ -16,6 +16,7 @@ use app\models\RequirementCategory;
  * @property RequirementComment[] $comments
  * @property RequirementEvent[] $events
  * @property RequirementVersion[] $versions
+ * @property Priority $priority
  */
 class Requirement extends Item
 {
@@ -44,8 +45,8 @@ class Requirement extends Item
     public function rules()
     {
         return [
-            [['name', 'category', 'created', 'status', 'priority', 'project_id', 'type'], 'required'],
-            [['category', 'created', 'status', 'priority', 'project_id'], 'integer'],
+            [['name', 'category', 'created', 'status', 'priority_id', 'project_id', 'type'], 'required'],
+            [['category', 'created', 'status', 'priority_id', 'project_id'], 'integer'],
             [['reference'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
@@ -66,7 +67,7 @@ class Requirement extends Item
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section'),
             'status' => Yii::t('app', 'Status'),
-            'priority' => Yii::t('app', 'Priority'),
+            'priority_id' => Yii::t('app', 'Priority'),
             //'lastVersionWording' => Yii::t('app', 'Wording'),
         ];
     }
@@ -77,6 +78,14 @@ class Requirement extends Item
     public function getProject()
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPriority()
+    {
+        return $this->hasOne(Priority::className(), ['id' => 'priority_id']);
     }
 
     /**
@@ -146,7 +155,10 @@ class Requirement extends Item
             'lastVersion.title',
             'lastVersion.wording',
             'lastVersion.justification',
-            'priority',
+            [
+                'label' => Yii::t('app', 'Priority'),
+                'value' => Yii::t('app', $this->priority->name),
+            ],
             [
                 'attribute' => 'created',
                 'format' => ['date', 'php:d/m/Y'],

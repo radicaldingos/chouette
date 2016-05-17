@@ -5,6 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\RequirementForm */
 /* @var $sectionItems array */
+/* @var $priorityItems array */
 
 $this->title = Yii::t('app', 'Create Requirement');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Requirements'), 'url' => ['index']];
@@ -17,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'sectionItems' => $sectionItems,
+        'priorityItems' => $priorityItems,
     ]) ?>
 
 </div>

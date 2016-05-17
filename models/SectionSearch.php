@@ -18,7 +18,7 @@ class SectionSearch extends Section
     public function rules()
     {
         return [
-            [['id', 'category', 'created', 'status', 'priority', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
+            [['id', 'category', 'created', 'status', 'priority_id', 'project_id', 'tree', 'lft', 'rgt', 'depth', 'icon_type'], 'integer'],
             [['reference', 'name', 'icon', 'type'], 'safe'],
             [['active', 'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'boolean'],
         ];
@@ -64,7 +64,7 @@ class SectionSearch extends Section
             'category' => $this->category,
             'created' => $this->created,
             'status' => $this->status,
-            'priority' => $this->priority,
+            'priority_id' => $this->priority_id,
             'project_id' => $this->project_id,
             'tree' => $this->tree,
             'lft' => $this->lft,

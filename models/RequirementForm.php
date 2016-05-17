@@ -14,7 +14,7 @@ class RequirementForm extends Model
     public $wording;
     public $justification;
     public $status;
-    public $priority = 1;
+    public $priority_id = 1;
     public $isNewRecord;
 
     /**
@@ -23,7 +23,10 @@ class RequirementForm extends Model
     public function rules()
     {
         return [
-            [['category', 'section_id', 'reference', 'wording', 'priority'], 'required'],
+            [['category', 'section_id', 'reference', 'wording', 'priority_id'], 'required'],
+            [['priority_id'], 'integer'],
+            [['title'], 'string', 'max' => 255],
+            [['wording', 'justification'], 'string'],
         ];
     }
 
@@ -40,7 +43,7 @@ class RequirementForm extends Model
             'version' => Yii::t('app', 'Version'),
             'wording' => Yii::t('app', 'Wording'),
             'justification' => Yii::t('app', 'Justification'),
-            'priority' => Yii::t('app', 'Priority'),
+            'priority_id' => Yii::t('app', 'Priority'),
             'status' => Yii::t('app', 'Status'),
         ];
     }

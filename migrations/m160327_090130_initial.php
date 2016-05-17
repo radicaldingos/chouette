@@ -20,6 +20,8 @@ class m160327_090130_initial extends Migration
         $this->createTable('priority', [
             'id' => 'pk',
             'name' => "character varying(20) NOT NULL",
+            'color' => "character varying(6) NOT NULL",
+            'order' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         
         $this->createTable('profile', [
@@ -35,7 +37,10 @@ class m160327_090130_initial extends Migration
         
         $this->createTable('status', [
             'id' => 'pk',
+            'code' => "character varying(3) NOT NULL",
             'name' => "character varying(30) NOT NULL",
+            'color' => "character varying(6) NOT NULL",
+            'order' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         
         $this->createTable('user_profile', [
@@ -63,7 +68,7 @@ class m160327_090130_initial extends Migration
             'category' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created' => Schema::TYPE_INTEGER . ' NOT NULL',
             'status' => Schema::TYPE_INTEGER . " DEFAULT NULL",
-            'priority' => Schema::TYPE_INTEGER . " DEFAULT NULL",
+            'priority_id' => Schema::TYPE_INTEGER . " DEFAULT 3 NOT NULL",
             'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'tree' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'lft' => Schema::TYPE_INTEGER . ' NOT NULL',
@@ -156,6 +161,77 @@ class m160327_090130_initial extends Migration
             'auth_key' => 'user',
             'access_token' => 'user',
         ]);
+        
+        $this->insert('priority', [
+            'name' => 'Low',
+            'color' => 'cccccc',
+            'order' => 4,
+        ]);
+        
+        $this->insert('priority', [
+            'name' => 'Medium',
+            'color' => 'cccccc',
+            'order' => 3,
+        ]);
+        
+        $this->insert('priority', [
+            'name' => 'High',
+            'color' => 'cccccc',
+            'order' => 2,
+        ]);
+        
+        $this->insert('priority', [
+            'name' => 'Critical',
+            'color' => 'cccccc',
+            'order' => 1,
+        ]);
+        
+        $this->insert('profile', [
+            'name' => 'Administrator',
+        ]);
+        
+        $this->insert('profile', [
+            'name' => 'Customer',
+        ]);
+        
+        $this->insert('profile', [
+            'name' => 'Developer',
+        ]);
+        
+        $this->insert('status', [
+            'code' => 'N',
+            'name' => 'New',
+            'color' => 'ffcced',
+            'order' => 1,
+        ]);
+        
+        $this->insert('status', [
+            'code' => 'A',
+            'name' => 'Accepted',
+            'color' => 'ffcced',
+            'order' => 2,
+        ]);
+        
+        $this->insert('status', [
+            'code' => 'V',
+            'name' => 'Validated',
+            'color' => 'ffcced',
+            'order' => 3,
+        ]);
+        
+        $this->insert('status', [
+            'code' => 'R',
+            'name' => 'Refused',
+            'color' => 'ffcced',
+            'order' => 4,
+        ]);
+        
+        $this->insert('status', [
+            'code' => 'I',
+            'name' => 'Implemented',
+            'color' => 'ffcced',
+            'order' => 5,
+        ]);
     }
 
     public function safeDown()
@@ -180,8 +256,10 @@ class m160327_090130_initial extends Migration
         $this->dropTable('item');
         $this->dropTable('user_project');
         $this->dropTable('user_profile');
+        $this->dropTable('status');
         $this->dropTable('project');
         $this->dropTable('profile');
+        $this->dropTable('priority');
         $this->dropTable('user');
     }
 }

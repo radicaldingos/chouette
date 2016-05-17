@@ -3,24 +3,23 @@
 namespace app\models;
 
 use Yii;
-use app\components\ArrayTranslatorHelper;
 
 /**
- * This is the model class for table "priority".
+ * This is the model class for table "status".
  *
  * @property integer $id
+ * @property string $code
  * @property string $name
  * @property string $color
- * @property integer $order
  */
-class Priority extends \yii\db\ActiveRecord
+class Status extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'priority';
+        return 'status';
     }
 
     /**
@@ -29,9 +28,9 @@ class Priority extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'color', 'order'], 'required'],
-            [['order'], 'integer'],
-            [['name'], 'string', 'max' => 20],
+            [['code', 'name', 'color'], 'required'],
+            [['code'], 'string', 'max' => 3],
+            [['name'], 'string', 'max' => 30],
             [['color'], 'string', 'max' => 6],
         ];
     }
@@ -43,16 +42,9 @@ class Priority extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'code' => Yii::t('app', 'Code'),
             'name' => Yii::t('app', 'Name'),
             'color' => Yii::t('app', 'Color'),
-            'order' => Yii::t('app', 'Order'),
         ];
-    }
-    
-    public static function getOrderedMappedList()
-    {
-        return ArrayTranslatorHelper::map(static::find()
-                ->orderBy('order')
-                ->all(), 'id', 'name');
     }
 }
