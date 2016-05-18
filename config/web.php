@@ -93,6 +93,21 @@ $config = [
             ],*/
         ],
     ],
+    // Config to force auth
+    'as beforeRequest' => [
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'actions' => ['index', 'login', 'error'],
+                'allow' => true,
+            ],
+            [
+
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+    ],
     'params' => $params,
 ];
 
