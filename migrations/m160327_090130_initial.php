@@ -99,6 +99,7 @@ class m160327_090130_initial extends Migration
             'type' => "character varying(40) NOT NULL",
         ]);
         $this->createIndex('idx_item_project_id', 'item', 'project_id', false);
+        $this->createIndex('unq_item_reference', 'item', 'reference', true);
         
         $this->createTable('requirement_version', [
             'id' => 'pk',
