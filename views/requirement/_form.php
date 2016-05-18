@@ -12,7 +12,7 @@ use kartik\tree\TreeViewInput;
 /* @var $categoryItems array */
 /* @var $statusItems array */
 
-$this->registerJs("$('#requirementform-section_id').on('change', function(){alert('coucou');})", View::POS_END, 'my-options');
+//$this->registerJs("$('#requirementform-section_id').on('change', function(){alert('ok');})", View::POS_END, 'my-options');
 ?>
 
 <div class="requirement-form">

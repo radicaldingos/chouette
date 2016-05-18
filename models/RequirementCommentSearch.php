@@ -43,8 +43,6 @@ class RequirementCommentSearch extends RequirementComment
     {
         $query = RequirementComment::find();
 
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

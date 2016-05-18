@@ -8,6 +8,8 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
+use app\models\Requirement;
+use app\models\RequirementCommentForm;
 
 /**
  * @var View       $this
@@ -89,6 +91,7 @@ $showAlert = function ($type, $body = '', $hide = true) {
     <div class="clearfix"></div>
 </div>
 
+<div class="col-sm-6">
 <div class="kv-treeview-alerts">
     <?php
     $session = Yii::$app->session;
@@ -111,29 +114,35 @@ $showAlert = function ($type, $body = '', $hide = true) {
     'model' => $node,
     'attributes' => $node->getDetailAttributes(),
 ]) ?>
+</div>
 
-<?php
-/*<div class="detailBox">
-    <div class="titleBox">
-        <label><?= Yii::t('app', 'Comments') ?></label>
+<?php if ($node instanceof Requirement): ?>
+<div class="col-sm-6">
+    <div class="detailBox">
+        <div class="titleBox">
+            <label><?= Yii::t('app', 'Comments') ?></label>
+        </div>
+        <div class="actionBox">
+            <ul class="commentList">
+                <?= ListView::widget([
+                    'dataProvider' => $node->searchForComments(),
+                    'itemOptions' => ['class' => 'item'],
+                    'itemView' => '_comment',
+                    'layout' => '{items}'
+                ]) ?>
+            </ul>
+            <?php
+            $form = ActiveForm::begin(['class' => 'form-inline', 'action' => '/requirement/post?id=' . $node->id]);
+            $commentFormModel = new RequirementCommentForm();
+            ?>
+                <div class="form-group">
+                    <?= $form->field($commentFormModel, 'comment')->input('text', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Your comments')])->label(false) ?>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default"><?= Yii::t('app', 'Add') ?></button>
+                </div>
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
-    <div class="actionBox">
-        <ul class="commentList">
-            <?= ListView::widget([
-                'dataProvider' => $commentsDataProvider,
-                'itemOptions' => ['class' => 'item'],
-                'itemView' => '_comment',
-                'layout' => '{items}'
-            ]) ?>
-        </ul>
-        <?php $form = ActiveForm::begin(['class' => 'form-inline', 'action' => '/requirement/post?id=' . $model->id]); ?>
-            <div class="form-group">
-                <?= $form->field($commentFormModel, 'comment')->input('text', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Your comments')])->label(false) ?>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-default"><?= Yii::t('app', 'Add') ?></button>
-            </div>
-        <?php ActiveForm::end(); ?>
-    </div>
-</div>*/
-?>
+</div>
+<?php endif; ?>

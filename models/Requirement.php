@@ -230,16 +230,24 @@ class Requirement extends Item
         return $reference;
     }
     
+    /**
+     * Retrieve parent section of the requirement
+     * 
+     * @return Section Parent section
+     */
     public function getSection()
     {
-        /*$condition = [
-            'and',
-            ['<', $this->leftAttribute, $this->owner->getAttribute($this->leftAttribute)],
-            ['>', $this->rightAttribute, $this->owner->getAttribute($this->rightAttribute)],
-        ];
-        
-        die(print_r($this->find()->andWhere($condition)->addOrderBy([$this->leftAttribute => SORT_ASC])));
-        return $this->find()->andWhere($condition)->addOrderBy([$this->leftAttribute => SORT_ASC]);*/
         return $this->parents(1)->one();
+    }
+    
+    /**
+     * Retrieve requirement comments
+     * 
+     * @return type
+     */
+    public function searchForComments()
+    {
+        $comment = new RequirementCommentSearch();
+        return $comment->search(['RequirementCommentSearch' => ['requirement_id' => $this->id]]);
     }
 }
