@@ -64,6 +64,7 @@ class RequirementController extends Controller
         
         $query = Item::find()->where("project_id = {$project->id}")->addOrderBy('tree, lft');
 
+        $this->layout = 'dashboard';
         return $this->render('index', [
             'id' => $id,
             'searchModel' => $searchModel,

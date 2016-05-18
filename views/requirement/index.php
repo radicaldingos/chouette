@@ -43,10 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'wrapperTemplate' => '{header}{tree}',
         'mainTemplate' => '
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         {wrapper}
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
         {detail}
     </div>
 </div>',
