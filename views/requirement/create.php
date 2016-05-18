@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RequirementForm */
-/* @var $sectionItems array */
 /* @var $priorityItems array */
 /* @var $categoryItems array */
 /* @var $statusItems array */
+/* @var $query ItemQuery */
 
 $this->title = Yii::t('app', 'Create Requirement');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Requirements'), 'url' => ['index']];
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'sectionItems' => $sectionItems,
+        'query' => $query,
         'priorityItems' => $priorityItems,
         'categoryItems' => $categoryItems,
         'statusItems' => $statusItems,

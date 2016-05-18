@@ -88,4 +88,5 @@ return [
     'Low' => 'Basse',
     
     'Select a project...' => 'Sélectionnez un projet...',
+    'Select a section...' => 'Sélectionnez une section...',
 ];

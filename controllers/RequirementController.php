@@ -138,14 +138,19 @@ class RequirementController extends Controller
         if (! $model->reference) {
             $model->reference = $requirement::generateReferenceFromPattern();
         }
-        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
         $statusItems = Status::getOrderedMappedList();
+        
+        $project = Yii::$app->session->get('user.last_project');
+        $query = Item::find()
+            ->where("project_id = {$project->id}")
+            ->andWhere("type = 'Section'")
+            ->addOrderBy('tree, lft');
 
         return $this->render('create', [
             'model' => $model,
-            'sectionItems' => $sectionItems,
+            'query' => $query,
             'priorityItems' => $priorityItems,
             'categoryItems' => $categoryItems,
             'statusItems' => $statusItems,
@@ -217,16 +222,24 @@ class RequirementController extends Controller
         $model->wording = $requirement->lastVersion->wording;
         $model->justification = $requirement->lastVersion->justification;
         $model->priority_id = $requirement->priority_id;
+        if ($section = $requirement->getSection()) {
+            $model->section_id = $section->id;
+        }
         
-        $sectionItems = ArrayHelper::map(Section::find()->all(), 'id', 'name');
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
         $statusItems = Status::getOrderedMappedList();
-
+        
+        $project = Yii::$app->session->get('user.last_project');
+        $query = Item::find()
+            ->where("project_id = {$project->id}")
+            ->andWhere("type = 'Section'")
+            ->addOrderBy('tree, lft');
+        
         return $this->render('update', [
             'model' => $model,
             'id' => $id,
-            'sectionItems' => $sectionItems,
+            'query' => $query,
             'priorityItems' => $priorityItems,
             'categoryItems' => $categoryItems,
             'statusItems' => $statusItems,

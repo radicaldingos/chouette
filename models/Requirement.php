@@ -27,10 +27,10 @@ class Requirement extends Item
         parent::init();
     }
 
-    public static function find()
+    /*public static function find()
     {
         return new ItemQuery(get_called_class(), ['type' => self::TYPE]);
-    }
+    }*/
 
     public function beforeSave($insert)
     {
@@ -228,5 +228,18 @@ class Requirement extends Item
         }
         
         return $reference;
+    }
+    
+    public function getSection()
+    {
+        /*$condition = [
+            'and',
+            ['<', $this->leftAttribute, $this->owner->getAttribute($this->leftAttribute)],
+            ['>', $this->rightAttribute, $this->owner->getAttribute($this->rightAttribute)],
+        ];
+        
+        die(print_r($this->find()->andWhere($condition)->addOrderBy([$this->leftAttribute => SORT_ASC])));
+        return $this->find()->andWhere($condition)->addOrderBy([$this->leftAttribute => SORT_ASC]);*/
+        return $this->parents(1)->one();
     }
 }

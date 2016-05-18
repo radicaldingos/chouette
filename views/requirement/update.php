@@ -1,14 +1,15 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\ItemQuery;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RequirementForm */
 /* @var $id int */
-/* @var $sectionItems array */
 /* @var $priorityItems array */
 /* @var $categoryItems array */
 /* @var $statusItems array */
+/* @var $query ItemQuery */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Requirement',
@@ -23,7 +24,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
-        'sectionItems' => $sectionItems,
+        'query' => $query,
         'priorityItems' => $priorityItems,
         'categoryItems' => $categoryItems,
         'statusItems' => $statusItems,

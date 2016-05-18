@@ -111,22 +111,6 @@ class Item extends \kartik\tree\models\Tree
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getParent()
-    {
-        return $this->hasOne(Item::className(), ['id' => 'parent_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getItems()
-    {
-        return $this->hasMany(Item::className(), ['parent_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProject()
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);

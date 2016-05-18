@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\View;
+use kartik\tree\TreeViewInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RequirementForm */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $sectionItems array */
 /* @var $priorityItems array */
 /* @var $categoryItems array */
 /* @var $statusItems array */
@@ -20,8 +20,27 @@ $this->registerJs("$('#requirementform-section_id').on('change', function(){aler
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'category_id')->dropDownList($categoryItems) ?>
-
-    <?= $form->field($model, 'section_id')->dropDownList($sectionItems) ?>
+    
+    <div class="form-group field-requirementform-category_id required">
+    <?php 
+        echo Html::label(Yii::t('app', 'Section'), 'requirementform-section_id', ['class' => 'control-label']);    
+        echo TreeViewInput::widget([
+            'model' => $model,
+            'attribute' => 'section_id',
+            'query' => $query,
+            'headingOptions' => ['label' => Yii::t('app', 'Sections')],
+            'rootOptions' => ['label'=>'<i class="fa fa-tree text-success"></i>'],
+            'fontAwesome' => true,
+            'asDropdown' => true,
+            'multiple' => false,
+            'options' => ['disabled' => false],
+            'dropdownConfig' => [
+                'input' => [
+                    'placeholder' => Yii::t('app', 'Select a section...'),
+                ],
+            ],
+        ]); ?>
+    </div>
     
     <?php if (! $model->isNewRecord): ?>
         <?= $form->field($model, 'status_id')->dropDownList($statusItems) ?>
