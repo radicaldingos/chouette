@@ -136,7 +136,9 @@ class RequirementController extends Controller
             return $this->redirect(['index', 'id' => $requirement->id]);
         }
         
+        $currentSection = Yii::$app->session->get('user.current_section');
         $model->section_id = $currentSection ? $currentSection->id : null;
+        $model->priority_id = Priority::NORMAL;
         
         if (! $model->reference) {
             $model->reference = $requirement->generateReferenceFromPattern();
