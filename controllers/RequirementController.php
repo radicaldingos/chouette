@@ -60,7 +60,7 @@ class RequirementController extends Controller
     {
         $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $project = Yii::$app->session->get('user.last_project');
+        $project = Yii::$app->session->get('user.current_project');
         
         $query = Item::find()->where("project_id = {$project->id}")->addOrderBy('tree, lft');
 
@@ -136,14 +136,16 @@ class RequirementController extends Controller
             return $this->redirect(['index', 'id' => $requirement->id]);
         }
         
+        $model->section_id = $currentSection ? $currentSection->id : null;
+        
         if (! $model->reference) {
-            $model->reference = $requirement::generateReferenceFromPattern();
+            $model->reference = $requirement->generateReferenceFromPattern();
         }
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
         $statusItems = Status::getOrderedMappedList();
         
-        $project = Yii::$app->session->get('user.last_project');
+        $project = Yii::$app->session->get('user.current_project');
         $query = Item::find()
             ->where("project_id = {$project->id}")
             ->andWhere("type = 'Section'")
@@ -231,7 +233,7 @@ class RequirementController extends Controller
         $categoryItems = Category::getOrderedMappedList();
         $statusItems = Status::getOrderedMappedList();
         
-        $project = Yii::$app->session->get('user.last_project');
+        $project = Yii::$app->session->get('user.current_project');
         $query = Item::find()
             ->where("project_id = {$project->id}")
             ->andWhere("type = 'Section'")

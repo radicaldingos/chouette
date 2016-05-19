@@ -9,6 +9,7 @@ use yii\web\View;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use app\models\Requirement;
+use app\models\Section;
 use app\models\RequirementCommentForm;
 
 /**
@@ -80,6 +81,13 @@ $showAlert = function ($type, $body = '', $hide = true) {
     return Html::tag('div', '<div>' . $body . '</div>', ['class' => $class]);
 };
 
+// Set selected section in order to make easy requirement creation
+$session = Yii::$app->session;
+if ($node instanceof Requirement) {
+    $session->set('user.current_section', $node->getSection());
+} elseif ($node instanceof Section) {
+    $session->set('user.current_section', $node);
+}
 ?>
 
 <div class="kv-detail-heading">

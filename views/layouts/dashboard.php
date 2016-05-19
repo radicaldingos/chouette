@@ -36,7 +36,7 @@ AppAsset::register($this);
         ],
         'innerContainerOptions' => ['class' => 'container-fluid'],
     ]);
-    $currentProject = Yii::$app->session->get('user.last_project') ? Yii::$app->session->get('user.last_project') : null;
+    $currentProject = Yii::$app->session->get('user.current_project') ? Yii::$app->session->get('user.current_project') : null;
     $projectsData = ArrayHelper::map(Project::find()->all(), 'id', 'name');
             
     echo Nav::widget([

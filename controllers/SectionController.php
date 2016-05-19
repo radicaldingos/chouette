@@ -79,7 +79,7 @@ class SectionController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $parentSection = Section::findOne($model->parentSectionId);
-            $model->project_id = Yii::$app->session->get('user.last_project')->id;
+            $model->project_id = Yii::$app->session->get('user.current_project')->id;
             $model->created = time();
             $model->icon = 'folder-open';
             $model->appendTo($parentSection);
@@ -87,7 +87,7 @@ class SectionController extends Controller
             return $this->redirect(['/requirement']);
         }
         
-        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
+        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.current_project')->id);
         
         return $this->render('create', [
             'model' => $model,
@@ -107,7 +107,7 @@ class SectionController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $parentSection = Section::findOne($model->parentSectionId);
-            $model->project_id = Yii::$app->session->get('user.last_project')->id;
+            $model->project_id = Yii::$app->session->get('user.current_project')->id;
             $model->created = time();
             $model->icon = 'folder-open';
             $model->appendTo($parentSection);
@@ -115,7 +115,7 @@ class SectionController extends Controller
             return $this->redirect(['/requirement']);
         }
         
-        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.last_project')->id);
+        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.current_project')->id);
         
         return $this->render('update', [
             'model' => $model,

@@ -205,29 +205,28 @@ class Requirement extends Item
      * 
      * @return string Generated reference
      */
-    public static function generateReferenceFromPattern()
+    public function generateReferenceFromPattern()
     {
-        return 'TEMP';
-        
         $pattern = '{project.name}_{section.reference}_{serial}';
         
-        $session = Yii::$app->session;
-        $session->set('selected_project', Project::findOne('1'));
-        $session->set('selected_section', Section::findOne('1'));
+        $project = Yii::$app->session->get('user.current_project');
+        $section = Yii::$app->session->get('user.current_section');
         
         $vars = [
-            'project.name' => $session->get('selected_project')->name,
-            'section.reference' => $session['selected_section']->reference,
+            'project.name' => $project ? $project->name : Yii::t('app', 'PROJECT'),
+            'section.reference' => $section ? $section->reference : Yii::t('app', 'SECTION'),
             'serial' => '01',
         ];
         
-        $reference = $pattern;
+        $generatedRef = $pattern;
         
         foreach ($vars as $key => $var) {
-            $reference = str_replace('{' . $key . '}', $var, $reference);
+            $generatedRef = str_replace('{' . $key . '}', $var, $generatedRef);
         }
         
-        return $reference;
+        $this->reference = $generatedRef;
+        
+        return $this->reference;
     }
     
     /**
