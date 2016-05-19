@@ -104,7 +104,9 @@ class RequirementController extends Controller
         $model = new RequirementForm;
         $model->isNewRecord = true;
         
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()
+            && $model->validate())
+        ) {
             $section = Section::findOne($model->section_id);
 
             $requirement->category_id = $model->category_id;
@@ -227,6 +229,7 @@ class RequirementController extends Controller
         $model->wording = $requirement->lastVersion->wording;
         $model->justification = $requirement->lastVersion->justification;
         $model->priority_id = $requirement->priority_id;
+        $model->status_id = $requirement->status_id;
         if ($section = $requirement->getSection()) {
             $model->section_id = $section->id;
         }
@@ -296,7 +299,7 @@ class RequirementController extends Controller
             $requirement->addComment($model);
         }
         
-        return $this->redirect(['view', 'id' => $id]);
+        return $this->redirect(['index', 'id' => $id]);
     }
 
     /**
