@@ -15,6 +15,11 @@ use app\components\ArrayTranslatorHelper;
  */
 class Priority extends \yii\db\ActiveRecord
 {
+    const LOW = 1;
+    const NORMAL = 2;
+    const HIGH = 3;
+    const CRITICAL = 4;
+    
     /**
      * @inheritdoc
      */

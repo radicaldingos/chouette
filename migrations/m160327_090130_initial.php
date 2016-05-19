@@ -217,7 +217,7 @@ class m160327_090130_initial extends Migration
         ]);
         
         $this->insert('priority', [
-            'name' => 'Medium',
+            'name' => 'Normal',
             'color' => 'cccccc',
             'order' => 3,
         ]);
