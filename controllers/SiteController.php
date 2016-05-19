@@ -64,7 +64,7 @@ class SiteController extends Controller
             // Setting last project in session
             $identity = Yii::$app->user->getIdentity();
             $lastProject = $identity->lastProject;
-            Yii::$app->session->set('user.last_project', $lastProject);
+            Yii::$app->session->set('user.current_project', $lastProject);
 
             return $this->goBack();
         }
@@ -113,7 +113,7 @@ class SiteController extends Controller
         $identity->save();        
         
         $lastProject = $identity->lastProject;
-        Yii::$app->session->set('user.last_project', $lastProject);
+        Yii::$app->session->set('user.current_project', $lastProject);
         
         return $this->redirect('/requirement');
     }
