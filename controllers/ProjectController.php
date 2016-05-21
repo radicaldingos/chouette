@@ -91,10 +91,12 @@ class ProjectController extends Controller
             
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+           $model->requirement_pattern = '{project.name}_{section.reference}_{serial}';
         }
+        
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

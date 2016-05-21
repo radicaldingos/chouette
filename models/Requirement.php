@@ -209,8 +209,6 @@ class Requirement extends Item
      */
     public static function generateReferenceFromPattern()
     {
-        $pattern = '{project.name}_{section.reference}_{serial}';
-        
         $project = Yii::$app->session->get('user.current_project');
         $section = Yii::$app->session->get('user.current_section');
         
@@ -219,8 +217,8 @@ class Requirement extends Item
             'section.reference' => $section ? $section->reference : Yii::t('app', 'SECTION'),
             'serial' => '%',
         ];
-        
-        $generatedRef = $pattern;
+
+        $generatedRef = $project->requirement_pattern;
         
         foreach ($vars as $key => $var) {
             $generatedRef = str_replace('{' . $key . '}', $var, $generatedRef);

@@ -30,6 +30,7 @@ class m160327_090130_initial extends Migration
             'id' => 'pk',
             'name' => "character varying(30) NOT NULL",
             'long_name' => "character varying(200) DEFAULT NULL",
+            'requirement_pattern' => "character varying(100) NOT NULL",
         ]);
         
         $this->createTable('status', [

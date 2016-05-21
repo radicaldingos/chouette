@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $long_name
+ * @property string $requirement_pattern
  *
  * @property Section[] $sections
  * @property UserProject[] $userProjects
@@ -31,9 +32,10 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'requirement_pattern'], 'required'],
             [['name'], 'string', 'max' => 30],
             [['long_name'], 'string', 'max' => 200],
+            [['requirement_pattern'], 'string', 'max' => 100],
         ];
     }
 
@@ -46,6 +48,7 @@ class Project extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'long_name' => Yii::t('app', 'Complete Name'),
+            'requirement_pattern' => Yii::t('app', 'Requirement Pattern'),
         ];
     }
 
