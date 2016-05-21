@@ -190,6 +190,10 @@ thead > tr {
     background: ghostwhite;
 }
 
-.node-icon {
+.node-icon .glyphicon-folder-open {
+    color: orange;
+}
+
+.node-icon .glyphicon-file {
     color: steelblue;
 }
