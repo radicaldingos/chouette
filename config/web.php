@@ -32,6 +32,7 @@ $config = [
                     //'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
+                        'app/success' => 'success.php',
                         'app/error' => 'error.php',
                     ],
                 ],
