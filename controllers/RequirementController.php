@@ -148,7 +148,7 @@ class RequirementController extends Controller
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been created.'));
                 return $this->redirect(['index', 'id' => $requirement->id]);
             } catch (Exception $e) {
-                Yii::$app->getSession()->setFlash('error', Yii::t('app', $e->getMessage()));
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
             }
         } else {
             // GET, setting default values
@@ -249,7 +249,7 @@ class RequirementController extends Controller
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been updated.'));
                 return $this->redirect(['index', 'id' => $requirement->id]);
             } catch (Exception $e) {
-                Yii::$app->getSession()->setFlash('error', Yii::t('app', $e->getMessage()));
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
             }
         } else {
             // GET, setting default values
