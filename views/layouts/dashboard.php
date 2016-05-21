@@ -90,6 +90,8 @@ AppAsset::register($this);
             ]) ?>
         </div>
         
+        <?php echo $this->render('_flash'); ?>
+        
         <?= $content ?>
     </div>
 </div>
