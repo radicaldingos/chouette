@@ -18,7 +18,7 @@ class ItemSearch extends Item
     public function rules()
     {
         return [
-            [['id', 'created', 'status_id', 'priority_id', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
+            [['id', 'created', 'priority_id', 'project_id', 'lft', 'rgt', 'depth'], 'integer'],
             [['reference', 'name', 'type'], 'safe'],
         ];
     }
@@ -61,7 +61,6 @@ class ItemSearch extends Item
         $query->andFilterWhere([
             'id' => $this->id,
             'created' => $this->created,
-            'status_id' => $this->status_id,
             'priority_id' => $this->priority_id,
             'project_id' => $this->project_id,
             'lft' => $this->lft,

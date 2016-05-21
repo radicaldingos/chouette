@@ -62,7 +62,7 @@ class RequirementVersionSearch extends RequirementVersion
             'id' => $this->id,
             'requirement_id' => $this->requirement_id,
             'updated' => $this->updated,
-            'status' => $this->status,
+            'status_id' => $this->status_id,
         ]);
 
         $query->andFilterWhere(['like', 'reference', $this->reference])

@@ -124,7 +124,6 @@ class RequirementController extends Controller
                 $requirement->reference = $model->reference;
                 $requirement->name = $model->reference;
                 $requirement->priority_id = $model->priority_id;
-                $requirement->status_id = Status::NEW_REQUIREMENT;
                 $requirement->project_id = $section->project_id;
                 $requirement->created = time();
 
@@ -139,6 +138,7 @@ class RequirementController extends Controller
                 $version->justification = $model->justification;
                 $version->version = 1;
                 $version->revision = 0;
+                $version->status_id = Status::NEW_REQUIREMENT;
                 $version->updated = time();
 
                 if (! $version->save()) {
@@ -211,7 +211,6 @@ class RequirementController extends Controller
                 $requirement->reference = $model->reference;
                 $requirement->name = $model->reference;
                 $requirement->priority_id = $model->priority_id;
-                $requirement->status_id = $model->status_id;
 
                 if (! $requirement->appendTo($section)) {
                     throw new Exception('Error while saving requirement.');
@@ -240,6 +239,7 @@ class RequirementController extends Controller
                     $version->version = $requirement->lastVersion->version;
                     $version->revision = $requirement->lastVersion->revision + 1;
                 }
+                $version->status_id = $model->status_id;
                 $version->updated = time();
 
                 if (! $version->save()) {
@@ -258,7 +258,7 @@ class RequirementController extends Controller
             $model->wording = $requirement->lastVersion->wording;
             $model->justification = $requirement->lastVersion->justification;
             $model->priority_id = $requirement->priority_id;
-            $model->status_id = $requirement->status_id;
+            $model->status_id = $requirement->lastVersion->status_id;
             if ($section = $requirement->getSection()) {
                 $model->section_id = $section->id;
             }

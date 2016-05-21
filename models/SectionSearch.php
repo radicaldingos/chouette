@@ -63,7 +63,6 @@ class SectionSearch extends Section
             'id' => $this->id,
             'category_id' => $this->category_id,
             'created' => $this->created,
-            'status' => $this->status,
             'priority_id' => $this->priority_id,
             'project_id' => $this->project_id,
             'tree' => $this->tree,

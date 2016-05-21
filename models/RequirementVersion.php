@@ -34,8 +34,8 @@ class RequirementVersion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['requirement_id', 'wording', 'updated'], 'required'],
-            [['requirement_id', 'version', 'revision', 'updated'], 'integer'],
+            [['requirement_id', 'wording', 'status_id', 'updated'], 'required'],
+            [['requirement_id', 'version', 'revision', 'status_id', 'updated'], 'integer'],
             [['title', 'wording', 'justification'], 'string'],
             [['requirement_id'], 'exist', 'skipOnError' => true, 'targetClass' => Requirement::className(), 'targetAttribute' => ['requirement_id' => 'id']],
         ];
@@ -54,6 +54,7 @@ class RequirementVersion extends \yii\db\ActiveRecord
             'revision' => Yii::t('app', 'Revision'),
             'wording' => Yii::t('app', 'Wording'),
             'justification' => Yii::t('app', 'Justification'),
+            'status_id' => Yii::t('app', 'Status'),
             'updated' => Yii::t('app', 'Updated'),
         ];
     }
@@ -64,5 +65,13 @@ class RequirementVersion extends \yii\db\ActiveRecord
     public function getRequirement()
     {
         return $this->hasOne(Requirement::className(), ['id' => 'requirement_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
 }

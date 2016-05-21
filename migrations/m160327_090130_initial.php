@@ -75,7 +75,6 @@ class m160327_090130_initial extends Migration
             'name' => "character varying(40) NOT NULL",
             'category_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'status_id' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'priority_id' => Schema::TYPE_INTEGER . " DEFAULT 3 NOT NULL",
             'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'tree' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
@@ -110,9 +109,11 @@ class m160327_090130_initial extends Migration
             'revision' => Schema::TYPE_INTEGER . " DEFAULT 0 NOT NULL",
             'wording' => "text NOT NULL",
             'justification' => "text DEFAULT NULL",
+            'status_id' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'updated' => Schema::TYPE_INTEGER . " NOT NULL",
         ]);
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);
+        $this->createIndex('idx_requirement_version_status_id', 'requirement_version', 'status_id', false);
         
         $this->createTable('requirement_event', [
             'id' => 'pk',

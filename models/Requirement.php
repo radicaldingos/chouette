@@ -44,8 +44,8 @@ class Requirement extends Item
     public function rules()
     {
         return [
-            [['name', 'category_id', 'created', 'status_id', 'priority_id', 'project_id', 'type'], 'required'],
-            [['category_id', 'created', 'status_id', 'priority_id', 'project_id'], 'integer'],
+            [['name', 'category_id', 'created', 'priority_id', 'project_id', 'type'], 'required'],
+            [['category_id', 'created', 'priority_id', 'project_id'], 'integer'],
             [['reference'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
@@ -65,7 +65,6 @@ class Requirement extends Item
             'category_id' => Yii::t('app', 'Category'),
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section'),
-            'status_id' => Yii::t('app', 'Status'),
             'priority_id' => Yii::t('app', 'Priority'),
         ];
     }
@@ -84,14 +83,6 @@ class Requirement extends Item
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
-    }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getStatus()
-    {
-        return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
     
     /**
@@ -159,7 +150,7 @@ class Requirement extends Item
             ],
             [
                 'label' => Yii::t('app', 'Status'),
-                'value' => Yii::t('app', $this->status->name),
+                'value' => Yii::t('app', $this->lastVersion->status->name),
             ],
             [
                 'label' => Yii::t('app', 'Version'),
