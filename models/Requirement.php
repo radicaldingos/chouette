@@ -67,7 +67,6 @@ class Requirement extends Item
             'section_id' => Yii::t('app', 'Section'),
             'status_id' => Yii::t('app', 'Status'),
             'priority_id' => Yii::t('app', 'Priority'),
-            //'lastVersionWording' => Yii::t('app', 'Wording'),
         ];
     }
 
@@ -203,6 +202,9 @@ class Requirement extends Item
     /**
      * Generate a unique reference for a new requirement
      * 
+     * If serial number is needed, the next serial available is determined by
+     * searching the last serial giver.
+     * 
      * @return string Generated reference
      */
     public static function generateReferenceFromPattern()
@@ -215,13 +217,33 @@ class Requirement extends Item
         $vars = [
             'project.name' => $project ? $project->name : Yii::t('app', 'PROJECT'),
             'section.reference' => $section ? $section->reference : Yii::t('app', 'SECTION'),
-            'serial' => '01',
+            'serial' => '%',
         ];
         
         $generatedRef = $pattern;
         
         foreach ($vars as $key => $var) {
             $generatedRef = str_replace('{' . $key . '}', $var, $generatedRef);
+        }
+        
+        if ($x = strpos($generatedRef, '%')) {
+            // We try do determine the last serial given to define the next serial
+            // available
+            $last = Requirement::find()
+                ->where('reference LIKE :ref', ['ref' => $generatedRef])
+                ->orderBy('reference DESC')
+                ->limit(1)
+                ->one();
+            
+            if ($last) {
+                $lastReference = $last->reference;
+                $lastSerial = (int) substr($lastReference, $x, 2);
+                $nextSerial = str_pad($lastSerial + 1, 2, '0', STR_PAD_LEFT);
+            } else {
+                $nextSerial = '01';
+            }
+            
+            $generatedRef = str_replace('%', $nextSerial, $generatedRef);
         }
         
         return $generatedRef;
