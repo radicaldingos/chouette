@@ -6,10 +6,13 @@
 /* @var $item  */
 
 use yii\helpers\Html;
+
+// Create user avatar
+$userAvatar = strtoupper(substr($model->user->username, 0, 1));
 ?>
 <li>
     <div class="avatar">
-        <div class="no-avatar"><?= strtoupper(substr(Yii::$app->user->identity->username, 0, 1)) ?></div>
+        <div class="no-avatar"><?= $userAvatar ?></div>
         <!-- <img src="" /> -->
     </div>
     <div class="commentText">
