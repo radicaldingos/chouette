@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use kartik\tree\TreeView;
-use app\models\Item;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ItemSearch */
+/* @var $id int */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Requirements');
@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= TreeView::widget([
         'query' => $query,
         'displayValue' => $id,
+        'emptyNodeMsg' => 'Node not found',
         'headingOptions' => ['label' => Yii::t('app', 'Requirements')],
         'fontAwesome' => false,
         'isAdmin' => false,

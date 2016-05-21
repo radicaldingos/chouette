@@ -100,24 +100,6 @@ if ($node instanceof Requirement) {
 </div>
 
 <div class="col-sm-6">
-<div class="kv-treeview-alerts">
-    <?php
-    $session = Yii::$app->session;
-    if ($session->hasFlash('success')) {
-        echo $showAlert('success', $session->getFlash('success'), false);
-    } else {
-        echo $showAlert('success');
-    }
-    if ($session->hasFlash('error')) {
-        echo $showAlert('danger', $session->getFlash('error'), false);
-    } else {
-        echo $showAlert('danger');
-    }
-    echo $showAlert('warning');
-    echo $showAlert('info');
-    ?>
-</div>
-
 <?= DetailView::widget([
     'model' => $node,
     'attributes' => $node->getDetailAttributes(),

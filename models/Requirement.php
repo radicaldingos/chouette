@@ -205,7 +205,7 @@ class Requirement extends Item
      * 
      * @return string Generated reference
      */
-    public function generateReferenceFromPattern()
+    public static function generateReferenceFromPattern()
     {
         $pattern = '{project.name}_{section.reference}_{serial}';
         
@@ -224,9 +224,7 @@ class Requirement extends Item
             $generatedRef = str_replace('{' . $key . '}', $var, $generatedRef);
         }
         
-        $this->reference = $generatedRef;
-        
-        return $this->reference;
+        return $generatedRef;
     }
     
     /**

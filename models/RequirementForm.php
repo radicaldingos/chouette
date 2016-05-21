@@ -7,6 +7,9 @@ use yii\base\Model;
 
 class RequirementForm extends Model
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+    
     public $category_id;
     public $section_id;
     public $reference;
@@ -23,7 +26,8 @@ class RequirementForm extends Model
     public function rules()
     {
         return [
-            [['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id'], 'required'],
+            [['category_id', 'section_id', 'reference', 'wording', 'priority_id'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['category_id', 'section_id', 'priority_id', 'status_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['wording', 'justification'], 'string'],
@@ -45,6 +49,17 @@ class RequirementForm extends Model
             'justification' => Yii::t('app', 'Justification'),
             'priority_id' => Yii::t('app', 'Priority'),
             'status_id' => Yii::t('app', 'Status'),
+        ];
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_CREATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'title', 'justification'],
+            self::SCENARIO_UPDATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id', 'title', 'justification'],
         ];
     }
 

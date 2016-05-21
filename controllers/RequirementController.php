@@ -3,22 +3,22 @@
 namespace app\controllers;
 
 use Yii;
+use yii\base\Exception;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\models\Item;
+use app\models\ItemSearch;
 use app\models\Requirement;
+use app\models\RequirementCommentForm;
+use app\models\RequirementForm;
 use app\models\RequirementSearch;
 use app\models\RequirementVersion;
-use app\models\RequirementForm;
-use app\models\RequirementCommentForm;
-use app\models\Section;
-use app\models\Priority;
 use app\models\Category;
+use app\models\Priority;
+use app\models\Section;
 use app\models\Status;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use app\models\ItemSearch;
 
 /**
  * RequirementController implements the CRUD actions for Requirement model.
@@ -62,7 +62,9 @@ class RequirementController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $project = Yii::$app->session->get('user.current_project');
         
-        $query = Item::find()->where("project_id = {$project->id}")->addOrderBy('tree, lft');
+        $query = Item::find()
+            ->where("project_id = {$project->id}")
+            ->addOrderBy('tree, lft');
 
         $this->layout = 'dashboard';
         return $this->render('index', [
@@ -100,55 +102,70 @@ class RequirementController extends Controller
      */
     public function actionCreate()
     {
-        $requirement = new Requirement;
-        $model = new RequirementForm;
+        $model = new RequirementForm([
+            'scenario' => RequirementForm::SCENARIO_CREATE,
+        ]);
         $model->isNewRecord = true;
         
-        if ($model->load(Yii::$app->request->post()
-            && $model->validate())
-        ) {
-            $section = Section::findOne($model->section_id);
+        if ($model->load(Yii::$app->request->post())) {
+            // POST
+            try {
+                if (! $model->validate()) {
+                    throw new Exception('Invalid form');
+                }
 
-            $requirement->category_id = $model->category_id;
-            $requirement->reference = $model->reference;
-            $requirement->name = $model->reference;
-            $requirement->priority_id = $model->priority_id;
-            $requirement->status_id = Status::NEW_REQUIREMENT;
-            $requirement->project_id = $section->project_id;
-            $requirement->created = time();
+                $section = Section::findOne($model->section_id);
+                if (! $section) {
+                    throw new Exception('Invalid section.');
+                }
 
-            if (! $requirement->appendTo($section)) {
-                die(print_r($requirement->getErrors()));
-                throw new Exception('Error');
+                $requirement = new Requirement;
+                $requirement->category_id = $model->category_id;
+                $requirement->reference = $model->reference;
+                $requirement->name = $model->reference;
+                $requirement->priority_id = $model->priority_id;
+                $requirement->status_id = Status::NEW_REQUIREMENT;
+                $requirement->project_id = $section->project_id;
+                $requirement->created = time();
+
+                if (! $requirement->appendTo($section)) {
+                    throw new Exception('Error while saving requirement.');
+                }
+
+                $version = new RequirementVersion;
+                $version->requirement_id = $requirement->id;
+                $version->title = $model->title;
+                $version->wording = $model->wording;
+                $version->justification = $model->justification;
+                $version->version = 1;
+                $version->revision = 0;
+                $version->updated = time();
+
+                if (! $version->save()) {
+                    throw new Exception('Error while saving requirement version.');
+                }
+
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been created.'));
+                return $this->redirect(['index', 'id' => $requirement->id]);
+            } catch (Exception $e) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', $e->getMessage()));
             }
-            
-            $version = new RequirementVersion;
-            $version->requirement_id = $requirement->id;
-            $version->title = $model->title;
-            $version->wording = $model->wording;
-            $version->justification = $model->justification;
-            $version->version = 1;
-            $version->revision = 0;
-            $version->updated = time();
-            
-            if (! $version->save()) {
-                throw new Exception('Error');
+        } else {
+            // GET, setting default values
+            $currentSection = Yii::$app->session->get('user.current_section');
+            $model->section_id = $currentSection ? $currentSection->id : null;
+            $model->priority_id = Priority::NORMAL;
+            if (! $model->reference) {
+                $model->reference = Requirement::generateReferenceFromPattern();
             }
-            
-            return $this->redirect(['index', 'id' => $requirement->id]);
         }
         
-        $currentSection = Yii::$app->session->get('user.current_section');
-        $model->section_id = $currentSection ? $currentSection->id : null;
-        $model->priority_id = Priority::NORMAL;
-        
-        if (! $model->reference) {
-            $model->reference = $requirement->generateReferenceFromPattern();
-        }
+        // Get items for HTML selects
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
-        $statusItems = Status::getOrderedMappedList();
+        $statusItems   = Status::getOrderedMappedList();
         
+        // Get items for treeview
         $project = Yii::$app->session->get('user.current_project');
         $query = Item::find()
             ->where("project_id = {$project->id}")

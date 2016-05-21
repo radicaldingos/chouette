@@ -9,7 +9,9 @@ require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 
 $config = require(__DIR__ . '/../config/web.php');
 
+// Added fast debug tools
 if (YII_ENV_DEV) {
     require(__DIR__ . '/../components/debug.php');
 }
+
 (new yii\web\Application($config))->run();
