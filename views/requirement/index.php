@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'headingOptions' => ['label' => Yii::t('app', 'Requirements')],
         'fontAwesome' => false,
         'isAdmin' => false,
-        'displayValue' => 1,
         'softDelete' => true,
         'cacheSettings' => [        
             'enableCache' => true,
