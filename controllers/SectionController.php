@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\base\Exception;
+use yii\db\IntegrityException;
 
 /**
  * SectionController implements the CRUD actions for Section model.
@@ -78,13 +80,21 @@ class SectionController extends Controller
         $model = new Section();
 
         if ($model->load(Yii::$app->request->post())) {
-            $parentSection = Section::findOne($model->parentSectionId);
-            $model->project_id = Yii::$app->session->get('user.current_project')->id;
-            $model->created = time();
-            $model->icon = 'folder-open';
-            $model->appendTo($parentSection);
-            
-            return $this->redirect(['/requirement']);
+            // POST
+            try {
+                $parentSection = Section::findOne($model->parentSectionId);
+                $model->project_id = Yii::$app->session->get('user.current_project')->id;
+                $model->created = time();
+                $model->icon = 'folder-open';
+                $model->appendTo($parentSection);
+
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section has been created.'));
+                return $this->redirect(['/requirement', 'id' => $model->id]);
+            } catch (IntegrityException $e) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/error', 'Reference must be unique for a given project.'));
+            } catch (Exception $e) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
+            }
         }
         
         $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.current_project')->id);
@@ -106,13 +116,21 @@ class SectionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $parentSection = Section::findOne($model->parentSectionId);
-            $model->project_id = Yii::$app->session->get('user.current_project')->id;
-            $model->created = time();
-            $model->icon = 'folder-open';
-            $model->appendTo($parentSection);
-            
-            return $this->redirect(['/requirement']);
+            // POST
+            try {
+                $parentSection = Section::findOne($model->parentSectionId);
+                $model->project_id = Yii::$app->session->get('user.current_project')->id;
+                $model->created = time();
+                $model->icon = 'folder-open';
+                $model->appendTo($parentSection);
+
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section has been updated.'));
+                return $this->redirect(['/requirement', 'id' => $model->id]);
+            } catch (IntegrityException $e) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/error', 'Reference must be unique for a given project.'));
+            } catch (Exception $e) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
+            }
         }
         
         $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.current_project')->id);
