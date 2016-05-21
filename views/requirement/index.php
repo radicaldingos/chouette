@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Section'), ['section/create'], ['class' => 'btn btn-info']) ?>
         <?= Html::a(Yii::t('app', 'Create Requirement'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Section'), ['section/create'], ['class' => 'btn btn-info']) ?>
     </p>
     
     <?= TreeView::widget([
