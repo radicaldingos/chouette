@@ -25,6 +25,8 @@ use yii\web\NotFoundHttpException;
  */
 class RequirementController extends Controller
 {
+    public $layout = 'dashboard';
+    
     /**
      * @inheritdoc
      */
@@ -66,7 +68,6 @@ class RequirementController extends Controller
             ->where("project_id = {$project->id}")
             ->addOrderBy('tree, lft');
 
-        $this->layout = 'dashboard';
         return $this->render('index', [
             'id' => $id,
             'searchModel' => $searchModel,
