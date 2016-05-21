@@ -90,7 +90,7 @@ AppAsset::register($this);
             ]) ?>
         </div>
         
-        <?php echo $this->render('_flash'); ?>
+        <?= $this->render('dashboard/_flash') ?>
         
         <?= $content ?>
     </div>
