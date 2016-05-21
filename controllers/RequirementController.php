@@ -96,7 +96,7 @@ class RequirementController extends Controller
      * Creates a new Requirement model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * 
-     * A requirement is created at version 1, revision 0.
+     * A requirement is created at version 1, revision 0, with status "New".
      * 
      * @return mixed
      */
@@ -184,77 +184,92 @@ class RequirementController extends Controller
     /**
      * Updates an existing Requirement model.
      * 
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * 
      * @param integer $id
      * 
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $model = new RequirementForm;
+        $model = new RequirementForm([
+            'scenario' => RequirementForm::SCENARIO_UPDATE,
+        ]);
         $requirement = $this->findModel($id);
         
-        if ($requirementData = Yii::$app->request->post('RequirementForm')) {
-            $section = Section::findOne($requirementData['section_id']);
-            
-            $requirement->category_id = $requirementData['category_id'];
-            $requirement->reference = $requirementData['reference'];
-            $requirement->name = $requirementData['reference'];
-            $requirement->priority_id = $requirementData['priority_id'];
-            $requirement->status_id = $requirementData['status_id'];
-            
-            if (! $requirement->appendTo($section)) {
-                die(print_r($requirement->getErrors()));
-                throw new Exception('Error');
-            }
-            
-            $submit = Yii::$app->request->post('sub');
-            if ($submit == 'version'
-                || $submit == 'revision'
-            ) {
-                // If user decide to version or revision the change, we create a
-                // new version of the requirement
-                $version = new RequirementVersion;
-            } else {
-                // We update the current version
-                $version = $requirement->lastVersion;
-            }
-            
-            $version->requirement_id = $id;
-            $version->title = $requirementData['title'];
-            $version->wording = $requirementData['wording'];
-            $version->justification = $requirementData['justification'];
-            if ($submit == 'version') {
-                $version->version = $requirement->lastVersion->version + 1;
-                $version->revision = 0;
-            } elseif ($submit == 'revision') {
-                $version->version = $requirement->lastVersion->version;
-                $version->revision = $requirement->lastVersion->revision + 1;
-            }
-            $version->updated = time();
-
-            if (! $version->save()) {
-                throw new Exception('Error');
-            }
+        if ($model->load(Yii::$app->request->post())) {
+            // POST
+            try {
+                if (! $model->validate()) {
+                    throw new Exception('Invalid form');
+                }
                 
-            return $this->redirect(['index']);
+                $section = Section::findOne($model->section_id);
+                if (! $section) {
+                    throw new Exception('Invalid section.');
+                }
+
+                $requirement->category_id = $model->category_id;
+                $requirement->reference = $model->reference;
+                $requirement->name = $model->reference;
+                $requirement->priority_id = $model->priority_id;
+                $requirement->status_id = $model->status_id;
+
+                if (! $requirement->appendTo($section)) {
+                    throw new Exception('Error while saving requirement.');
+                }
+
+                $submit = Yii::$app->request->post('sub');
+                if ($submit == 'version'
+                    || $submit == 'revision'
+                ) {
+                    // If user decide to version or revision the change, we create a
+                    // new version of the requirement
+                    $version = new RequirementVersion;
+                } else {
+                    // We update the current version
+                    $version = $requirement->lastVersion;
+                }
+
+                $version->requirement_id = $id;
+                $version->title = $model->title;
+                $version->wording = $model->wording;
+                $version->justification = $model->justification;
+                if ($submit == 'version') {
+                    $version->version = $requirement->lastVersion->version + 1;
+                    $version->revision = 0;
+                } elseif ($submit == 'revision') {
+                    $version->version = $requirement->lastVersion->version;
+                    $version->revision = $requirement->lastVersion->revision + 1;
+                }
+                $version->updated = time();
+
+                if (! $version->save()) {
+                    throw new Exception('Error while saving requirement version.');
+                }
+
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been updated.'));
+                return $this->redirect(['index', 'id' => $requirement->id]);
+            } catch (Exception $e) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', $e->getMessage()));
+            }
+        } else {
+            // GET, setting default values
+            $model->reference = $requirement->reference;
+            $model->title = $requirement->lastVersion->title;
+            $model->wording = $requirement->lastVersion->wording;
+            $model->justification = $requirement->lastVersion->justification;
+            $model->priority_id = $requirement->priority_id;
+            $model->status_id = $requirement->status_id;
+            if ($section = $requirement->getSection()) {
+                $model->section_id = $section->id;
+            }
         }
         
-        $model->reference = $requirement->reference;
-        $model->title = $requirement->lastVersion->title;
-        $model->wording = $requirement->lastVersion->wording;
-        $model->justification = $requirement->lastVersion->justification;
-        $model->priority_id = $requirement->priority_id;
-        $model->status_id = $requirement->status_id;
-        if ($section = $requirement->getSection()) {
-            $model->section_id = $section->id;
-        }
-        
+        // Get items for HTML selects
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
-        $statusItems = Status::getOrderedMappedList();
+        $statusItems   = Status::getOrderedMappedList();
         
+        // Get items for treeview
         $project = Yii::$app->session->get('user.current_project');
         $query = Item::find()
             ->where("project_id = {$project->id}")
@@ -288,7 +303,7 @@ class RequirementController extends Controller
     }
     
     /**
-     * Search for requirements matching with search criteria
+     * Search for requirements matching with search criteria.
      * 
      * @param string $q
      * 
@@ -305,6 +320,13 @@ class RequirementController extends Controller
         ]);
     }
     
+    /**
+     * Post a new comment on selected requirement.
+     * 
+     * @param type $id
+     * 
+     * @return mixed
+     */
     public function actionPost($id)
     {
         $model = new RequirementCommentForm();
