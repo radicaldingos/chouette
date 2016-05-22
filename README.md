@@ -6,11 +6,10 @@ A simple requirements managing tool for web developments
 Features that will be implemented in v1.0:
 - Users and profiles management
 - Projects management
-- Requirements management, with possibility to group them by sections and requirements documents
+- Requirements management, with possibility to group requirements by sections
 - Requirements versioning and revisioning
 - Comments
 - Attachment files
-- Priority
 - Full search
 - i18n
 
