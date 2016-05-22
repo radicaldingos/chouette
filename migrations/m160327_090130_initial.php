@@ -117,10 +117,12 @@ class m160327_090130_initial extends Migration
             'wording' => "text NOT NULL",
             'justification' => "text DEFAULT NULL",
             'status_id' => Schema::TYPE_INTEGER . " DEFAULT NULL",
+            'release_id' => Schema::TYPE_INTEGER . " DEFAULT NULL",
             'updated' => Schema::TYPE_INTEGER . " NOT NULL",
         ]);
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);
         $this->createIndex('idx_requirement_version_status_id', 'requirement_version', 'status_id', false);
+        $this->createIndex('idx_requirement_version_release_id', 'requirement_version', 'release_id', false);
         
         $this->createTable('requirement_log', [
             'id' => 'pk',
@@ -158,6 +160,8 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_user_project_profile_profile_id', 'user_project', 'profile_id', 'profile', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_item_project_project_id', 'item', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_version_status_status_id', 'requirement_version', 'status_id', 'status', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_version_release_release_id', 'requirement_version', 'release_id', 'release', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_log_requirement_requirement_id', 'requirement_log', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_log_user_user_id', 'requirement_log', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_comment_requirement_version_requirement_version_id', 'requirement_comment', 'requirement_version_id', 'requirement_version', 'id', 'CASCADE', 'CASCADE');
@@ -299,6 +303,8 @@ class m160327_090130_initial extends Migration
         $this->dropForeignKey('fk_user_project_project_project_id', 'user_project');
         $this->dropForeignKey('fk_user_project_profile_profile_id', 'user_project');
         $this->dropForeignKey('fk_item_project_project_id', 'item');
+        $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
+        $this->dropForeignKey('fk_requirement_version_status_status_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_log_requirement_requirement_id', 'requirement_log');
         $this->dropForeignKey('fk_requirement_log_user_user_id', 'requirement_log');
