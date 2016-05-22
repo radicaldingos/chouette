@@ -84,6 +84,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
     
     /**
+     * 
+     * @return Profile
+     */
+    public function getCurrentProfile()
+    {
+        $currentProfile = Yii::$app->session->get('user.current_profile');
+        return $currentProfile ? $currentProfile : null;
+    }
+    
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getProfiles()
@@ -179,8 +189,28 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->getPassword());
     }
     
+    
     public function getLastProject()
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    }
+    
+    /**
+     * Loading last project to user session
+     */
+    public function loadLastProject()
+    {
+        $currentProject = $this->lastProject;
+            
+        if ($currentProject) {
+            // If user has a "last project", we load it as the current project
+            $currentProfile = UserProject::find()
+                ->where('user_id = ' . Yii::$app->user->id)
+                ->andWhere('project_id = ' . $currentProject->id)
+                ->one();
+
+            Yii::$app->session->set('user.current_project', $currentProject);
+            Yii::$app->session->set('user.current_profile', $currentProfile);
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace app\commands;
 
 use Yii;
 use yii\console\Controller;
+use app\models\Profile;
 
 class RbacController extends Controller
 {
@@ -37,8 +38,10 @@ class RbacController extends Controller
         $auth->addChild($admin, $manageUsers);
         $auth->addChild($admin, $manageProjects);
 
-        // Assign roles to users
-        $auth->assign($admin, 1);
-        $auth->assign($user, 2);
+        // Assign roles to profiles
+        $auth->assign($admin, Profile::ADMIN);
+        $auth->assign($user, Profile::LEAD_DEVELOPER);
+        $auth->assign($user, Profile::DEVELOPER);
+        $auth->assign($user, Profile::CUSTOMER);
     }
 }

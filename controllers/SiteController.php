@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\UserProject;
 
 class SiteController extends Controller
 {
@@ -63,8 +64,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             // Setting last project in session
             $identity = Yii::$app->user->getIdentity();
-            $lastProject = $identity->lastProject;
-            Yii::$app->session->set('user.current_project', $lastProject);
+            $identity->loadLastProject();
 
             return $this->goBack();
         }
@@ -112,8 +112,7 @@ class SiteController extends Controller
         $identity->project_id = $project;
         $identity->save();        
         
-        $lastProject = $identity->lastProject;
-        Yii::$app->session->set('user.current_project', $lastProject);
+        $identity->loadLastProject();
         
         return $this->redirect('/requirement');
     }

@@ -16,6 +16,11 @@ use Yii;
  */
 class Profile extends \yii\db\ActiveRecord
 {
+    const ADMIN = 1;
+    const LEAD_DEVELOPER = 2;
+    const DEVELOPER = 3;
+    const CUSTOMER = 4;
+    
     /**
      * @inheritdoc
      */

@@ -18,6 +18,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'app\components\ChouetteUser',
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
