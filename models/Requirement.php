@@ -13,17 +13,37 @@ use app\models\Item;
  * @property RequirementVersion $lastVersion
  * @property RequirementAttachment[] $attachments
  * @property RequirementComment[] $comments
- * @property RequirementEvent[] $events
+ * @property RequirementLog[] $logs
  * @property RequirementVersion[] $versions
  * @property Priority $priority
  */
 class Requirement extends Item
 {
+    // Item type
     const TYPE = 'Requirement';
+    
+    // Events
+    const EVENT_CREATE = 'create';
+    const EVENT_UPDATE = 'update';
+    const EVENT_ARCHIVE = 'archive';
+    const EVENT_REVISION = 'revision';
+    const EVENT_VERSION = 'version';
+    const EVENT_POST = 'post';
 
+    /**
+     * @inheritDoc
+     */
     public function init()
     {
         $this->type = self::TYPE;
+        
+        $this->on(self::EVENT_CREATE, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_UPDATE, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_ARCHIVE, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_REVISION, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_VERSION, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_POST, ['app\components\RequirementLogEventHandler', 'log']);
+        
         parent::init();
     }
 
@@ -32,6 +52,9 @@ class Requirement extends Item
         return new ItemQuery(get_called_class(), ['type' => self::TYPE]);
     }*/
 
+    /**
+     * @inheritDoc
+     */
     public function beforeSave($insert)
     {
         $this->type = self::TYPE;
@@ -120,9 +143,9 @@ class Requirement extends Item
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEvents()
+    public function getLogs()
     {
-        return $this->hasMany(RequirementEvent::className(), ['requirement_id' => 'id']);
+        return $this->hasMany(RequirementLog::className(), ['requirement_id' => 'id']);
     }
     
     /**

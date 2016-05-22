@@ -27,7 +27,7 @@ use creocoder\nestedsets\NestedSetsBehavior;
  * @property Project $project
  * @property RequirementAttachment[] $attachments
  * @property RequirementComment[] $comments
- * @property RequirementEvent[] $events
+ * @property RequirementLog[] $events
  * @property RequirementVersion[] $versions
  */
 class Item extends \kartik\tree\models\Tree
@@ -135,9 +135,9 @@ class Item extends \kartik\tree\models\Tree
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirementEvents()
+    public function getRequirementLogs()
     {
-        return $this->hasMany(RequirementEvent::className(), ['requirement_id' => 'id']);
+        return $this->hasMany(RequirementLog::className(), ['requirement_id' => 'id']);
     }
 
     /**

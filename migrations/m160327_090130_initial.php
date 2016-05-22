@@ -33,6 +33,12 @@ class m160327_090130_initial extends Migration
             'requirement_pattern' => "character varying(100) NOT NULL",
         ]);
         
+        /*$this->createTable('release', [
+            'id' => 'pk',
+            'version' => "character varying(20) NOT NULL",
+            'date_creation' => Schema::TYPE_INTEGER . ' NOT NULL',
+        ]);*/
+        
         $this->createTable('status', [
             'id' => 'pk',
             'code' => "character varying(3) NOT NULL",
@@ -115,15 +121,15 @@ class m160327_090130_initial extends Migration
         $this->createIndex('idx_requirement_version_requirement_id', 'requirement_version', 'requirement_id', false);
         $this->createIndex('idx_requirement_version_status_id', 'requirement_version', 'status_id', false);
         
-        $this->createTable('requirement_event', [
+        $this->createTable('requirement_log', [
             'id' => 'pk',
             'event' => "character varying(20) NOT NULL",
             'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'date' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
-        $this->createIndex('idx_requirement_event_requirement_id', 'requirement_event', 'requirement_id', false);
-        $this->createIndex('idx_requirement_event_user_id', 'requirement_event', 'user_id', false);
+        $this->createIndex('idx_requirement_log_requirement_id', 'requirement_log', 'requirement_id', false);
+        $this->createIndex('idx_requirement_log_user_id', 'requirement_log', 'user_id', false);
         
         $this->createTable('requirement_comment', [
             'id' => 'pk',
@@ -151,8 +157,8 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_user_project_profile_profile_id', 'user_project', 'profile_id', 'profile', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_item_project_project_id', 'item', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_event_user_user_id', 'requirement_event', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_log_requirement_requirement_id', 'requirement_log', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_log_user_user_id', 'requirement_log', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_comment_requirement_version_requirement_version_id', 'requirement_comment', 'requirement_version_id', 'requirement_version', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_comment_user_user_id', 'requirement_comment', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
@@ -271,7 +277,7 @@ class m160327_090130_initial extends Migration
         
         $this->insert('status', [
             'code' => 'R',
-            'name' => 'Refused',
+            'name' => 'Rejected',
             'color' => 'ffcced',
             'order' => 4,
         ]);
@@ -293,20 +299,21 @@ class m160327_090130_initial extends Migration
         $this->dropForeignKey('fk_user_project_profile_profile_id', 'user_project');
         $this->dropForeignKey('fk_item_project_project_id', 'item');
         $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
-        $this->dropForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event');
-        $this->dropForeignKey('fk_requirement_event_user_user_id', 'requirement_event');
+        $this->dropForeignKey('fk_requirement_log_requirement_requirement_id', 'requirement_log');
+        $this->dropForeignKey('fk_requirement_log_user_user_id', 'requirement_log');
         $this->dropForeignKey('fk_requirement_comment_requirement_version_requirement_version_id', 'requirement_comment');
         $this->dropForeignKey('fk_requirement_comment_user_user_id', 'requirement_comment');
         $this->dropForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment');
         
         $this->dropTable('requirement_attachment');
         $this->dropTable('requirement_comment');
-        $this->dropTable('requirement_event');
+        $this->dropTable('requirement_log');
         $this->dropTable('requirement_version');
         $this->dropTable('item');
         $this->dropTable('user_project');
         $this->dropTable('user_profile');
         $this->dropTable('status');
+        //$this->dropTable('release');
         $this->dropTable('project');
         $this->dropTable('profile');
         $this->dropTable('priority');

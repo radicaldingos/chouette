@@ -146,6 +146,8 @@ class RequirementController extends Controller
                     throw new Exception('Error while saving requirement version.');
                 }
 
+                $requirement->trigger(Requirement::EVENT_CREATE);
+                
                 Yii::$app->getSession()
                     ->setFlash('success', Yii::t('app/success', 'Requirement <b>{name}</b> has been created.', ['name' => $requirement->name]));
                 return $this->redirect(['index', 'id' => $requirement->id]);
@@ -248,6 +250,13 @@ class RequirementController extends Controller
                     throw new Exception('Error while saving requirement version.');
                 }
 
+                if ($submit == 'version') {
+                    $requirement->trigger(Requirement::EVENT_VERSION);
+                } elseif($submit == 'revision') {
+                    $requirement->trigger(Requirement::EVENT_REVISION);
+                } else {
+                    $requirement->trigger(Requirement::EVENT_UPDATE);
+                }
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been updated.'));
                 return $this->redirect(['index', 'id' => $requirement->id]);
             } catch (Exception $e) {
@@ -301,6 +310,8 @@ class RequirementController extends Controller
     {
         $this->findModel($id)->delete();
 
+        $requirement->trigger(Requirement::EVENT_DELETE);
+        
         return $this->redirect(['index']);
     }
     
@@ -338,6 +349,8 @@ class RequirementController extends Controller
         ) {
             $requirement = $this->findModel($id);
             $requirement->addComment($model);
+            
+            $requirement->trigger(Requirement::EVENT_POST);
         }
         
         return $this->redirect(['index', 'id' => $id]);

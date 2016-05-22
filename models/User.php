@@ -17,7 +17,7 @@ use yii\web\IdentityInterface;
  * @property int $project_id
  *
  * @property RequirementComment[] $requirementComments
- * @property RequirementEvent[] $requirementEvents
+ * @property RequirementLog[] $RequirementLogs
  * @property UserProfile[] $userProfiles
  * @property Profile[] $profiles
  * @property UserProject[] $userProjects
@@ -70,9 +70,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirementEvents()
+    public function getRequirementLogs()
     {
-        return $this->hasMany(RequirementEvent::className(), ['user_id' => 'id']);
+        return $this->hasMany(RequirementLog::className(), ['user_id' => 'id']);
     }
     
     /**

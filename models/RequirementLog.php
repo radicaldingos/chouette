@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "requirement_event".
+ * This is the model class for table "requirement_log".
  *
  * @property integer $id
  * @property string $event
@@ -16,14 +16,14 @@ use Yii;
  * @property Requirement $requirement
  * @property User $user
  */
-class RequirementEvent extends \yii\db\ActiveRecord
+class RequirementLog extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'requirement_event';
+        return 'requirement_log';
     }
 
     /**
