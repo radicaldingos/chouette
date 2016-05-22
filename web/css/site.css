@@ -208,4 +208,5 @@ span.comment-version {
     float: right;
     color: grey;
     font-size: 12px;
+    padding-right: 10px;
 }

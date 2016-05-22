@@ -40,7 +40,7 @@ return [
     'New' => 'Nouvelle',
     'Accepted' => 'Acceptée',
     'Validated' => 'Validée',
-    'Refused' => 'Refusée',
+    'Rejected' => 'Refusée',
     'Implemented' => 'Implémentée',
     
     'Project' => 'Projet',

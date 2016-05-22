@@ -18,7 +18,7 @@ class Status extends \yii\db\ActiveRecord
     const NEW_REQUIREMENT = 1;
     const ACCEPTED = 2;
     const VALIDATED = 3;
-    const REFUSED = 4;
+    const REJECTED = 4;
     const IMPLEMENTED = 5;
     
     /**

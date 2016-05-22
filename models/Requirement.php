@@ -154,7 +154,7 @@ class Requirement extends Item
             ],
             [
                 'label' => Yii::t('app', 'Version'),
-                'value' => "{$this->lastVersion->version}.{$this->lastVersion->revision}",
+                'value' => $this->lastVersion->getCompleteVersion(),
             ],
             'lastVersion.title',
             'lastVersion.wording',
