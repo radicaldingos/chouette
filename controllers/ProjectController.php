@@ -16,6 +16,8 @@ use yii\filters\AccessControl;
  */
 class ProjectController extends Controller
 {
+    public $layout = 'dashboard';
+    
     /**
      * @inheritdoc
      */

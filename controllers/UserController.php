@@ -16,6 +16,8 @@ use yii\base\Exception;
  */
 class UserController extends Controller
 {
+    public $layout = 'dashboard';
+    
     /**
      * @inheritdoc
      */

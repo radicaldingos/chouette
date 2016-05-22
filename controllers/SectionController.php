@@ -17,6 +17,8 @@ use yii\db\IntegrityException;
  */
 class SectionController extends Controller
 {
+    public $layout = 'dashboard';
+    
     /**
      * @inheritdoc
      */

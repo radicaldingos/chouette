@@ -146,7 +146,8 @@ class RequirementController extends Controller
                     throw new Exception('Error while saving requirement version.');
                 }
 
-                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been created.'));
+                Yii::$app->getSession()
+                    ->setFlash('success', Yii::t('app/success', 'Requirement <b>{name}</b> has been created.', ['name' => $requirement->name]));
                 return $this->redirect(['index', 'id' => $requirement->id]);
             } catch (Exception $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
