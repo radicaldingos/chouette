@@ -103,6 +103,7 @@ class m160327_090130_initial extends Migration
             'removable_all' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
             'icon_type' => Schema::TYPE_SMALLINT . ' DEFAULT 1 NOT NULL',
             'type' => "character varying(40) NOT NULL",
+            'archive' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE NOT NULL',
         ]);
         $this->createIndex('idx_item_project_id', 'item', 'project_id', false);
         $this->createIndex('unq_item_reference', 'item', 'reference, project_id', true);

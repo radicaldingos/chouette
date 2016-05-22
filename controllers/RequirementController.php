@@ -66,6 +66,7 @@ class RequirementController extends Controller
         
         $query = Item::find()
             ->where("project_id = {$project->id}")
+            ->andWhere("archive = FALSE")
             ->addOrderBy('tree, lft');
 
         return $this->render('index', [
@@ -296,6 +297,16 @@ class RequirementController extends Controller
             'statusItems' => $statusItems,
         ]);
     }
+    
+    public function actionArchive($id)
+    {
+        $requirement = $this->findModel($id);
+        $requirement->archive();
+
+        $requirement->trigger(Requirement::EVENT_ARCHIVE);
+        
+        return $this->redirect(['index']);
+    }
 
     /**
      * Deletes an existing Requirement model.
@@ -309,8 +320,6 @@ class RequirementController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        $requirement->trigger(Requirement::EVENT_DELETE);
         
         return $this->redirect(['index']);
     }

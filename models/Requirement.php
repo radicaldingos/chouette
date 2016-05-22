@@ -72,6 +72,7 @@ class Requirement extends Item
             [['reference'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 255],
             [['type'], 'string', 'max' => 40],
+            [['archive'], 'boolean'],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -89,6 +90,7 @@ class Requirement extends Item
             'created' => Yii::t('app', 'Created'),
             'section_id' => Yii::t('app', 'Section'),
             'priority_id' => Yii::t('app', 'Priority'),
+            'archive' => Yii::t('app', 'Archive ?'),
         ];
     }
 
@@ -280,5 +282,18 @@ class Requirement extends Item
     {
         $comment = new RequirementCommentSearch();
         return $comment->search(['RequirementCommentSearch' => ['requirementId' => $this->id]]);
+    }
+    
+    /**
+     * Archive a requirement
+     * 
+     * @throws Exception
+     */
+    public function archive()
+    {
+        $this->archive = true;
+        if (! $this->save()) {
+            throw new Exception("Requirement can't be archive.");
+        }
     }
 }

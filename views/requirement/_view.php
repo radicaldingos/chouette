@@ -93,6 +93,7 @@ if ($node instanceof Requirement) {
 <div class="kv-detail-heading">
     <div class="pull-right">
         <?= Html::a('<i class="glyphicon glyphicon-edit"></i>', ["/$nodeIdentifier/update", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-inbox"></i>', ["/$nodeIdentifier/archive", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Archive')]) ?>
         <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ["/$nodeIdentifier/delete", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Delete')]) ?>
     </div>
     <div class="kv-detail-crumbs"><?= $name ?></div>
