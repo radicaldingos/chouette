@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'Requirement has been created.' => "L'exigence a été créée.",
+    'Requirement <b>{name}</b> has been created.' => "L'exigence <b>{name}</b> a été créée.",
 ];
