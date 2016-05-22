@@ -128,11 +128,11 @@ class m160327_090130_initial extends Migration
         $this->createTable('requirement_comment', [
             'id' => 'pk',
             'comment' => 'text DEFAULT NULL',
-            'requirement_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'requirement_version_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'date_creation' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
-        $this->createIndex('idx_requirement_comment_requirement_id', 'requirement_comment', 'requirement_id', false);
+        $this->createIndex('idx_requirement_comment_requirement_version_id', 'requirement_comment', 'requirement_version_id', false);
         $this->createIndex('idx_requirement_comment_user_id', 'requirement_comment', 'user_id', false);
         
         $this->createTable('requirement_attachment', [
@@ -153,7 +153,7 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_event_user_user_id', 'requirement_event', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_requirement_comment_requirement_requirement_id', 'requirement_comment', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_requirement_comment_requirement_version_requirement_version_id', 'requirement_comment', 'requirement_version_id', 'requirement_version', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_comment_user_user_id', 'requirement_comment', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         
@@ -295,7 +295,7 @@ class m160327_090130_initial extends Migration
         $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_event_requirement_requirement_id', 'requirement_event');
         $this->dropForeignKey('fk_requirement_event_user_user_id', 'requirement_event');
-        $this->dropForeignKey('fk_requirement_comment_requirement_requirement_id', 'requirement_comment');
+        $this->dropForeignKey('fk_requirement_comment_requirement_version_requirement_version_id', 'requirement_comment');
         $this->dropForeignKey('fk_requirement_comment_user_user_id', 'requirement_comment');
         $this->dropForeignKey('fk_requirement_attachment_requirement_requirement_id', 'requirement_attachment');
         

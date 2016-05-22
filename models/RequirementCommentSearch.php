@@ -18,8 +18,8 @@ class RequirementCommentSearch extends RequirementComment
     public function rules()
     {
         return [
-            [['id', 'requirement_id', 'user_id', 'date_creation'], 'integer'],
-            [['comment'], 'safe'],
+            [['id', 'requirement_version_id', 'user_id', 'date_creation', 'requirementId'], 'integer'],
+            [['comment', 'requirementId'], 'safe'],
         ];
     }
 
@@ -41,7 +41,8 @@ class RequirementCommentSearch extends RequirementComment
      */
     public function search($params)
     {
-        $query = RequirementComment::find();
+        $query = RequirementComment::find()
+            ->joinWith('requirementVersion');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,13 +59,15 @@ class RequirementCommentSearch extends RequirementComment
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'requirement_id' => $this->requirement_id,
+            'requirement_version.requirement_id' => $this->requirementId,
             'user_id' => $this->user_id,
             'date_creation' => $this->date_creation,
         ]);
 
         $query->andFilterWhere(['like', 'comment', $this->comment]);
-
+        
+        //$query->orderBy('date_creation DESC');
+        
         return $dataProvider;
     }
     
@@ -87,7 +90,7 @@ class RequirementCommentSearch extends RequirementComment
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'requirement_id' => $id,
+            'requirement_version_id' => $id,
         ]);
 
         $query->andFilterWhere(['like', 'comment', $this->comment]);

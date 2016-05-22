@@ -197,3 +197,15 @@ thead > tr {
 .node-icon .glyphicon-file {
     color: steelblue;
 }
+
+.navbar-static-side {
+    position: absolute;
+    width: 220px;
+    z-index: 2001;
+}
+
+span.comment-version {
+    float: right;
+    color: grey;
+    font-size: 12px;
+}

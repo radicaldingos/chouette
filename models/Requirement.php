@@ -182,7 +182,7 @@ class Requirement extends Item
     {
         $comment = new RequirementComment;
         $comment->comment = $data->comment;
-        $comment->requirement_id = $this->id;
+        $comment->requirement_version_id = $this->lastVersion->id;
         $comment->user_id = Yii::$app->user->id;
         $comment->date_creation = time();
         if (! $comment->save()) {
@@ -256,6 +256,6 @@ class Requirement extends Item
     public function searchForComments()
     {
         $comment = new RequirementCommentSearch();
-        return $comment->search(['RequirementCommentSearch' => ['requirement_id' => $this->id]]);
+        return $comment->search(['RequirementCommentSearch' => ['requirementId' => $this->id]]);
     }
 }

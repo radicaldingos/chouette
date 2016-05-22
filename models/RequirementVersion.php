@@ -74,4 +74,22 @@ class RequirementVersion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequirementComments()
+    {
+        return $this->hasMany(RequirementComment::className(), ['requirement_version_id' => 'id']);
+    }
+    
+    /**
+     * Return complete version litteral
+     * 
+     * @return string
+     */
+    public function getCompleteVersion()
+    {
+        return "{$this->version}.{$this->revision}";
+    }
 }

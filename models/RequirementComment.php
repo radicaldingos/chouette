@@ -9,15 +9,17 @@ use Yii;
  *
  * @property integer $id
  * @property string $comment
- * @property integer $requirement_id
+ * @property integer $requirement_version_id
  * @property integer $user_id
  * @property integer $date_creation
  *
- * @property Requirement $requirement
+ * @property RequirementVersion $requirement_version
  * @property User $user
  */
 class RequirementComment extends \yii\db\ActiveRecord
 {
+    public $requirementId;
+    
     /**
      * @inheritdoc
      */
@@ -32,10 +34,11 @@ class RequirementComment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['requirement_version_id', 'user_id', 'date_creation'], 'required'],
+            [['requirement_version_id', 'user_id', 'date_creation', 'requirementId'], 'integer'],
             [['comment'], 'string'],
-            [['requirement_id', 'user_id', 'date_creation'], 'required'],
-            [['requirement_id', 'user_id', 'date_creation'], 'integer'],
-            [['requirement_id'], 'exist', 'skipOnError' => true, 'targetClass' => Requirement::className(), 'targetAttribute' => ['requirement_id' => 'id']],
+            [['requirementId'], 'safe'],
+            [['requirement_version_id'], 'exist', 'skipOnError' => true, 'targetClass' => RequirementVersion::className(), 'targetAttribute' => ['requirement_version_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -48,7 +51,8 @@ class RequirementComment extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'comment' => Yii::t('app', 'Comment'),
-            'requirement_id' => Yii::t('app', 'Requirement ID'),
+            'requirement_version_id' => Yii::t('app', 'Requirement Version ID'),
+            'requirementId' => Yii::t('app', 'Requirement ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'date_creation' => Yii::t('app', 'Date Creation'),
         ];
@@ -57,9 +61,9 @@ class RequirementComment extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequirement()
+    public function getRequirementVersion()
     {
-        return $this->hasOne(Requirement::className(), ['id' => 'requirement_id']);
+        return $this->hasOne(RequirementVersion::className(), ['id' => 'requirement_version_id']);
     }
 
     /**

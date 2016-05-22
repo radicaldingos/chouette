@@ -11,6 +11,7 @@ use yii\helpers\Html;
 $userAvatar = strtoupper(substr($model->user->username, 0, 1));
 ?>
 <li>
+    <span class="comment-version">v<?= $model->requirementVersion->getCompleteVersion() ?></span>
     <div class="avatar">
         <div class="no-avatar"><?= $userAvatar ?></div>
         <!-- <img src="" /> -->
