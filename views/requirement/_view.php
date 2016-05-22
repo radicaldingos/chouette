@@ -92,7 +92,7 @@ if ($node instanceof Requirement) {
 
 <div class="kv-detail-heading">
     <div class="pull-right">
-        <?= Html::a('<i class="glyphicon glyphicon-edit"></i>', ["/$nodeIdentifier/update", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>', ["/$nodeIdentifier/update", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
         <?= Html::a('<i class="glyphicon glyphicon-inbox"></i>', ["/$nodeIdentifier/archive", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Archive')]) ?>
         <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ["/$nodeIdentifier/delete", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Delete')]) ?>
     </div>
@@ -104,6 +104,14 @@ if ($node instanceof Requirement) {
 <?= DetailView::widget([
     'model' => $node,
     'attributes' => $node->getDetailAttributes(),
+    /*'template' => function ($attribute, $index, $widget) {
+        debug($attribute);
+        if (isset($attribute['attribute']) && $attribute['attribute'] == 'created') {
+            return "<tr><th>{$attribute['label']}</th><td class=\"status-new\">{$attribute['value']}</td></tr>";
+        } else {
+            return "<tr><th>{$attribute['label']}</th><td>{$attribute['label']}</td></tr>";
+        }
+    },*/
 ]) ?>
 </div>
 

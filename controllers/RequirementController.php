@@ -258,7 +258,8 @@ class RequirementController extends Controller
                 } else {
                     $requirement->trigger(Requirement::EVENT_UPDATE);
                 }
-                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Requirement has been updated.'));
+                
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Requirement <b>{name}</b> has been updated.', ['name' => $requirement->name]));
                 return $this->redirect(['index', 'id' => $requirement->id]);
             } catch (Exception $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
