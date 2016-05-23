@@ -23,6 +23,26 @@ class RbacController extends Controller
         $manageRequirements->description = 'Manage requirements';
         $auth->add($manageRequirements);
         
+        $displayRequirement = $auth->createPermission('displayRequirement');
+        $displayRequirement->description = 'Display a requirement';
+        $auth->add($displayRequirement);
+        
+        $createRequirement = $auth->createPermission('createRequirement');
+        $createRequirement->description = 'Create a requirement';
+        $auth->add($createRequirement);
+        
+        $updateRequirement = $auth->createPermission('updateRequirement');
+        $updateRequirement->description = 'Update a requirement';
+        $auth->add($updateRequirement);
+        
+        $deleteRequirement = $auth->createPermission('deleteRequirement');
+        $deleteRequirement->description = 'Delete a requirement';
+        $auth->add($deleteRequirement);
+        
+        $archiveRequirement = $auth->createPermission('archiveRequirement');
+        $archiveRequirement->description = 'Archive a requirement';
+        $auth->add($archiveRequirement);
+        
         $manageProjects = $auth->createPermission('manageProjects');
         $manageProjects->description = 'Manage projects';
         $auth->add($manageProjects);
@@ -32,7 +52,12 @@ class RbacController extends Controller
         $auth->add($manageUsers);
         
         // Assign permissions to roles
-        $auth->addChild($user, $manageRequirements);        
+        $auth->addChild($user, $manageRequirements);
+        $auth->addChild($manageRequirements, $displayRequirement);
+        $auth->addChild($manageRequirements, $createRequirement);
+        $auth->addChild($manageRequirements, $updateRequirement);
+        $auth->addChild($manageRequirements, $deleteRequirement);
+        $auth->addChild($manageRequirements, $archiveRequirement);
         
         $auth->addChild($admin, $user);
         $auth->addChild($admin, $manageUsers);
