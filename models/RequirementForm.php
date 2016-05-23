@@ -62,6 +62,11 @@ class RequirementForm extends Model
             self::SCENARIO_UPDATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id', 'title', 'justification'],
         ];
     }
+    
+    public function getCompleteName()
+    {
+        return "{$this->reference} - {$this->title}";
+    }
 
     /**
      * Sends an email to the specified email address using the information collected by this model.

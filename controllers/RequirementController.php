@@ -124,7 +124,7 @@ class RequirementController extends Controller
                 $requirement = new Requirement;
                 $requirement->category_id = $model->category_id;
                 $requirement->reference = $model->reference;
-                $requirement->name = $model->reference;
+                $requirement->name = $model->getCompleteName();
                 $requirement->priority_id = $model->priority_id;
                 $requirement->project_id = $section->project_id;
                 $requirement->created = time();
@@ -214,7 +214,7 @@ class RequirementController extends Controller
 
                 $requirement->category_id = $model->category_id;
                 $requirement->reference = $model->reference;
-                $requirement->name = $model->reference;
+                $requirement->name = $model->getCompleteName();
                 $requirement->priority_id = $model->priority_id;
 
                 if (! $requirement->appendTo($section)) {
@@ -266,6 +266,7 @@ class RequirementController extends Controller
             }
         } else {
             // GET, setting default values
+            $model->category_id = $requirement->category_id;
             $model->reference = $requirement->reference;
             $model->title = $requirement->lastVersion->title;
             $model->wording = $requirement->lastVersion->wording;

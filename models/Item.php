@@ -10,6 +10,7 @@ use creocoder\nestedsets\NestedSetsBehavior;
  *
  * @property integer $id
  * @property string $reference
+ * @property integer $category_id
  * @property string $name
  * @property integer $author
  * @property integer $created
