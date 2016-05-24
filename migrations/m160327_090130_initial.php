@@ -225,25 +225,25 @@ class m160327_090130_initial extends Migration
         
         $this->insert('priority', [
             'name' => 'Low',
-            'color' => 'cccccc',
+            'color' => '0094ff',
             'order' => 4,
         ]);
         
         $this->insert('priority', [
             'name' => 'Normal',
-            'color' => 'cccccc',
+            'color' => '267f00',
             'order' => 3,
         ]);
         
         $this->insert('priority', [
             'name' => 'High',
-            'color' => 'cccccc',
+            'color' => 'ff6a00',
             'order' => 2,
         ]);
         
         $this->insert('priority', [
             'name' => 'Critical',
-            'color' => 'cccccc',
+            'color' => 'ff0000',
             'order' => 1,
         ]);
         
@@ -267,35 +267,35 @@ class m160327_090130_initial extends Migration
         $this->insert('status', [
             'code' => 'N',
             'name' => 'New',
-            'color' => 'ffcced',
+            'color' => 'fcbdbd',
             'order' => 1,
         ]);
         
         $this->insert('status', [
             'code' => 'A',
             'name' => 'Accepted',
-            'color' => 'ffcced',
+            'color' => 'ffcd85',
             'order' => 2,
         ]);
         
         $this->insert('status', [
             'code' => 'V',
             'name' => 'Validated',
-            'color' => 'ffcced',
+            'color' => 'c2dfff',
             'order' => 3,
         ]);
         
         $this->insert('status', [
             'code' => 'R',
             'name' => 'Rejected',
-            'color' => 'ffcced',
+            'color' => 'c9ccc4',
             'order' => 4,
         ]);
         
         $this->insert('status', [
             'code' => 'I',
             'name' => 'Implemented',
-            'color' => 'ffcced',
+            'color' => 'd2f5b0',
             'order' => 5,
         ]);
     }
