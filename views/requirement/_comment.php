@@ -13,7 +13,7 @@ $userAvatar = strtoupper(substr($model->user->username, 0, 1));
 <li>
     <span class="comment-version">v<?= $model->requirementVersion->getCompleteVersion() ?></span>
     <div class="avatar">
-        <div class="no-avatar"><?= $userAvatar ?></div>
+        <div class="no-avatar" title="<?= $model->user->username ?>"><?= $userAvatar ?></div>
         <!-- <img src="" /> -->
     </div>
     <div class="commentText">
