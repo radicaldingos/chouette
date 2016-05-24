@@ -53,13 +53,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container-fluid">
-        <p class="pull-left">v0.1 &copy; RadicalDingos <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+<?= $this->render('dashboard/_footer') ?>
 
 <?php $this->endBody() ?>
 </body>
