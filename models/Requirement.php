@@ -301,4 +301,13 @@ class Requirement extends Item
     {
         return "#{$this->lastVersion->status->color}";
     }
+    
+    public function getEllipsedWording()
+    {
+        $wording = $title = $this->lastVersion->wording;
+        if (strlen($wording) > 50) {
+            $wording = substr($wording, 0, 50) . '...';
+        }
+        return '<span title="' . $title . '">' . $wording . '</span>';
+    }
 }

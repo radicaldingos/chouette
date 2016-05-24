@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\RequirementSearch */
@@ -24,24 +25,37 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'label' => Yii::t('app', 'Category'),
-                'value' => function($model){
+                'value' => function ($model) {
                     return Yii::t('app', $model->category->name);
                 },
             ],
             'reference',
             'lastVersion.title',
-            'lastVersion.wording',
+            [
+                'attribute' => 'lastVersion.wording',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return $model->getEllipsedWording();
+                },
+            ],
             [
                 'label' => Yii::t('app', 'Status'),
-                'contentOptions' => function($model){
+                'contentOptions' => function ($model) {
                     return ['style' => "background-color:{$model->getStatusColor()};"];
                 },
-                'value' => function($model){
+                'value' => function ($model) {
                     return Yii::t('app', $model->lastVersion->status->name);
                 },
             ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    'view' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', Url::to(['/requirement', 'id' => $model->id]));
+                    },
+                ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ],
         ],
     ]); ?>
 </div>
