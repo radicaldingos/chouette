@@ -296,4 +296,9 @@ class Requirement extends Item
             throw new Exception("Requirement can't be archive.");
         }
     }
+    
+    public function getStatusColor()
+    {
+        return "#{$this->lastVersion->status->color}";
+    }
 }

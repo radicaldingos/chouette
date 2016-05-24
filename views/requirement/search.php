@@ -24,13 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'label' => Yii::t('app', 'Category'),
-                'attribute' => 'category.name',
+                'value' => function($model){
+                    return Yii::t('app', $model->category->name);
+                },
             ],
+            'reference',
             'lastVersion.title',
             'lastVersion.wording',
             [
                 'label' => Yii::t('app', 'Status'),
-                'attribute' => 'lastVersion.status.name',
+                'contentOptions' => function($model){
+                    return ['style' => "background-color:{$model->getStatusColor()};"];
+                },
+                'value' => function($model){
+                    return Yii::t('app', $model->lastVersion->status->name);
+                },
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
