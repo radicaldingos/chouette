@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'long_name',
+            'requirement_pattern',
         ],
     ]) ?>
 
