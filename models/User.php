@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use app\components\LdapAuthManager;
 
 /**
  * This is the model class for table "user".
@@ -192,11 +193,23 @@ class User extends ActiveRecord implements IdentityInterface
     }
     
     /**
-     * @inheritdoc
+     * 
+     * @param type $password
+     * 
+     * @return type
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->getPassword());
+        if (isset(Yii::$app->params['ldap']['enabled'])
+            && Yii::$app->params['ldap']['enabled']
+        ) {
+            // LDAP authentication
+            $ldap = new LdapAuthManager();
+            return $ldap->authenticate($this->username, $password);
+        } else {
+            // Server authentication
+            return Yii::$app->security->validatePassword($password, $this->getPassword());
+        }
     }
     
     
