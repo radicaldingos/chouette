@@ -90,7 +90,7 @@ class SectionController extends Controller
                 $model->icon = 'folder-open';
                 $model->appendTo($parentSection);
 
-                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section has been created.'));
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section <b>{name}</b> has been created.', ['name' => $model->name]));
                 return $this->redirect(['/requirement', 'id' => $model->id]);
             } catch (IntegrityException $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', 'Reference must be unique for a given project.'));
@@ -126,7 +126,7 @@ class SectionController extends Controller
                 $model->icon = 'folder-open';
                 $model->appendTo($parentSection);
 
-                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section has been updated.'));
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section <b>{name}</b> has been updated.', ['name' => $model->name]));
                 return $this->redirect(['/requirement', 'id' => $model->id]);
             } catch (IntegrityException $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', 'Reference must be unique for a given project.'));
