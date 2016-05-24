@@ -64,6 +64,11 @@ class RequirementController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $project = Yii::$app->session->get('user.current_project');
         
+        if (! $project) {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'No project selected.'));
+            return $this->redirect('/site');
+        }
+        
         $query = Item::find()
             ->where("project_id = {$project->id}")
             ->andWhere("archive = FALSE")
