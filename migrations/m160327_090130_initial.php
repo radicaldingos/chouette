@@ -33,11 +33,11 @@ class m160327_090130_initial extends Migration
             'requirement_pattern' => "character varying(100) NOT NULL",
         ]);
         
-        /*$this->createTable('release', [
+        $this->createTable('release', [
             'id' => 'pk',
             'version' => "character varying(20) NOT NULL",
             'date_creation' => Schema::TYPE_INTEGER . ' NOT NULL',
-        ]);*/
+        ]);
         
         $this->createTable('status', [
             'id' => 'pk',
@@ -259,6 +259,11 @@ class m160327_090130_initial extends Migration
             'name' => 'Developer',
         ]);
         
+        $this->insert('user_profile', [
+            'user_id' => 1,
+            'profile_id' => 1,
+        ]);
+        
         $this->insert('status', [
             'code' => 'N',
             'name' => 'New',
@@ -305,7 +310,6 @@ class m160327_090130_initial extends Migration
         $this->dropForeignKey('fk_item_project_project_id', 'item');
         $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_version_status_status_id', 'requirement_version');
-        $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_log_requirement_requirement_id', 'requirement_log');
         $this->dropForeignKey('fk_requirement_log_user_user_id', 'requirement_log');
         $this->dropForeignKey('fk_requirement_comment_requirement_version_requirement_version_id', 'requirement_comment');
@@ -320,7 +324,7 @@ class m160327_090130_initial extends Migration
         $this->dropTable('user_project');
         $this->dropTable('user_profile');
         $this->dropTable('status');
-        //$this->dropTable('release');
+        $this->dropTable('release');
         $this->dropTable('project');
         $this->dropTable('profile');
         $this->dropTable('priority');

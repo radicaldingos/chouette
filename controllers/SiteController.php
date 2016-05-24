@@ -64,6 +64,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             // Setting last project in session
             $identity = Yii::$app->user->getIdentity();
+            $identity->loadGlobalProfile();
             $identity->loadLastProject();
 
             return $this->goBack();

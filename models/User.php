@@ -87,6 +87,16 @@ class User extends ActiveRecord implements IdentityInterface
      * 
      * @return Profile
      */
+    public function getGlobalProfile()
+    {
+        $globalProfile = Yii::$app->session->get('user.global_profile');
+        return $globalProfile ? $globalProfile : null;
+    }
+    
+    /**
+     * 
+     * @return Profile
+     */
     public function getCurrentProfile()
     {
         $currentProfile = Yii::$app->session->get('user.current_profile');
@@ -193,6 +203,17 @@ class User extends ActiveRecord implements IdentityInterface
     public function getLastProject()
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    }
+    
+    /**
+     * Loading global profile for all projects
+     */
+    public function loadGlobalProfile()
+    {
+        $globalProfile = UserProfile::find()
+            ->where('user_id = ' . Yii::$app->user->id)
+            ->one();
+        Yii::$app->session->set('user.global_profile', $globalProfile);
     }
     
     /**

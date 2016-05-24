@@ -19,12 +19,27 @@ class ChouetteUser extends User
         if (($manager = $this->getAuthManager()) === null) {
             return false;
         }
-        $access = $manager->checkAccess($this->getProfileId(), $permissionName, $params);
+        $access = $manager->checkAccess($this->getGlobalProfileId(), $permissionName, $params);
+        if (! $access) {
+            $access = $manager->checkAccess($this->getProfileId(), $permissionName, $params);
+        }
         if ($allowCaching && empty($params)) {
             $this->_access[$permissionName] = $access;
         }
 
         return $access;
+    }
+    
+    /**
+     * Get user current profile id
+     * 
+     * @return int
+     */
+    private function getGlobalProfileId()
+    {
+        $identity = $this->getIdentity();
+        
+        return $identity !== null && $identity->getGlobalProfile() ? $identity->getGlobalProfile()->profile_id : null;
     }
     
     /**
