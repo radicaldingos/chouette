@@ -297,11 +297,19 @@ class Requirement extends Item
         }
     }
     
+    /**
+     * 
+     * @return type
+     */
     public function getStatusColor()
     {
         return "#{$this->lastVersion->status->color}";
     }
     
+    /**
+     * 
+     * @return string
+     */
     public function getEllipsedWording()
     {
         $wording = $title = $this->lastVersion->wording;
