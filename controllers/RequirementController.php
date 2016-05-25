@@ -72,10 +72,17 @@ class RequirementController extends Controller
         $query = Item::find()
             ->where("project_id = {$project->id}")
             ->andWhere("archive = FALSE")
-            ->addOrderBy('tree, lft');
+            ->orderBy('tree, lft');
+            
+        $count = Item::find()
+            ->where("project_id = {$project->id}")
+            ->andWhere("archive = FALSE")
+            ->andWhere("type = 'Requirement'")
+            ->count();
 
         return $this->render('index', [
             'id' => $id,
+            'count' => $count,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'project' => $project,

@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'query' => $query,
         'displayValue' => $id,
         'emptyNodeMsg' => 'Node not found',
-        'headingOptions' => ['label' => Yii::t('app', 'Requirements')],
+        'headingOptions' => ['label' => Yii::t('app', 'Requirements ({count})', ['count' => $count])],
         'fontAwesome' => false,
         'isAdmin' => false,
         'softDelete' => true,

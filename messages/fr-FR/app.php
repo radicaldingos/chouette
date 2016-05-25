@@ -89,4 +89,6 @@ return [
     
     'Select a project...' => 'Sélectionnez un projet...',
     'Select a section...' => 'Sélectionnez une section...',
+    
+    'Requirements ({count})' => 'Exigences ({count})',
 ];
