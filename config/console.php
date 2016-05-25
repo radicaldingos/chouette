@@ -17,6 +17,22 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/success' => 'success.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+                'kvtree' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                ],
+            ],
+        ],
         'log' => [
             'targets' => [
                 [
