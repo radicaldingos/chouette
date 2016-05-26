@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= TreeView::widget([
         'query' => $query,
         'displayValue' => $id,
-        'emptyNodeMsg' => 'Node not found',
+        'emptyNodeMsg' => Yii::t('kvtree', 'Select a node by clicking on one of the tree items.'),
         'headingOptions' => ['label' => Yii::t('app', 'Requirements ({count})', ['count' => $count])],
         'fontAwesome' => false,
         'isAdmin' => false,
