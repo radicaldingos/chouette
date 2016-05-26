@@ -5,12 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Section;
 use app\models\SectionSearch;
+use app\models\forms\SectionForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\base\Exception;
 use yii\db\IntegrityException;
+use app\models\Item;
 
 /**
  * SectionController implements the CRUD actions for Section model.
@@ -79,19 +81,27 @@ class SectionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Section();
+        $model = new SectionForm();
 
         if ($model->load(Yii::$app->request->post())) {
             // POST
             try {
-                $parentSection = Section::findOne($model->parentSectionId);
-                $model->project_id = Yii::$app->session->get('user.current_project')->id;
-                $model->created = time();
-                $model->icon = 'folder-open';
-                $model->appendTo($parentSection);
+                $section = new Section;
+                $section->reference = $model->reference;
+                $section->name = $model->name;
+                $section->project_id = Yii::$app->session->get('user.current_project')->id;
+                $section->created = time();
+                $section->icon = 'folder-open';
+                
+                if ($model->section_id) {
+                    $parentSection = Section::findOne($model->section_id);
+                    $section->appendTo($parentSection);
+                } else {
+                    $section->makeRoot();
+                }
 
-                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section <b>{name}</b> has been created.', ['name' => $model->name]));
-                return $this->redirect(['/requirement', 'id' => $model->id]);
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section <b>{name}</b> has been created.', ['name' => $section->name]));
+                return $this->redirect(['/requirement', 'id' => $section->id]);
             } catch (IntegrityException $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', 'Reference must be unique for a given project.'));
             } catch (Exception $e) {
@@ -99,11 +109,16 @@ class SectionController extends Controller
             }
         }
         
-        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.current_project')->id);
+        // Get items for treeview
+        $project = Yii::$app->session->get('user.current_project');
+        $query = Item::find()
+            ->where("project_id = {$project->id}")
+            ->andWhere("type = 'Section'")
+            ->addOrderBy('tree, lft');
         
         return $this->render('create', [
             'model' => $model,
-            'sectionItems' => $sectionItems,
+            'query' => $query,
         ]);
     }
 
@@ -115,31 +130,51 @@ class SectionController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = new SectionForm();
+        $section = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
             // POST
             try {
-                $parentSection = Section::findOne($model->parentSectionId);
-                $model->project_id = Yii::$app->session->get('user.current_project')->id;
-                $model->created = time();
-                $model->icon = 'folder-open';
-                $model->appendTo($parentSection);
+                $section->reference = $model->reference;
+                $section->name = $model->name;
+                $section->project_id = Yii::$app->session->get('user.current_project')->id;
+                $section->created = time();
+                $section->icon = 'folder-open';
+                
+                if ($model->section_id) {
+                    $parentSection = Section::findOne($model->section_id);
+                    $section->appendTo($parentSection);
+                } else {
+                    $section->makeRoot();
+                }
 
-                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section <b>{name}</b> has been updated.', ['name' => $model->name]));
-                return $this->redirect(['/requirement', 'id' => $model->id]);
+                Yii::$app->getSession()->setFlash('success', Yii::t('app/success', 'Section <b>{name}</b> has been updated.', ['name' => $section->name]));
+                return $this->redirect(['/requirement', 'id' => $section->id]);
             } catch (IntegrityException $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', 'Reference must be unique for a given project.'));
             } catch (Exception $e) {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app/error', $e->getMessage()));
             }
+        } else {
+            $model->reference = $section->reference;
+            $model->name = $section->name;
+            if ($parentSection = $section->getParentSection()) {
+                $model->section_id = $parentSection->id;
+            }
         }
         
-        $sectionItems = Section::getSectionsWithFullPath(Yii::$app->session->get('user.current_project')->id);
+        // Get items for treeview
+        $project = Yii::$app->session->get('user.current_project');
+        $query = Item::find()
+            ->where("project_id = {$project->id}")
+            ->andWhere("type = 'Section'")
+            ->addOrderBy('tree, lft');
         
         return $this->render('update', [
+            'id' => $id,
             'model' => $model,
-            'sectionItems' => $sectionItems,
+            'query' => $query,
         ]);
     }
 

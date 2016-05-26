@@ -76,6 +76,16 @@ class Section extends Item
         //return $this->hasMany(Requirement::className(), ['section_id' => 'id']);
     }
     
+    /**
+     * Retrieve parent section of the section
+     * 
+     * @return Section Parent section
+     */
+    public function getParentSection()
+    {
+        return $this->parents(1)->one();
+    }
+    
     public function getDetailAttributes()
     {
         return [
