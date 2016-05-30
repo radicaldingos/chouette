@@ -12,8 +12,8 @@ use app\models\ItemQuery;
 /* @var $query ItemQuery */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Requirement',
-]) . $id;
+    'modelClass' => Yii::t('app', 'Requirement'),
+]) . $model->reference;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Requirements'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $id, 'url' => ['view', 'id' => $id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');

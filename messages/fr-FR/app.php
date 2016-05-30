@@ -6,7 +6,7 @@ return [
     'Update' => 'Mettre à jour',
     'Delete' => 'Supprimer',
     
-    'Update {modelClass}: ' => 'Mise à jour : ',
+    'Update {modelClass}: ' => 'Mise à jour {modelClass} : ',
     
     'Technical' => 'Technique',
     'Functional' => 'Fonctionnelle',
@@ -32,7 +32,7 @@ return [
     'Complete Name' => 'Nom complet',
     'Username' => 'Login',
     'Password' => 'Mot de passe',
-    'Section' => 'Section',
+    
     'Version' => 'Version',
     'Revision' => 'Révision',
     'Category' => 'Catégorie',
@@ -43,9 +43,15 @@ return [
     'Rejected' => 'Refusée',
     'Implemented' => 'Implémentée',
     
+    'Profile' => 'Profil',
+    'Profiles' => 'Profils',
     'Project' => 'Projet',
     'Projects' => 'Projets',
+    'Requirement' => 'Exigence',
     'Requirements' => 'Exigences',
+    'Section' => 'Section',
+    'Sections' => 'Sections',
+    'User' => 'Utilisateur',
     'Users' => 'Utilisateurs',
     'Are you sure you want to delete this item?' => 'Êtes-vous sûr de vouloir supprimer cet élément ?',
     
@@ -91,4 +97,8 @@ return [
     'Select a section...' => 'Sélectionnez une section...',
     
     'Requirements ({count})' => 'Exigences ({count})',
+    
+    'Administrator' => 'Administrateur',
+    'Customer' => 'Client',
+    'Developer' => 'Développeur',
 ];

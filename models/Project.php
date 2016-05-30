@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use yii\helpers\ArrayHelper;
 
 use Yii;
 
@@ -74,5 +75,12 @@ class Project extends \yii\db\ActiveRecord
     public function getUsers()
     {
         return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('user_project', ['project_id' => 'id']);
+    }
+    
+    public static function getOrderedMappedList()
+    {
+        return ArrayHelper::map(static::find()
+            ->orderBy('name')
+            ->all(), 'id', 'name');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use app\components\ArrayTranslatorHelper;
 
 use Yii;
 
@@ -73,5 +74,12 @@ class Profile extends \yii\db\ActiveRecord
     public function getUserProjects()
     {
         return $this->hasMany(UserProject::className(), ['profile_id' => 'id']);
+    }
+    
+    public static function getOrderedMappedList()
+    {
+        return ArrayTranslatorHelper::map(static::find()
+            ->orderBy('name')
+            ->all(), 'id', 'name');
     }
 }

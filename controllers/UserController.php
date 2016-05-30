@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Profile;
+use app\models\Project;
 use app\models\User;
+use app\models\UserProject;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -103,14 +106,34 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $userProjectModel = new UserProject;
+        
+        $projectDataProvider = new ActiveDataProvider([
+            'query' => UserProject::find()->with('project', 'profile'),
+        ]);
+        
+        $projectItems = Project::getOrderedMappedList();
+        $profileItems = Profile::getOrderedMappedList();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        
+        if ($userProjectModel->load(Yii::$app->request->post())) {
+            $userProjectModel->user_id = Yii::$app->user->id;
+            if (! $userProjectModel->save()) {
+                throw new Exception("Couldn't save project.");
+            }
+            return $this->redirect(['update', 'id' => $model->id]);
+        }
+        
+        return $this->render('update', [
+            'model' => $model,
+            'userProjectModel' => $userProjectModel,
+            'projectDataProvider' => $projectDataProvider,
+            'projectItems' => $projectItems,
+            'profileItems' => $profileItems,
+        ]);
     }
 
     /**
@@ -124,6 +147,16 @@ class UserController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    
+    public function actionDeleteRole($user_id, $project_id, $profile_id)
+    {
+        $userProject = UserProject::find()
+            ->where("user_id = {$user_id} AND project_id = {$project_id} AND profile_id = {$profile_id}")
+            ->one()
+            ->delete();
+
+        return $this->redirect(['update', 'id' => $user_id]);
     }
 
     /**
