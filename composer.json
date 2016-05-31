@@ -16,6 +16,10 @@
     "require": {
         "php": ">=5.4.0",
         "creocoder/yii2-nested-sets": ">=0.9.0",
+        "kartik-v/yii2-builder": "@dev",
+        "kartik-v/yii2-export": "*",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-tree-manager": ">=v1.0.5",
         "yiisoft/yii2": ">=2.0.5",
         "yiisoft/yii2-bootstrap": "*",
