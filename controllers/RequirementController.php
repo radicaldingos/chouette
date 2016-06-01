@@ -237,8 +237,11 @@ class RequirementController extends Controller
                     || $submit == 'revision'
                 ) {
                     // If user decide to version or revision the change, we create a
-                    // new version of the requirement
+                    // new version of the requirement...
                     $version = new RequirementVersion;
+                    
+                    // ... and we change the status to "New"
+                    $version->status_id = Status::NEW_REQUIREMENT;
                 } else {
                     // We update the current version
                     $version = $requirement->lastVersion;
