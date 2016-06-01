@@ -8,7 +8,6 @@ use app\models\ItemQuery;
 /* @var $id int */
 /* @var $priorityItems array */
 /* @var $categoryItems array */
-/* @var $statusItems array */
 /* @var $query ItemQuery */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
@@ -27,7 +26,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         'query' => $query,
         'priorityItems' => $priorityItems,
         'categoryItems' => $categoryItems,
-        'statusItems' => $statusItems,
     ]) ?>
 
 </div>

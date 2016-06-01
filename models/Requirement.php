@@ -29,7 +29,8 @@ class Requirement extends Item
     const EVENT_REVISION = 'revision';
     const EVENT_VERSION = 'version';
     const EVENT_POST = 'post';
-
+    const EVENT_UPDATE_STATUS = 'update-status';
+    
     /**
      * @inheritDoc
      */
@@ -43,6 +44,7 @@ class Requirement extends Item
         $this->on(self::EVENT_REVISION, ['app\components\RequirementLogEventHandler', 'log']);
         $this->on(self::EVENT_VERSION, ['app\components\RequirementLogEventHandler', 'log']);
         $this->on(self::EVENT_POST, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_UPDATE_STATUS, ['app\components\RequirementLogEventHandler', 'log']);
         
         parent::init();
     }
@@ -317,5 +319,10 @@ class Requirement extends Item
             $wording = substr($wording, 0, 50) . '...';
         }
         return '<span title="' . $title . '">' . $wording . '</span>';
+    }
+    
+    public function updateStatus($statusId)
+    {
+        $this->lastVersion->updateStatus($statusId);
     }
 }

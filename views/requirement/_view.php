@@ -11,6 +11,7 @@ use yii\widgets\ListView;
 use app\models\Requirement;
 use app\models\Section;
 use app\models\RequirementCommentForm;
+use app\models\Status;
 
 /**
  * @var View       $this
@@ -44,6 +45,8 @@ if (empty($parentKey)) {
 
 // get module and setup form
 $module = TreeView::module(); // the treemanager module
+
+$statusItems = Status::getOrderedMappedList();
 
 // initialize for create or update
 $depth = ArrayHelper::getValue($breadcrumbs, 'depth');
@@ -113,6 +116,8 @@ if ($node instanceof Requirement) {
         }
     },*/
 ]) ?>
+    
+<?= $this->render('_status', ['node' => $node, 'statusItems' => $statusItems]) ?>
 </div>
 
 <?php if ($node instanceof Requirement): ?>

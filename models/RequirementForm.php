@@ -16,7 +16,6 @@ class RequirementForm extends Model
     public $title;
     public $wording;
     public $justification;
-    public $status_id;
     public $priority_id = 1;
     public $isNewRecord;
 
@@ -27,8 +26,8 @@ class RequirementForm extends Model
     {
         return [
             [['category_id', 'section_id', 'reference', 'wording', 'priority_id'], 'required', 'on' => self::SCENARIO_CREATE],
-            [['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id'], 'required', 'on' => self::SCENARIO_UPDATE],
-            [['category_id', 'section_id', 'priority_id', 'status_id'], 'integer'],
+            [['category_id', 'section_id', 'reference', 'wording', 'priority_id'], 'required', 'on' => self::SCENARIO_UPDATE],
+            [['category_id', 'section_id', 'priority_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['wording', 'justification'], 'string'],
         ];
@@ -48,7 +47,6 @@ class RequirementForm extends Model
             'wording' => Yii::t('app', 'Wording'),
             'justification' => Yii::t('app', 'Justification'),
             'priority_id' => Yii::t('app', 'Priority'),
-            'status_id' => Yii::t('app', 'Status'),
         ];
     }
     
@@ -59,7 +57,7 @@ class RequirementForm extends Model
     {
         return [
             self::SCENARIO_CREATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'title', 'justification'],
-            self::SCENARIO_UPDATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'status_id', 'title', 'justification'],
+            self::SCENARIO_UPDATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'title', 'justification'],
         ];
     }
     

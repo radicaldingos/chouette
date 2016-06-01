@@ -96,6 +96,9 @@ $config = [
                 'nodeView' => '@app/views/item/_view',
             ],*/
         ],
+        'gridview' => [
+            'class' => '\kartik\grid\Module',
+        ],
     ],
     // Config to force auth
     'as beforeRequest' => [
@@ -120,7 +123,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '192.168.56.*'],
+        //'allowedIPs' => ['127.0.0.1', '::1', '192.168.56.*'],
     ];
 
     $config['bootstrap'][] = 'gii';

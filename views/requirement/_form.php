@@ -42,10 +42,6 @@ use kartik\tree\TreeViewInput;
         ]); ?>
     </div>
     
-    <?php if (! $model->isNewRecord): ?>
-        <?= $form->field($model, 'status_id')->dropDownList($statusItems) ?>
-    <?php endif; ?>
-    
     <?= $form->field($model, 'reference')->input('text') ?>
     
     <?= $form->field($model, 'title')->input('text') ?>

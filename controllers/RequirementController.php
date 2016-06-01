@@ -10,6 +10,7 @@ use app\models\Item;
 use app\models\ItemSearch;
 use app\models\Requirement;
 use app\models\RequirementCommentForm;
+use app\models\forms\RequirementStatusForm;
 use app\models\RequirementForm;
 use app\models\RequirementSearch;
 use app\models\RequirementVersion;
@@ -180,7 +181,6 @@ class RequirementController extends Controller
         // Get items for HTML selects
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
-        $statusItems   = Status::getOrderedMappedList();
         
         // Get items for treeview
         $project = Yii::$app->session->get('user.current_project');
@@ -194,7 +194,6 @@ class RequirementController extends Controller
             'query' => $query,
             'priorityItems' => $priorityItems,
             'categoryItems' => $categoryItems,
-            'statusItems' => $statusItems,
         ]);
     }
 
@@ -256,7 +255,6 @@ class RequirementController extends Controller
                     $version->version = $requirement->lastVersion->version;
                     $version->revision = $requirement->lastVersion->revision + 1;
                 }
-                $version->status_id = $model->status_id;
                 $version->updated = time();
 
                 if (! $version->save()) {
@@ -284,7 +282,6 @@ class RequirementController extends Controller
             $model->wording = $requirement->lastVersion->wording;
             $model->justification = $requirement->lastVersion->justification;
             $model->priority_id = $requirement->priority_id;
-            $model->status_id = $requirement->lastVersion->status_id;
             if ($section = $requirement->getSection()) {
                 $model->section_id = $section->id;
             }
@@ -293,7 +290,6 @@ class RequirementController extends Controller
         // Get items for HTML selects
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
-        $statusItems   = Status::getOrderedMappedList();
         
         // Get items for treeview
         $project = Yii::$app->session->get('user.current_project');
@@ -308,7 +304,6 @@ class RequirementController extends Controller
             'query' => $query,
             'priorityItems' => $priorityItems,
             'categoryItems' => $categoryItems,
-            'statusItems' => $statusItems,
         ]);
     }
     
@@ -359,7 +354,7 @@ class RequirementController extends Controller
     /**
      * Post a new comment on selected requirement.
      * 
-     * @param type $id
+     * @param int $id Requirement id
      * 
      * @return mixed
      */
@@ -374,6 +369,32 @@ class RequirementController extends Controller
             $requirement->addComment($model);
             
             $requirement->trigger(Requirement::EVENT_POST);
+        }
+        
+        return $this->redirect(['index', 'id' => $id]);
+    }
+    
+    /**
+     * Update requirement status.
+     * 
+     * @param int $id Requirement id
+     * 
+     * @return mixed
+     */
+    public function actionUpdateStatus($id)
+    {
+        $model = new RequirementStatusForm();
+        
+        if ($model->load(Yii::$app->request->post())
+            && $model->validate()
+        ) {
+            $requirement = $this->findModel($id);
+            $requirement->updateStatus($model->status_id);
+            
+            $requirement->trigger(Requirement::EVENT_UPDATE_STATUS);
+            
+            Yii::$app->getSession()
+                    ->setFlash('success', Yii::t('app/success', 'Requirement status <b>{name}</b> has been updated.', ['name' => $requirement->name]));
         }
         
         return $this->redirect(['index', 'id' => $id]);

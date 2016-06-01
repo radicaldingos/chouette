@@ -103,4 +103,12 @@ class RequirementVersion extends \yii\db\ActiveRecord
     {
         return "{$this->version}.{$this->revision}";
     }
+    
+    public function updateStatus($statusId)
+    {
+        $this->status_id = (int) $statusId;
+        if (! $this->save()) {
+            throw new Exception('Error');
+        }
+    }
 }
