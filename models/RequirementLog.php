@@ -27,7 +27,7 @@ class RequirementLog extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function rules()
     {
@@ -41,7 +41,7 @@ class RequirementLog extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function attributeLabels()
     {
@@ -68,5 +68,15 @@ class RequirementLog extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    
+    /**
+     * Get event litteral string.
+     * 
+     * @return string
+     */
+    public function getEventLitteral()
+    {
+        return Yii::t('app/events', $this->event);
     }
 }

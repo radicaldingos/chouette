@@ -37,6 +37,7 @@ $config = [
                         'app/success' => 'success.php',
                         'app/error' => 'error.php',
                         'app/report' => 'report.php',
+                        'app/events' => 'events.php',
                     ],
                 ],
                 'kvtree' => [

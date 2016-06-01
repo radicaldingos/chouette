@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\Item;
+use app\models\forms\RequirementCommentForm;
 
 /**
  * This is the model class for table "requirement".
