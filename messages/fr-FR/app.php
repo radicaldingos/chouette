@@ -53,6 +53,8 @@ return [
     'Sections' => 'Sections',
     'User' => 'Utilisateur',
     'Users' => 'Utilisateurs',
+    'Report' => 'Rapport',
+    'Reports' => 'Rapports',
     'Are you sure you want to delete this item?' => 'Êtes-vous sûr de vouloir supprimer cet élément ?',
     
     'Project ID' => 'Projet',
@@ -101,4 +103,6 @@ return [
     'Administrator' => 'Administrateur',
     'Customer' => 'Client',
     'Developer' => 'Développeur',
+    
+    'User projects' => 'Projets',
 ];

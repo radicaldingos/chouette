@@ -24,6 +24,7 @@ echo Nav::widget([
         ['label' => Yii::t('app', 'Requirements'), 'url' => ['/requirement'], 'visible' => Yii::$app->user->can('displayRequirement')],
         ['label' => Yii::t('app', 'Projects'), 'url' => ['/project'], 'visible' => Yii::$app->user->can('manageProjects')],
         ['label' => Yii::t('app', 'Users'), 'url' => ['/user'], 'visible' => Yii::$app->user->can('manageUsers')],
+        ['label' => Yii::t('app', 'Reports'), 'url' => ['/report']],
         Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
         ) : (
