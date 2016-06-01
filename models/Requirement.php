@@ -203,7 +203,7 @@ class Requirement extends Item
     
     /**
      * 
-     * @param \app\models\RequirementCommentForm $comment
+     * @param \app\models\forms\RequirementCommentForm $comment
      */
     public function addComment(RequirementCommentForm $data)
     {
@@ -321,6 +321,11 @@ class Requirement extends Item
         return '<span title="' . $title . '">' . $wording . '</span>';
     }
     
+    /**
+     * Update the last version status.
+     * 
+     * @param int $statusId Status id
+     */
     public function updateStatus($statusId)
     {
         $this->lastVersion->updateStatus($statusId);

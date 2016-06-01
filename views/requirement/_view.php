@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use app\models\Requirement;
 use app\models\Section;
-use app\models\RequirementCommentForm;
+use app\models\forms\RequirementCommentForm;
 use app\models\Status;
 
 /**

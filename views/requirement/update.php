@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use app\models\ItemQuery;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\RequirementForm */
+/* @var $model app\models\forms\RequirementForm */
 /* @var $id int */
 /* @var $priorityItems array */
 /* @var $categoryItems array */

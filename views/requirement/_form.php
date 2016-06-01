@@ -2,11 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\web\View;
 use kartik\tree\TreeViewInput;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\RequirementForm */
+/* @var $model app\models\forms\RequirementForm */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $priorityItems array */
 /* @var $categoryItems array */

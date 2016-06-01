@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\RequirementForm */
+/* @var $model app\models\forms\RequirementForm */
 /* @var $priorityItems array */
 /* @var $categoryItems array */
 /* @var $query ItemQuery */
