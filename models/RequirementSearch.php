@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Requirement;
@@ -55,14 +56,11 @@ class RequirementSearch extends Requirement
             return $dataProvider;
         }
 
-        // grid filtering conditions
+        // Grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'created' => $this->created,
-        ]);
-        
-        $query->orderBy([
-            'status' => SORT_ASC,
+            'type' => Requirement::TYPE,
         ]);
 
         return $dataProvider;
@@ -80,6 +78,7 @@ class RequirementSearch extends Requirement
         
         $query->leftJoin('requirement_version', 'item.id = requirement_version.requirement_id')
             ->andWhere(['LIKE', 'LOWER(requirement_version.wording)', strtolower($q)])
+            ->andWhere("project_id = " . Yii::$app->session->get('user.current_project')->id)
             ->orderBy('updated DESC, id DESC');
 
         return $dataProvider;
