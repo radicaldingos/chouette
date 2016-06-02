@@ -8,4 +8,5 @@ return [
     'version' => "Version",
     'post' => "Commentaire",
     'update-status' => "Modification du statut",
+    'release' => 'Release',
 ];

@@ -66,7 +66,7 @@ return [
     'Save' => '',
     'Saved the node details successfully.' => '',
     'Search...' => 'Rechercher...',
-    'Select a node by clicking on one of the tree items.' => 'Sélectionnez une exigence à afficher.',
+    'Select a node by clicking on one of the tree items.' => 'Sélectionnez une exigence.',
     'Select...' => '',
     'Selected' => '',
     'The node was moved successfully.' => '',
