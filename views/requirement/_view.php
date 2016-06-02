@@ -124,7 +124,7 @@ if ($node instanceof Requirement) {
 <div class="col-sm-6">
     <div class="detailBox">
         <div class="titleBox">
-            <label><?= Yii::t('app', 'Comments') ?></label>
+            <?= Yii::t('app', 'Comments') ?>
         </div>
         <div class="actionBox">
             <ul class="commentList">

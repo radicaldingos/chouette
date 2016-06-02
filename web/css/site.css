@@ -102,10 +102,12 @@ a.desc:after {
     padding:10px;
 }
 
-.titleBox label{
-    color:#444;
-    margin:0;
-    display:inline-block;
+.titleBox {
+    color: #444;
+    margin: 0;
+    display: block;
+    font-weight: bold;
+    
 }
 
 .commentBox {
@@ -210,4 +212,8 @@ span.comment-version {
     color: grey;
     font-size: 12px;
     padding-right: 10px;
+}
+
+label {
+    line-height: 32px;
 }
