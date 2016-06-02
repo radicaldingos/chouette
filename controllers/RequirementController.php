@@ -16,6 +16,7 @@ use app\models\RequirementSearch;
 use app\models\RequirementVersion;
 use app\models\Category;
 use app\models\Priority;
+use app\models\Release;
 use app\models\Section;
 use app\models\Status;
 use yii\web\Controller;
@@ -151,6 +152,7 @@ class RequirementController extends Controller
                 $version->title = $model->title;
                 $version->wording = $model->wording;
                 $version->justification = $model->justification;
+                $version->release_id = $model->release_id;
                 $version->version = 1;
                 $version->revision = 0;
                 $version->status_id = Status::NEW_REQUIREMENT;
@@ -181,6 +183,7 @@ class RequirementController extends Controller
         // Get items for HTML selects
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
+        $releaseItems = Release::getOrderedMappedList();
         
         // Get items for treeview
         $project = Yii::$app->session->get('user.current_project');
@@ -194,6 +197,7 @@ class RequirementController extends Controller
             'query' => $query,
             'priorityItems' => $priorityItems,
             'categoryItems' => $categoryItems,
+            'releaseItems' => $releaseItems,
         ]);
     }
 
@@ -251,6 +255,7 @@ class RequirementController extends Controller
                 $version->title = $model->title;
                 $version->wording = $model->wording;
                 $version->justification = $model->justification;
+                $version->release_id = $model->release_id;
                 if ($submit == 'version') {
                     $version->version = $requirement->lastVersion->version + 1;
                     $version->revision = 0;
@@ -284,6 +289,7 @@ class RequirementController extends Controller
             $model->title = $requirement->lastVersion->title;
             $model->wording = $requirement->lastVersion->wording;
             $model->justification = $requirement->lastVersion->justification;
+            $model->release_id = $requirement->lastVersion->release_id;
             $model->priority_id = $requirement->priority_id;
             if ($section = $requirement->getSection()) {
                 $model->section_id = $section->id;
@@ -293,6 +299,7 @@ class RequirementController extends Controller
         // Get items for HTML selects
         $priorityItems = Priority::getOrderedMappedList();
         $categoryItems = Category::getOrderedMappedList();
+        $releaseItems = Release::getOrderedMappedList();
         
         // Get items for treeview
         $project = Yii::$app->session->get('user.current_project');
@@ -307,6 +314,7 @@ class RequirementController extends Controller
             'query' => $query,
             'priorityItems' => $priorityItems,
             'categoryItems' => $categoryItems,
+            'releaseItems' => $releaseItems,
         ]);
     }
     

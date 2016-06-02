@@ -85,6 +85,7 @@ return [
     'About' => 'À propos de Chouette',
     'Search' => 'Recherche',
     'Comments' => 'Commentaires',
+    'Creation date' => 'Date de création',
     'Add' => 'Ajouter',
     'Your comments' => 'Votre commentaire',
     'on' => 'le',
@@ -107,4 +108,6 @@ return [
     'Developer' => 'Développeur',
     
     'User projects' => 'Projets',
+    'Implemented in release' => 'Implémenté dans la version',
+    'Not implemented yet' => 'Pas encore implémenté',
 ];

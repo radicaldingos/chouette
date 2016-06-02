@@ -31,6 +31,7 @@ class Requirement extends Item
     const EVENT_VERSION = 'version';
     const EVENT_POST = 'post';
     const EVENT_UPDATE_STATUS = 'update-status';
+    const EVENT_RELEASE = 'release';
     
     /**
      * @inheritDoc
@@ -46,6 +47,7 @@ class Requirement extends Item
         $this->on(self::EVENT_VERSION, ['app\components\RequirementLogEventHandler', 'log']);
         $this->on(self::EVENT_POST, ['app\components\RequirementLogEventHandler', 'log']);
         $this->on(self::EVENT_UPDATE_STATUS, ['app\components\RequirementLogEventHandler', 'log']);
+        $this->on(self::EVENT_RELEASE, ['app\components\RequirementLogEventHandler', 'log']);
         
         parent::init();
     }
@@ -173,6 +175,10 @@ class Requirement extends Item
     {
         return [
             [
+                'label' => Yii::t('app', 'Version'),
+                'value' => $this->lastVersion->getCompleteVersion(),
+            ],
+            [
                 'label' => Yii::t('app', 'Category'),
                 'value' => Yii::t('app', $this->category->name),
             ],
@@ -181,8 +187,8 @@ class Requirement extends Item
                 'value' => Yii::t('app', $this->lastVersion->status->name),
             ],
             [
-                'label' => Yii::t('app', 'Version'),
-                'value' => $this->lastVersion->getCompleteVersion(),
+                'label' => Yii::t('app', 'Release'),
+                'value' => isset($this->lastVersion->release) ? $this->lastVersion->release->version : '',
             ],
             'lastVersion.title',
             'lastVersion.wording',

@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
     <div class="col-sm-4">
         <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+            'model' => $model,
+        ]) ?>
     </div>
     <div class="col-sm-4">
         <?= $this->render('_roles', [

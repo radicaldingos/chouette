@@ -6,10 +6,13 @@ use Yii;
 use app\models\Section;
 use app\models\Project;
 use app\models\ProjectSearch;
+use app\models\Release;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\base\Exception;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -112,14 +115,29 @@ class ProjectController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $releaseModel = new Release();
+        
+        $releaseDataProvider = new ActiveDataProvider([
+            'query' => Release::find(),
+        ]);
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        
+        if ($releaseModel->load(Yii::$app->request->post())) {
+            $releaseModel->date_creation = time();
+            if (! $releaseModel->save()) {
+                throw new Exception("Couldn't save release.");
+            }
+            return $this->redirect(['update', 'id' => $model->id]);
+        }
+        
+        return $this->render('update', [
+            'model' => $model,
+            'releaseDataProvider' => $releaseDataProvider,
+            'releaseModel' => $releaseModel,
+        ]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "release".
@@ -43,7 +44,7 @@ class Release extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'version' => Yii::t('app', 'Version'),
-            'date_creation' => Yii::t('app', 'Date Creation'),
+            'date_creation' => Yii::t('app', 'Creation date'),
         ];
     }
 
@@ -53,5 +54,12 @@ class Release extends \yii\db\ActiveRecord
     public function getRequirementVersions()
     {
         return $this->hasMany(RequirementVersion::className(), ['release_id' => 'id']);
+    }
+    
+    public static function getOrderedMappedList()
+    {
+        return ArrayHelper::map(static::find()
+                ->orderBy('date_creation')
+                ->all(), 'id', 'version');
     }
 }

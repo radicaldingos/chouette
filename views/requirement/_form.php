@@ -50,6 +50,8 @@ use kartik\tree\TreeViewInput;
     <?= $form->field($model, 'justification')->textarea(['style' => 'resize: vertical']) ?>
     
     <?= $form->field($model, 'priority_id')->dropDownList($priorityItems) ?>
+    
+    <?= $form->field($model, 'release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'Not implemented yet')]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'name' => 'sub', 'value' => 'update']) ?>
