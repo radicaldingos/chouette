@@ -7,10 +7,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\DetailView;
-use yii\widgets\ListView;
 use app\models\Requirement;
 use app\models\Section;
-use app\models\forms\RequirementCommentForm;
 use app\models\Status;
 
 /**
@@ -96,7 +94,10 @@ if ($node instanceof Requirement) {
 <div class="kv-detail-heading">
     <div class="pull-right">
         <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>', ["/$nodeIdentifier/update", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Edit')]) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-inbox"></i>', ["/$nodeIdentifier/archive", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Archive')]) ?>
+        <?= $node instanceof Requirement
+            ? Html::a('<i class="glyphicon glyphicon-inbox"></i>', ["/$nodeIdentifier/archive", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Archive')])
+            : ''
+        ?>
         <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ["/$nodeIdentifier/delete", 'id' => $node->id], ['class' => 'btn', 'title' => Yii::t('app', 'Delete')]) ?>
     </div>
     <div class="kv-detail-crumbs"><?= $name ?></div>
@@ -104,49 +105,33 @@ if ($node instanceof Requirement) {
 </div>
 
 <div class="col-sm-6">
-<?= DetailView::widget([
-    'model' => $node,
-    'attributes' => $node->getDetailAttributes(),
-    /*'template' => function ($attribute, $index, $widget) {
-        debug($attribute);
-        if (isset($attribute['attribute']) && $attribute['attribute'] == 'created') {
-            return "<tr><th>{$attribute['label']}</th><td class=\"status-new\">{$attribute['value']}</td></tr>";
-        } else {
-            return "<tr><th>{$attribute['label']}</th><td>{$attribute['label']}</td></tr>";
-        }
-    },*/
-]) ?>
-    
-<?= $this->render('_status', ['node' => $node, 'statusItems' => $statusItems]) ?>
+    <?php
+    echo DetailView::widget([
+        'model' => $node,
+        'attributes' => $node->getDetailAttributes(),
+        /*'template' => function ($attribute, $index, $widget) {
+            debug($attribute);
+            if (isset($attribute['attribute']) && $attribute['attribute'] == 'created') {
+                return "<tr><th>{$attribute['label']}</th><td class=\"status-new\">{$attribute['value']}</td></tr>";
+            } else {
+                return "<tr><th>{$attribute['label']}</th><td>{$attribute['label']}</td></tr>";
+            }
+        },*/
+    ]);
+
+    if ($node instanceof Requirement) {
+        echo $this->render('_status', [
+            'node' => $node,
+            'statusItems' => $statusItems,
+        ]);
+    }
+    ?>
 </div>
 
-<?php if ($node instanceof Requirement): ?>
-<div class="col-sm-6">
-    <div class="detailBox">
-        <div class="titleBox">
-            <?= Yii::t('app', 'Comments') ?>
-        </div>
-        <div class="actionBox">
-            <ul class="commentList">
-                <?= ListView::widget([
-                    'dataProvider' => $node->searchForComments(),
-                    'itemOptions' => ['class' => 'item'],
-                    'itemView' => '_comment',
-                    'layout' => '{items}'
-                ]) ?>
-            </ul>
-            <?php
-            $form = ActiveForm::begin(['class' => 'form-inline', 'action' => '/requirement/post?id=' . $node->id]);
-            $commentFormModel = new RequirementCommentForm();
-            ?>
-                <div class="form-group">
-                    <?= $form->field($commentFormModel, 'comment')->input('text', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Your comments')])->label(false) ?>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-default"><?= Yii::t('app', 'Add') ?></button>
-                </div>
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
-</div>
-<?php endif; ?>
+<?php
+if ($node instanceof Requirement) {
+    echo $this->render('_comments', [
+        'node' => $node,
+    ]);
+}
+?>
