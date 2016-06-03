@@ -15,7 +15,8 @@ use Yii;
  * @property string $wording
  * @property string $justification
  * @property integer $status_id
- * @property integer $release_id
+ * @property integer $target_release_id
+ * @property integer $integrated_release_id
  * @property integer $updated
  *
  * @property Requirement $requirement
@@ -37,7 +38,7 @@ class RequirementVersion extends \yii\db\ActiveRecord
     {
         return [
             [['requirement_id', 'wording', 'status_id', 'updated'], 'required'],
-            [['requirement_id', 'version', 'revision', 'status_id', 'release_id', 'updated'], 'integer'],
+            [['requirement_id', 'version', 'revision', 'status_id', 'target_release_id', 'integrated_release_id', 'updated'], 'integer'],
             [['title', 'wording', 'justification'], 'string'],
             [['requirement_id'], 'exist', 'skipOnError' => true, 'targetClass' => Requirement::className(), 'targetAttribute' => ['requirement_id' => 'id']],
         ];
@@ -57,7 +58,8 @@ class RequirementVersion extends \yii\db\ActiveRecord
             'wording' => Yii::t('app', 'Wording'),
             'justification' => Yii::t('app', 'Justification'),
             'status_id' => Yii::t('app', 'Status'),
-            'release_id' => Yii::t('app', 'Release'),
+            'target_release_id' => Yii::t('app', 'Release ciblée'),
+            'integrated_release_id' => Yii::t('app', 'Intégrée dans la release'),
             'updated' => Yii::t('app', 'Updated'),
         ];
     }
@@ -81,9 +83,17 @@ class RequirementVersion extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRelease()
+    public function getTargetRelease()
     {
-        return $this->hasOne(Release::className(), ['id' => 'release_id']);
+        return $this->hasOne(Release::className(), ['id' => 'target_release_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIntegratedRelease()
+    {
+        return $this->hasOne(Release::className(), ['id' => 'integrated_release_id']);
     }
     
     /**

@@ -51,7 +51,9 @@ use kartik\tree\TreeViewInput;
     
     <?= $form->field($model, 'priority_id')->dropDownList($priorityItems) ?>
     
-    <?= $form->field($model, 'release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'Not implemented yet')]) ?>
+    <?= $form->field($model, 'target_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'No targeted release')]) ?>
+    
+    <?= $form->field($model, 'integrated_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'Not implemented yet')]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'name' => 'sub', 'value' => 'update']) ?>

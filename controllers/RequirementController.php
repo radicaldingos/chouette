@@ -152,7 +152,8 @@ class RequirementController extends Controller
                 $version->title = $model->title;
                 $version->wording = $model->wording;
                 $version->justification = $model->justification;
-                $version->release_id = $model->release_id;
+                $version->target_release_id = $model->target_release_id;
+                $version->integrated_release_id = $model->integrated_release_id;
                 $version->version = 1;
                 $version->revision = 0;
                 $version->status_id = Status::NEW_REQUIREMENT;
@@ -255,7 +256,8 @@ class RequirementController extends Controller
                 $version->title = $model->title;
                 $version->wording = $model->wording;
                 $version->justification = $model->justification;
-                $version->release_id = $model->release_id;
+                $version->target_release_id = $model->target_release_id;
+                $version->integrated_release_id = $model->integrated_release_id;
                 if ($submit == 'version') {
                     $version->version = $requirement->lastVersion->version + 1;
                     $version->revision = 0;
@@ -289,7 +291,8 @@ class RequirementController extends Controller
             $model->title = $requirement->lastVersion->title;
             $model->wording = $requirement->lastVersion->wording;
             $model->justification = $requirement->lastVersion->justification;
-            $model->release_id = $requirement->lastVersion->release_id;
+            $model->target_release_id = $requirement->lastVersion->target_release_id;
+            $model->integrated_release_id = $requirement->lastVersion->integrated_release_id;
             $model->priority_id = $requirement->priority_id;
             if ($section = $requirement->getSection()) {
                 $model->section_id = $section->id;

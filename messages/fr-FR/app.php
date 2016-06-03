@@ -108,6 +108,8 @@ return [
     'Developer' => 'Développeur',
     
     'User projects' => 'Projets',
-    'Implemented in release' => 'Implémenté dans la version',
+    'Target release' => 'Prévue dans la release',
+    'Implemented in release' => 'Implémentée dans la version',
+    'No targeted release' => 'Pas de release prévue',
     'Not implemented yet' => 'Pas encore implémenté',
 ];

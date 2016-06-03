@@ -23,7 +23,7 @@
                 <th style="text-align: right;"><?= Yii::t('app', 'Priority') ?></th>
                 <td><?= Yii::t('app', $model->priority->name) ?></td>
                 <th style="text-align: right;"><?= Yii::t('app', 'Release') ?></th>
-                <td><?= isset($model->lastVersion->release) ? $model->lastVersion->release->version : '' ?></td>
+                <td><?= isset($model->lastVersion->integratedRelease) ? $model->lastVersion->integratedRelease->version : '' ?></td>
             </tr>
             <tr>
                 <th style="text-align: right;"><?= Yii::t('app', 'Wording') ?></th>

@@ -17,7 +17,8 @@ class RequirementForm extends Model
     public $wording;
     public $justification;
     public $priority_id = 1;
-    public $release_id;
+    public $target_release_id;
+    public $integrated_release_id;
     public $isNewRecord;
 
     /**
@@ -28,7 +29,7 @@ class RequirementForm extends Model
         return [
             [['category_id', 'section_id', 'reference', 'wording', 'priority_id'], 'required', 'on' => self::SCENARIO_CREATE],
             [['category_id', 'section_id', 'reference', 'wording', 'priority_id'], 'required', 'on' => self::SCENARIO_UPDATE],
-            [['category_id', 'section_id', 'priority_id', 'release_id'], 'integer'],
+            [['category_id', 'section_id', 'priority_id', 'target_release_id', 'integrated_release_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['wording', 'justification'], 'string'],
         ];
@@ -48,7 +49,8 @@ class RequirementForm extends Model
             'wording' => Yii::t('app', 'Wording'),
             'justification' => Yii::t('app', 'Justification'),
             'priority_id' => Yii::t('app', 'Priority'),
-            'release_id' => Yii::t('app', 'Implemented in release'),
+            'target_release_id' => Yii::t('app', 'Target release'),
+            'integrated_release_id' => Yii::t('app', 'Implemented in release'),
         ];
     }
     
@@ -58,8 +60,28 @@ class RequirementForm extends Model
     public function scenarios()
     {
         return [
-            self::SCENARIO_CREATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'title', 'justification', 'release_id'],
-            self::SCENARIO_UPDATE => ['category_id', 'section_id', 'reference', 'wording', 'priority_id', 'title', 'justification', 'release_id'],
+            self::SCENARIO_CREATE => [
+                'category_id',
+                'section_id',
+                'reference',
+                'wording',
+                'priority_id',
+                'title',
+                'justification',
+                'target_release_id',
+                'integrated_release_id',
+            ],
+            self::SCENARIO_UPDATE => [
+                'category_id',
+                'section_id',
+                'reference',
+                'wording',
+                'priority_id',
+                'title',
+                'justification',
+                'target_release_id',
+                'integrated_release_id',
+            ],
         ];
     }
     

@@ -187,8 +187,12 @@ class Requirement extends Item
                 'value' => Yii::t('app', $this->lastVersion->status->name),
             ],
             [
-                'label' => Yii::t('app', 'Release'),
-                'value' => isset($this->lastVersion->release) ? $this->lastVersion->release->version : '',
+                'label' => Yii::t('app', 'Target release'),
+                'value' => isset($this->lastVersion->targetRelease) ? $this->lastVersion->targetRelease->version : '',
+            ],
+            [
+                'label' => Yii::t('app', 'Implemented in release'),
+                'value' => isset($this->lastVersion->integratedRelease) ? $this->lastVersion->integratedRelease->version : '',
             ],
             'lastVersion.title',
             'lastVersion.wording',

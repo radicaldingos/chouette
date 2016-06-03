@@ -47,14 +47,6 @@ class Release extends \yii\db\ActiveRecord
             'date_creation' => Yii::t('app', 'Creation date'),
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRequirementVersions()
-    {
-        return $this->hasMany(RequirementVersion::className(), ['release_id' => 'id']);
-    }
     
     public static function getOrderedMappedList()
     {
