@@ -298,6 +298,17 @@ class Requirement extends Item
     }
     
     /**
+     * Retrieve requirement events
+     * 
+     * @return type
+     */
+    public function searchForLogs()
+    {
+        $comment = new RequirementLog();
+        return $comment->search(['RequirementLog' => ['requirementId' => $this->id]]);
+    }
+    
+    /**
      * Archive a requirement
      * 
      * @throws Exception

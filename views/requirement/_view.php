@@ -10,6 +10,7 @@ use yii\widgets\DetailView;
 use app\models\Requirement;
 use app\models\Section;
 use app\models\Status;
+use yii\bootstrap\Tabs;
 
 /**
  * @var View       $this
@@ -128,10 +129,20 @@ if ($node instanceof Requirement) {
     ?>
 </div>
 
-<?php
-if ($node instanceof Requirement) {
-    echo $this->render('_comments', [
-        'node' => $node,
-    ]);
-}
-?>
+<?php if ($node instanceof Requirement) : ?>
+<div class="col-sm-6">
+    <?= Tabs::widget([
+        'items' => [
+            [
+                'label' => 'Comments',
+                'content' => $this->render('_comments', ['node' => $node]),
+                'active' => true,
+            ],
+            [
+                'label' => 'Timeline',
+                'content' => $this->render('_logs', ['node' => $node]),
+            ],
+        ]
+    ]); ?>
+</div>
+<?php endif; ?>
