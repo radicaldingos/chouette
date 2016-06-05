@@ -17,43 +17,47 @@ use kartik\tree\TreeViewInput;
 <div class="requirement-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'category_id')->dropDownList($categoryItems) ?>
     
-    <div class="form-group field-requirementform-category_id required">
-    <?php 
-        echo Html::label(Yii::t('app', 'Section'), 'requirementform-section_id', ['class' => 'control-label']);    
-        echo TreeViewInput::widget([
-            'model' => $model,
-            'attribute' => 'section_id',
-            'query' => $query,
-            'headingOptions' => ['label' => Yii::t('app', 'Sections')],
-            'rootOptions' => ['label'=>'<i class="fa fa-tree text-success"></i>'],
-            'fontAwesome' => true,
-            'asDropdown' => true,
-            'multiple' => false,
-            'options' => ['disabled' => false],
-            'dropdownConfig' => [
-                'input' => [
-                    'placeholder' => Yii::t('app', 'Select a section...'),
-                ],
-            ],
-        ]); ?>
+    <div class="col-md-6">
+        <?= $form->field($model, 'reference')->input('text') ?>
+        
+        <?= $form->field($model, 'title')->input('text') ?>
+    
+        <?= $form->field($model, 'wording')->textarea(['style' => 'resize: vertical']) ?>
+
+        <?= $form->field($model, 'justification')->textarea(['style' => 'resize: vertical']) ?>
     </div>
     
-    <?= $form->field($model, 'reference')->input('text') ?>
+    <div class="col-md-6">
+        <?= $form->field($model, 'category_id')->dropDownList($categoryItems) ?>
     
-    <?= $form->field($model, 'title')->input('text') ?>
-    
-    <?= $form->field($model, 'wording')->textarea(['style' => 'resize: vertical']) ?>
-    
-    <?= $form->field($model, 'justification')->textarea(['style' => 'resize: vertical']) ?>
-    
-    <?= $form->field($model, 'priority_id')->dropDownList($priorityItems) ?>
-    
-    <?= $form->field($model, 'target_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'No targeted release')]) ?>
-    
-    <?= $form->field($model, 'integrated_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'Not implemented yet')]) ?>
+        <div class="form-group field-requirementform-category_id required">
+        <?php 
+            echo Html::label(Yii::t('app', 'Section'), 'requirementform-section_id', ['class' => 'control-label']);    
+            echo TreeViewInput::widget([
+                'model' => $model,
+                'attribute' => 'section_id',
+                'query' => $query,
+                'headingOptions' => ['label' => Yii::t('app', 'Sections')],
+                'rootOptions' => ['label'=>'<i class="fa fa-tree text-success"></i>'],
+                'fontAwesome' => true,
+                'asDropdown' => true,
+                'multiple' => false,
+                'options' => ['disabled' => false],
+                'dropdownConfig' => [
+                    'input' => [
+                        'placeholder' => Yii::t('app', 'Select a section...'),
+                    ],
+                ],
+            ]); ?>
+        </div>
+        
+        <?= $form->field($model, 'priority_id')->dropDownList($priorityItems) ?>
+
+        <?= $form->field($model, 'target_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'No targeted release')]) ?>
+
+        <?= $form->field($model, 'integrated_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'Not implemented yet')]) ?>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'name' => 'sub', 'value' => 'update']) ?>

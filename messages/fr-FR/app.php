@@ -97,6 +97,7 @@ return [
     'High' => 'Haute',
     'Medium' => 'Moyenne',
     'Low' => 'Basse',
+    'Older versions' => "Anciennes versions",
     
     'Select a project...' => 'Sélectionnez un projet...',
     'Select a section...' => 'Sélectionnez une section...',
@@ -109,7 +110,8 @@ return [
     
     'User projects' => 'Projets',
     'Target release' => 'Prévue dans la release',
-    'Implemented in release' => 'Implémentée dans la version',
+    'Implemented in release' => 'Implémentée dans la release',
     'No targeted release' => 'Pas de release prévue',
     'Not implemented yet' => 'Pas encore implémenté',
+    'No selected project.' => "Aucun projet sélectionné."
 ];

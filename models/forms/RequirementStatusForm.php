@@ -10,7 +10,7 @@ class RequirementStatusForm extends Model
     public $status_id;
 
     /**
-     * @return array the validation rules.
+     * @inheritDoc
      */
     public function rules()
     {
@@ -20,7 +20,7 @@ class RequirementStatusForm extends Model
     }
 
     /**
-     * @return array customized attribute labels
+     * @inheritDoc
      */
     public function attributeLabels()
     {

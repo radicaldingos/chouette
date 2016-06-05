@@ -151,7 +151,7 @@ class UserController extends Controller
     
     public function actionDeleteRole($user_id, $project_id, $profile_id)
     {
-        $userProject = UserProject::find()
+        UserProject::find()
             ->where("user_id = {$user_id} AND project_id = {$project_id} AND profile_id = {$profile_id}")
             ->one()
             ->delete();

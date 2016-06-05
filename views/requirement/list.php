@@ -23,17 +23,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'label' => 'Section',
-                //'value' => function($data){ return "{$data->section->document->name} » {$data->section->name}"; },
+                'label' => Yii::t('app', 'Section'),
+                'value' => function ($model) {
+                    return $model->section->name;
+                },
             ],
             [
-                'attribute' => 'category.name',
+                'attribute' => 'lastVersion.status.name',
             ],
-            'lastVersion.wording',
             [
-                'attribute' => 'status.name',
+                'attribute' => 'lastVersion.title',
             ],
-
+            [
+                'attribute' => 'lastVersion.wording',
+            ],
+            [
+                'attribute' => 'lastVersion.justification',
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

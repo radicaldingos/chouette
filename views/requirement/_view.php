@@ -134,12 +134,16 @@ if ($node instanceof Requirement) {
     <?= Tabs::widget([
         'items' => [
             [
-                'label' => 'Comments',
+                'label' => Yii::t('app', 'Comments'),
                 'content' => $this->render('_comments', ['node' => $node]),
                 'active' => true,
             ],
             [
-                'label' => 'Timeline',
+                'label' => Yii::t('app', 'Older versions'),
+                'content' => $this->render('_versions', ['node' => $node]),
+            ],
+            [
+                'label' => Yii::t('app', 'Timeline'),
                 'content' => $this->render('_logs', ['node' => $node]),
             ],
         ]

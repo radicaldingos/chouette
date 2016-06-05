@@ -46,6 +46,10 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
     
+    /**
+     * 
+     * @return type
+     */
     public static function getOrderedMappedList()
     {
         return ArrayTranslatorHelper::map(static::find()

@@ -305,7 +305,18 @@ class Requirement extends Item
     public function searchForLogs()
     {
         $comment = new RequirementLog();
-        return $comment->search(['RequirementLog' => ['requirementId' => $this->id]]);
+        return $comment->search(['RequirementLog' => ['requirement_id' => $this->id]]);
+    }
+    
+    /**
+     * Retrieve requirement comments
+     * 
+     * @return type
+     */
+    public function searchForVersions()
+    {
+        $version = new RequirementVersionSearch();
+        return $version->search(['RequirementVersionSearch' => ['requirement_id' => $this->id]]);
     }
     
     /**

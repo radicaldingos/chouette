@@ -67,7 +67,7 @@ class RequirementController extends Controller
         $project = Yii::$app->session->get('user.current_project');
         
         if (! $project) {
-            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'No project selected.'));
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'No selected project.'));
             return $this->redirect('/site');
         }
         
