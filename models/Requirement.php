@@ -294,7 +294,9 @@ class Requirement extends Item
     public function searchForComments()
     {
         $comment = new RequirementCommentSearch();
-        return $comment->search(['RequirementCommentSearch' => ['requirementId' => $this->id]]);
+        return $comment->search([
+            'RequirementCommentSearch' => ['requirementId' => $this->id],
+        ]);
     }
     
     /**
@@ -305,7 +307,9 @@ class Requirement extends Item
     public function searchForLogs()
     {
         $comment = new RequirementLog();
-        return $comment->search(['RequirementLog' => ['requirement_id' => $this->id]]);
+        return $comment->search([
+            'RequirementLog' => ['requirement_id' => $this->id],
+        ]);
     }
     
     /**
@@ -313,10 +317,12 @@ class Requirement extends Item
      * 
      * @return type
      */
-    public function searchForVersions()
+    public function searchForOldVersions()
     {
         $version = new RequirementVersionSearch();
-        return $version->search(['RequirementVersionSearch' => ['requirement_id' => $this->id]]);
+        return $version->searchAllButLast([
+            'RequirementVersionSearch' => ['requirement_id' => $this->id],
+        ]);
     }
     
     /**

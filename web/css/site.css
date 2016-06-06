@@ -217,3 +217,37 @@ span.comment-version {
 label {
     line-height: 32px;
 }
+
+.event-detail {
+    font-size: 10px;
+}
+
+.event-detail:nth-child(2n) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.event-detail label {
+    font-weight: bold;
+    margin: 0;
+    line-height: 10px;
+}
+
+.event-title {
+    font-weight: bold;
+    background: #e0e0e0;
+    color: black;
+    padding: 3px;
+}
+
+.event-detail .event-version {
+    font-size: 14px;
+    margin-right: 10px;
+    background: #505050;
+    color: white;
+}
+
+.event-detail .event-field {
+    border: 1px solid #e0e0e0;
+    background: white;
+    padding: 5px;
+}

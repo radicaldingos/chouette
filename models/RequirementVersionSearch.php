@@ -71,4 +71,42 @@ class RequirementVersionSearch extends RequirementVersion
 
         return $dataProvider;
     }
+    
+    /**
+     * Search all but last version of a given requirement
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchAllButLast($params)
+    {
+        $query = RequirementVersion::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,      // Needed for using LIMIT
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'requirement_id' => $this->requirement_id,
+        ]);
+
+        $count = $query->count();
+        
+        // All but last
+        $query->orderBy('version ASC, revision ASC');
+        $query->limit($count - 1);
+
+        return $dataProvider;
+    }
 }

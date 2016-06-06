@@ -7,13 +7,11 @@ use yii\widgets\ListView;
 
 <div class="detailBox">
     <div class="actionBox">
-        <ul class="versionList">
-            <?= ListView::widget([
-                'dataProvider' => $node->searchForVersions(),
-                'itemOptions' => ['class' => 'item'],
-                'itemView' => '_version',
-                'layout' => '{items}'
-            ]) ?>
-        </ul>
+        <?= ListView::widget([
+            'dataProvider' => $node->searchForOldVersions(),
+            'itemOptions' => ['class' => 'item'],
+            'itemView' => '_version',
+            'layout' => '{items}'
+        ]) ?>
     </div>
 </div>
