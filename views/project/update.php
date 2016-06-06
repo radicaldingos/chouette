@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     <div class="col-sm-4">
         <?= $this->render('_releasesForm', [
             'releaseDataProvider' => $releaseDataProvider,
-            'releaseModel' => $releaseModel,
+            'model' => $releaseModel,
         ]) ?>
     </div>
 

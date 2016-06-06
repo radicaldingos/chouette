@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Project;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -10,6 +11,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $version
+ * @property integer $project_id
  * @property integer $date_creation
  *
  * @property RequirementVersion[] $requirementVersions
@@ -30,8 +32,8 @@ class Release extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['version', 'date_creation'], 'required'],
-            [['date_creation'], 'integer'],
+            [['version', 'project_id', 'date_creation'], 'required'],
+            [['project_id', 'date_creation'], 'integer'],
             [['version'], 'string', 'max' => 20],
         ];
     }
@@ -44,8 +46,17 @@ class Release extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'version' => Yii::t('app', 'Version'),
+            'project_id' => Yii::t('app', 'Project'),
             'date_creation' => Yii::t('app', 'Creation date'),
         ];
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
     
     public static function getOrderedMappedList()

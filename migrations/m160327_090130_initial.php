@@ -36,8 +36,10 @@ class m160327_090130_initial extends Migration
         $this->createTable('release', [
             'id' => 'pk',
             'version' => "character varying(20) NOT NULL",
+            'project_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'date_creation' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
+        $this->createIndex('idx_release_project_id', 'release', 'project_id', false);
         
         $this->createTable('status', [
             'id' => 'pk',
@@ -161,6 +163,7 @@ class m160327_090130_initial extends Migration
         $this->addForeignKey('fk_user_project_project_project_id', 'user_project', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_user_project_profile_profile_id', 'user_project', 'profile_id', 'profile', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_item_project_project_id', 'item', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_release_project_project_id', 'release', 'project_id', 'project', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version', 'requirement_id', 'item', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_version_status_status_id', 'requirement_version', 'status_id', 'status', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_requirement_version_release_target_release_id', 'requirement_version', 'target_release_id', 'release', 'id', 'CASCADE', 'CASCADE');
@@ -311,6 +314,7 @@ class m160327_090130_initial extends Migration
         $this->dropForeignKey('fk_user_project_project_project_id', 'user_project');
         $this->dropForeignKey('fk_user_project_profile_profile_id', 'user_project');
         $this->dropForeignKey('fk_item_project_project_id', 'item');
+        $this->dropForeignKey('fk_release_project_project_id', 'release');
         $this->dropForeignKey('fk_requirement_version_requirement_requirement_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_version_status_status_id', 'requirement_version');
         $this->dropForeignKey('fk_requirement_log_requirement_requirement_id', 'requirement_log');

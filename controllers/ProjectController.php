@@ -7,12 +7,12 @@ use app\models\Section;
 use app\models\Project;
 use app\models\ProjectSearch;
 use app\models\Release;
+use yii\base\Exception;
+use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\data\ActiveDataProvider;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\base\Exception;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -32,7 +32,6 @@ class ProjectController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        //'actions' => [],
                         'roles' => ['@'],
                     ],
                 ],
@@ -86,17 +85,23 @@ class ProjectController extends Controller
     {
         $model = new Project();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())
+            && $model->save()
+        ) {
+            // Create a default section for requirements
             $section = new Section();
             $section->reference = Yii::t('app', 'RQ');
             $section->name = Yii::t('app', 'General Requirements');
             $section->project_id = $model->id;
             $section->created = time();
-            $section->makeRoot();
+            if (! $section->makeRoot()) {
+                throw new ErrorException('Error');
+            }
             
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-           $model->requirement_pattern = '{project.name}_{section.reference}_{serial}';
+            // GET, default values
+            $model->requirement_pattern = '{project.name}_{section.reference}_{serial}';
         }
         
         return $this->render('create', [
@@ -118,14 +123,18 @@ class ProjectController extends Controller
         $releaseModel = new Release();
         
         $releaseDataProvider = new ActiveDataProvider([
-            'query' => Release::find(),
+            'query' => Release::find()
+                ->where("project_id = $id"),
         ]);
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())
+            && $model->save()
+        ) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
         
         if ($releaseModel->load(Yii::$app->request->post())) {
+            $releaseModel->project_id = $id;
             $releaseModel->date_creation = time();
             if (! $releaseModel->save()) {
                 throw new Exception("Couldn't save release.");
@@ -153,6 +162,21 @@ class ProjectController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    
+    /**
+     * Deletes an existing Project model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * 
+     * @param integer $id
+     * 
+     * @return mixed
+     */
+    public function actionDeleteRelease($id, $project)
+    {
+        Release::findOne($id)->delete();
+
+        return $this->redirect(['update', 'id' => $project]);
     }
 
     /**

@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\User */
+/* @var $model app\models\Release */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -22,6 +22,15 @@ echo GridView::widget([
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{delete}',
+            'buttons' => [
+                'delete' => function ($url, $model) {
+                    $url = Url::to(['/user/delete-release', 'release_id' => $model->id, 'project_id' => $model->project->id]);
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                        'title' => \Yii::t('yii', 'Delete'),
+                        'data-pjax' => '0',
+                    ]);
+                },
+            ],
         ],
     ],
 ]);
@@ -31,7 +40,7 @@ echo GridView::widget([
 
     <?php $form = ActiveForm::begin(['layout' => 'inline']); ?>
 
-    <?= $form->field($releaseModel, 'version')->input('field') ?>
+    <?= $form->field($model, 'version')->input('field') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Add'), ['class' => 'btn btn-success', 'name' => 'sub', 'value' => 'update']) ?>
