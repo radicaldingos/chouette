@@ -66,18 +66,28 @@ class RequirementSearch extends Requirement
         return $dataProvider;
     }
     
+    /**
+     * Search for requirement matching with a criteria
+     * 
+     * The search is made on every requirements versions, on title, wording and
+     * justification.
+     * 
+     * @param type $q The search criteria
+     * 
+     * @return ActiveDataProvider
+     */
     public function searchByCriteria($q)
     {
         $query = Requirement::find();
-
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
         
         $query->leftJoin('requirement_version', 'item.id = requirement_version.requirement_id')
-            ->andWhere(['LIKE', 'LOWER(requirement_version.wording)', strtolower($q)])
+            ->andWhere(['LIKE', 'LOWER(requirement_version.title)', strtolower($q)])
+            ->orWhere(['LIKE', 'LOWER(requirement_version.wording)', strtolower($q)])
+            ->orWhere(['LIKE', 'LOWER(requirement_version.justification)', strtolower($q)])
             ->andWhere("project_id = " . Yii::$app->session->get('user.current_project')->id)
             ->orderBy('updated DESC, id DESC');
 
