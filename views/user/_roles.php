@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\User */
+/* @var $model app\models\UserProject */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
