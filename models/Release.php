@@ -62,7 +62,8 @@ class Release extends \yii\db\ActiveRecord
     public static function getOrderedMappedList()
     {
         return ArrayHelper::map(static::find()
-                ->orderBy('date_creation')
-                ->all(), 'id', 'version');
+            ->where('project_id = ' . Yii::$app->session->get('user.current_project')->id)
+            ->orderBy('date_creation')
+            ->all(), 'id', 'version');
     }
 }
