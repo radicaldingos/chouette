@@ -7,11 +7,15 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\models\Project;
 
 $currentProject = Yii::$app->session->get('user.current_project') ? Yii::$app->session->get('user.current_project') : null;
-$projectsData = ArrayHelper::map(Project::find()->all(), 'id', 'name');
-
+$user = Yii::$app->user->identity;
+if ($user) {
+    $projects = $user->projects;
+    $projectsData = ArrayHelper::map($projects, 'id', 'name');
+} else {
+    $projectsData = array();
+}
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>

@@ -112,6 +112,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('user_profile', ['user_id' => 'id']);
     }
     
+    public function getProjects()
+    {
+        return $this->hasMany(Project::className(), ['id' => 'project_id'])
+            ->viaTable(UserProject::tableName(), ['user_id' => 'id']);
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
