@@ -109,7 +109,9 @@ class UserController extends Controller
         $userProjectModel = new UserProject;
         
         $projectDataProvider = new ActiveDataProvider([
-            'query' => UserProject::find()->with('project', 'profile'),
+            'query' => UserProject::find()
+                ->with('project', 'profile')
+                ->where('user_id = ' . $id),
         ]);
         
         $projectItems = Project::getOrderedMappedList();
@@ -120,7 +122,7 @@ class UserController extends Controller
         }
         
         if ($userProjectModel->load(Yii::$app->request->post())) {
-            $userProjectModel->user_id = Yii::$app->user->id;
+            $userProjectModel->user_id = $id;
             if (! $userProjectModel->save()) {
                 throw new Exception("Couldn't save project.");
             }
