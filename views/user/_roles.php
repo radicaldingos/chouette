@@ -16,8 +16,6 @@ use yii\helpers\Url;
 echo GridView::widget([
     'dataProvider' => $projectDataProvider,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-
         [
             'label' => Yii::t('app', 'Project'),
             'value' => function ($model) {

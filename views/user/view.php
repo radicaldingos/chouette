@@ -6,7 +6,9 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = $model->id;
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => Yii::t('app', 'User'),
+]) . $model->username;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -25,11 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'username',
-        ],
-    ]) ?>
-
+    <div class="col-sm-4">
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'username',
+            ],
+        ]) ?>
+    </div>
+    
+    <div class="col-sm-4">
+        <?= $this->render('view/_roles', [
+            'model' => $model,
+            'projectDataProvider' => $projectDataProvider,
+        ]) ?>
+    </div>
 </div>
