@@ -13,6 +13,11 @@ use app\components\LdapAuthManager;
  * @property integer $id
  * @property string $username
  * @property string $password
+ * @property string $lastname
+ * @property string $firstname
+ * @property string $phone
+ * @property string $email
+ * @property string $avatar
  * @property string $auth_key
  * @property string $access_token
  * @property int $project_id
@@ -43,7 +48,10 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'password', 'auth_key', 'access_token'], 'required'],
             [['project_id'], 'integer'],
             [['username', 'auth_key', 'access_token'], 'string', 'max' => 40],
-            [['password'], 'string', 'max' => 64],
+            [['password', 'lastname', 'firstname'], 'string', 'max' => 64],
+            [['phone'], 'string', 'max' => 20],
+            [['email'], 'string', 'max' => 128],
+            [['avatar'], 'string', 'max' => 1024],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -57,6 +65,11 @@ class User extends ActiveRecord implements IdentityInterface
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
             'password' => Yii::t('app', 'Password'),
+            'lastname' => Yii::t('app', 'Last name'),
+            'firstname' => Yii::t('app', 'First name'),
+            'phone' => Yii::t('app', 'Phone number'),
+            'email' => Yii::t('app', 'E-mail'),
+            'avatar' => Yii::t('app', 'E-mail'),
         ];
     }
     
