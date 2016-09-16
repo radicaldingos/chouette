@@ -17,8 +17,11 @@ echo GridView::widget([
     'dataProvider' => $releaseDataProvider,
     'columns' => [
         'version',
-        'date_creation',
-
+        [
+            'attribute' => 'date_creation',
+            'format' => ['date', 'php:d/m/Y H:i:s'],
+        ],
+        
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{delete}',
