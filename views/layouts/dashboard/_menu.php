@@ -9,7 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 
 NavBar::begin([
-    'brandLabel' => 'Chouette',
+    'brandLabel' => '',
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
@@ -26,13 +26,13 @@ echo Nav::widget([
         ['label' => Yii::t('app', 'Users'), 'url' => ['/user'], 'visible' => Yii::$app->user->can('manageUsers')],
         ['label' => Yii::t('app', 'Reports'), 'url' => ['/report']],
         Yii::$app->user->isGuest ? (
-            ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
         ) : (
             '<li>'
             . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
             . Html::submitButton(
                 Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link']
+                ['class' => 'btn btn-link no-shadow']
             )
             . Html::endForm()
             . '</li>'
