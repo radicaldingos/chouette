@@ -32,7 +32,6 @@ return [
     'Complete Name' => 'Nom complet',
     'Username' => 'Login',
     'Password' => 'Mot de passe',
-    
     'Version' => 'Version',
     'Revision' => 'Révision',
     'Category' => 'Catégorie',
@@ -49,6 +48,8 @@ return [
     'Projects' => 'Projets',
     'Requirement' => 'Exigence',
     'Requirements' => 'Exigences',
+    'Requirement Pattern' => 'Pattern de nommage des exigences',
+    'Project releases' => 'Versions du projet',
     'Section' => 'Section',
     'Sections' => 'Sections',
     'User' => 'Utilisateur',
@@ -71,6 +72,7 @@ return [
     'New Revision' => 'Nouvelle révision',
     
     'Welcome!' => 'Bienvenue !',
+    'Please fill out the following fields to login:' => 'Saisissez vos identifiants afin de vous authentifier :',
     'Chouette is a simple but powerful web requirements manager.' => "Chouette est un gestionnaire d'exigences web simple mais efficace.",
     'Get started with Chouette' => 'Débuter avec Chouette',
     'First step' => 'Première étape',
