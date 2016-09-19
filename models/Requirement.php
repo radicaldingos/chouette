@@ -232,7 +232,7 @@ class Requirement extends Item
      * Generate a unique reference for a new requirement
      * 
      * If serial number is needed, the next serial available is determined by
-     * searching the last serial giver.
+     * searching the last serial given.
      * 
      * @return string Generated reference
      */
@@ -254,8 +254,8 @@ class Requirement extends Item
         }
         
         if ($x = strpos($generatedRef, '%')) {
-            // We try do determine the last serial given to define the next serial
-            // available
+            // We try do determine the last serial given to define the next
+            // available serial
             $last = Requirement::find()
                 ->where('reference LIKE :ref', ['ref' => $generatedRef])
                 ->orderBy('reference DESC')
@@ -306,8 +306,8 @@ class Requirement extends Item
      */
     public function searchForLogs()
     {
-        $comment = new RequirementLog();
-        return $comment->search([
+        $log = new RequirementLog();
+        return $log->search([
             'RequirementLog' => ['requirement_id' => $this->id],
         ]);
     }
