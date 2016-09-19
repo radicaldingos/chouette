@@ -59,7 +59,9 @@ return [
     'Event' => 'Événement',
     'Events' => 'Événements',
     'Are you sure you want to delete this item?' => 'Êtes-vous sûr de vouloir supprimer cet élément ?',
-    
+    'Generate a report' => 'Générer un rapport',
+    'to PDF format' => 'au format PDF',
+    'to XLS format (Excel)' => 'au format XLS (Excel)',
     'Project ID' => 'Projet',
     'Create Project' => 'Nouveau projet',
     'Create Section' => 'Nouvelle section',
@@ -73,7 +75,7 @@ return [
     
     'Welcome!' => 'Bienvenue !',
     'Please fill out the following fields to login:' => 'Saisissez vos identifiants afin de vous authentifier :',
-    'Chouette is a simple but powerful web requirements manager.' => "Chouette est un gestionnaire d'exigences web simple mais efficace.",
+    'Chouette is a simple but powerful web requirements manager.' => "Chouette est un gestionnaire d'exigences web, simple mais efficace.",
     'Get started with Chouette' => 'Débuter avec Chouette',
     'First step' => 'Première étape',
     "You need to create a new project." => "Vous devez créer un nouveau projet.",
