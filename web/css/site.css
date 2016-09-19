@@ -202,7 +202,12 @@ a.desc:after {
 }
 
 thead > tr {
-    background-color: white;
+    background-color: #2F4349;
+    color: white;
+}
+
+thead > tr a {
+    color: white;
 }
 
 .table-striped > tbody > tr:nth-of-type(2n) {
@@ -278,4 +283,9 @@ label {
 
 .no-shadow {
     box-shadow: none;
+}
+
+.kv-header-container {
+    background-color: #2F4349;
+    color: white;
 }
