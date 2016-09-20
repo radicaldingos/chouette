@@ -35,6 +35,8 @@ return [
     'Version' => 'Version',
     'Revision' => 'Révision',
     'Category' => 'Catégorie',
+    'Attachment' => 'Pièce jointe',
+    'Attachments' => 'Pièces jointes',
     
     'New' => 'Nouvelle',
     'Accepted' => 'Acceptée',

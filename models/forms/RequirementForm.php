@@ -22,6 +22,16 @@ class RequirementForm extends Model
     public $isNewRecord;
 
     /**
+     * @var \yii\web\UploadedFile
+     */
+    public $attachment;
+    
+    /**
+     * @var string
+     */
+    public $attachmentPath;
+    
+    /**
      * @return array the validation rules.
      */
     public function rules()
@@ -32,6 +42,7 @@ class RequirementForm extends Model
             [['category_id', 'section_id', 'priority_id', 'target_release_id', 'integrated_release_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['wording', 'justification'], 'string'],
+            [['attachment'], 'file', 'skipOnEmpty' => false],
         ];
     }
 
@@ -51,6 +62,7 @@ class RequirementForm extends Model
             'priority_id' => Yii::t('app', 'Priority'),
             'target_release_id' => Yii::t('app', 'Target release'),
             'integrated_release_id' => Yii::t('app', 'Implemented in release'),
+            'attachment' =>Yii::t('app', 'Attachment'),
         ];
     }
     
@@ -88,6 +100,22 @@ class RequirementForm extends Model
     public function getCompleteName()
     {
         return "{$this->reference} - {$this->title}";
+    }
+    
+    /**
+     * Upload of an attachment file
+     * 
+     * @return boolean
+     */
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->attachmentPath = uniqid();
+            $this->attachment->saveAs('../uploads/attachments/' . $this->attachmentPath);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

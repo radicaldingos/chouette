@@ -326,6 +326,19 @@ class Requirement extends Item
     }
     
     /**
+     * Retrieve requirement attachments
+     * 
+     * @return type
+     */
+    public function searchForAttachments()
+    {
+        $attachment = new RequirementAttachmentSearch();
+        return $attachment->search([
+            'RequirementAttachmentSearch' => ['requirement_id' => $this->id],
+        ]);
+    }
+    
+    /**
      * Archive a requirement
      * 
      * @throws Exception

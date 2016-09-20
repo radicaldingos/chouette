@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\Item;
 use app\models\ItemSearch;
 use app\models\Requirement;
+use app\models\RequirementAttachment;
 use app\models\forms\RequirementCommentForm;
 use app\models\forms\RequirementStatusForm;
 use app\models\forms\RequirementForm;
@@ -21,6 +22,7 @@ use app\models\Section;
 use app\models\Status;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * RequirementController implements the CRUD actions for Requirement model.
@@ -134,6 +136,14 @@ class RequirementController extends Controller
                 if (! $section) {
                     throw new Exception('Invalid section.');
                 }
+                
+                $model->attachment = UploadedFile::getInstance($model, 'attachment');
+                
+                if ($model->attachment
+                    && !$model->upload()
+                ) {
+                    throw new Exception("Attachment file couldn't be uploaded.");
+                }
 
                 $requirement = new Requirement;
                 $requirement->category_id = $model->category_id;
@@ -162,7 +172,18 @@ class RequirementController extends Controller
                 if (! $version->save()) {
                     throw new Exception('Error while saving requirement version.');
                 }
+                
+                if ($model->attachment) {
+                    $attachment = new RequirementAttachment();
+                    $attachment->name = $model->attachment->name;
+                    $attachment->path = $model->attachmentPath;
+                    $attachment->requirement_id = $requirement->id;
 
+                    if (! $attachment->save()) {
+                        throw new Exception('Error while saving requirement attachment.');
+                    }
+                }
+                
                 $requirement->trigger(Requirement::EVENT_CREATE);
                 
                 Yii::$app->getSession()
@@ -227,6 +248,14 @@ class RequirementController extends Controller
                 if (! $section) {
                     throw new Exception('Invalid section.');
                 }
+                
+                $model->attachment = UploadedFile::getInstance($model, 'attachment');
+                
+                if ($model->attachment
+                    && !$model->upload()
+                ) {
+                    throw new Exception("Attachment file couldn't be uploaded.");
+                }
 
                 $requirement->category_id = $model->category_id;
                 $requirement->reference = $model->reference;
@@ -270,7 +299,18 @@ class RequirementController extends Controller
                 if (! $version->save()) {
                     throw new Exception('Error while saving requirement version.');
                 }
+                
+                if ($model->attachment) {
+                    $attachment = new RequirementAttachment();
+                    $attachment->name = $model->attachment->name;
+                    $attachment->path = $model->attachmentPath;
+                    $attachment->requirement_id = $requirement->id;
 
+                    if (! $attachment->save()) {
+                        throw new Exception('Error while saving requirement attachment.');
+                    }
+                }
+                
                 if ($submit == 'version') {
                     $requirement->trigger(Requirement::EVENT_VERSION);
                 } elseif($submit == 'revision') {

@@ -146,6 +146,19 @@ if ($node instanceof Requirement) {
                 'label' => Yii::t('app', 'Timeline'),
                 'content' => $this->render('_logs', ['node' => $node]),
             ],
+        ],
+    ]); ?>
+    
+    <?= Tabs::widget([
+        'items' => [
+            [
+                'label' => Yii::t('app', 'Attachments'),
+                'content' => $this->render('_attachments', ['node' => $node]),
+                'active' => true,
+            ],
+        ],
+        'headerOptions' => [
+            'style' => 'margin-top: 20px;',
         ]
     ]); ?>
 </div>

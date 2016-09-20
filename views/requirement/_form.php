@@ -16,7 +16,7 @@ use kartik\tree\TreeViewInput;
 
 <div class="requirement-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     
     <div class="col-md-6">
         <?= $form->field($model, 'reference')->input('text') ?>
@@ -57,6 +57,8 @@ use kartik\tree\TreeViewInput;
         <?= $form->field($model, 'target_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'No targeted release')]) ?>
 
         <?= $form->field($model, 'integrated_release_id')->dropDownList($releaseItems, ['prompt' => Yii::t('app', 'Not implemented yet')]) ?>
+        
+        <?= $form->field($model, 'attachment')->fileInput() ?>
     </div>
 
     <div class="form-group">
