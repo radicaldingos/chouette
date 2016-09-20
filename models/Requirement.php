@@ -306,9 +306,9 @@ class Requirement extends Item
      */
     public function searchForLogs()
     {
-        $log = new RequirementLog();
+        $log = new RequirementLogSearch();
         return $log->search([
-            'RequirementLog' => ['requirement_id' => $this->id],
+            'RequirementLogSearch' => ['requirement_id' => $this->id],
         ]);
     }
     
