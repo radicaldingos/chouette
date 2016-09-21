@@ -16,6 +16,8 @@ use Yii;
  */
 class RequirementAttachment extends \yii\db\ActiveRecord
 {
+    const DEFAULT_UPLOAD_DIR = '/uploads/attachments/';
+    
     /**
      * @inheritdoc
      */

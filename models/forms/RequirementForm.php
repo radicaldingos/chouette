@@ -4,6 +4,7 @@ namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
+use app\models\RequirementAttachment;
 
 class RequirementForm extends Model
 {
@@ -111,7 +112,10 @@ class RequirementForm extends Model
     {
         if ($this->validate()) {
             $this->attachmentPath = uniqid();
-            $this->attachment->saveAs('../uploads/attachments/' . $this->attachmentPath);
+            $uploadDir = Yii::$app->params['attachmentsUploadDir']
+                ? Yii::$app->params['attachmentsUploadDir']
+                : RequirementAttachment::DEFAULT_UPLOAD_DIR;
+            $this->attachment->saveAs(Yii::getAlias('@app') . $uploadDir . $this->attachmentPath);
             return true;
         } else {
             return false;

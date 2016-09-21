@@ -5,9 +5,9 @@
 /* @var $index  */
 /* @var $item  */
 
-use yii\helpers\Html;
+use yii\helpers\Url;
 
 ?>
 <li>
-    <?= $model->name ?>
+    <a href="<?= Url::to(['/attachment/download', 'id' => $model->id], true) ?>" title=""><?= $model->name ?></a>
 </li>
