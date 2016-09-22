@@ -12,7 +12,9 @@ Features that will be implemented in v1.0:
 - Attachment files
 - Full search
 - i18n
+- LDAP authentication
+- Simple data export (PDF)
 
 Features that will be implemented later :
-- LDAP authentication
 - Data exports
+- Attachments management
