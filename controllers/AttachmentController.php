@@ -49,7 +49,7 @@ class AttachmentController extends Controller
     {
         $model = $this->findModel($id);
         
-        $uploadDir = Yii::$app->params['attachmentsUploadDir']
+        $uploadDir = isset(Yii::$app->params['attachmentsUploadDir'])
                 ? Yii::$app->params['attachmentsUploadDir']
                 : RequirementAttachment::DEFAULT_UPLOAD_DIR;
         $fileFullPath = Yii::getAlias('@app') . $uploadDir . $model->path;
