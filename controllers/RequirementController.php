@@ -120,6 +120,13 @@ class RequirementController extends Controller
      */
     public function actionCreate()
     {
+        $project = Yii::$app->session->get('user.current_project');
+        
+        if (! $project) {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'No selected project.'));
+            return $this->redirect('/site');
+        }
+        
         $model = new RequirementForm([
             'scenario' => RequirementForm::SCENARIO_CREATE,
         ]);
@@ -232,6 +239,13 @@ class RequirementController extends Controller
      */
     public function actionUpdate($id)
     {
+        $project = Yii::$app->session->get('user.current_project');
+        
+        if (! $project) {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'No selected project.'));
+            return $this->redirect('/site');
+        }
+        
         $model = new RequirementForm([
             'scenario' => RequirementForm::SCENARIO_UPDATE,
         ]);

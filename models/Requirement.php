@@ -242,11 +242,11 @@ class Requirement extends Item
         $section = Yii::$app->session->get('user.current_section');
         
         $vars = [
-            'project.name' => $project ? $project->name : Yii::t('app', 'PROJECT'),
+            'project.name' => $project->name,
             'section.reference' => $section ? $section->reference : Yii::t('app', 'SECTION'),
             'serial' => '%',
         ];
-
+        
         $generatedRef = $project->requirement_pattern;
         
         foreach ($vars as $key => $var) {
